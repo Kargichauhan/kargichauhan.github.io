@@ -4,36 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kargi Chauhan</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poor+Richard&display=swap" rel="stylesheet">
+    <link href=”https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap” rel=”stylesheet”>
     <style>
         :root {
-        --bg-color: #fefefe;
-        --text-color: #2c2c2c;
-        --accent-color: #6366f1;
-        --accent-hover: #4f46e5;
-        --border-color: #e5e7eb;
-        --card-bg: #f8fafc;
-        --secondary-text: #64748b;
-    }
-
-        [data-theme="light"] {
-            --bg-color: #fefefe;
-            --text-color: #2c2c2c;
-            --accent-color: #6366f1;
-            --accent-hover: #4f46e5;
+            --bg-color: #ffffff;
+            --text-color: #111827;
+            --accent-color: #1d4ed8;
+            --accent-hover: #1e40af;
             --border-color: #e5e7eb;
-            --card-bg: #f8fafc;
-            --secondary-text: #64748b;
+            --secondary-text: #6b7280;
+            --muted-bg: #f9fafb;
         }
 
-        [data-theme="dark"] {
-            --bg-color: #0f172a;
-            --text-color: #f1f5f9;
-            --accent-color: #818cf8;
-            --accent-hover: #6366f1;
-            --border-color: #334155;
-            --card-bg: #1e293b;
-            --secondary-text: #94a3b8;
+        [data-theme=”light”] {
+            --bg-color: #ffffff;
+            --text-color: #111827;
+            --accent-color: #1d4ed8;
+            --accent-hover: #1e40af;
+            --border-color: #e5e7eb;
+            --secondary-text: #6b7280;
+            --muted-bg: #f9fafb;
+        }
+
+        [data-theme=”dark”] {
+            --bg-color: #111827;
+            --text-color: #f3f4f6;
+            --accent-color: #60a5fa;
+            --accent-hover: #93c5fd;
+            --border-color: #374151;
+            --secondary-text: #9ca3af;
+            --muted-bg: #1f2937;
         }
 
         * {
@@ -42,110 +42,120 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Poor Richard', 'Times New Roman', serif;
-            line-height: 1.8;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            transition: all 0.2s ease;
-            max-width: 950px;
-            margin: 0 auto;
-            padding: 50px 30px;
-            letter-spacing: 0.4px;
+        html {
+            scroll-behavior: smooth;
         }
 
+        body {
+            font-family: 'Lora', 'Georgia', serif;
+            font-size: 17px;
+            line-height: 1.75;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 56px 60px 80px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Header ── */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 80px;
-            padding-bottom: 30px;
+            margin-bottom: 72px;
+            padding-bottom: 24px;
             border-bottom: 1px solid var(--border-color);
+        }
+
+        .site-name {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-color);
+            letter-spacing: -0.01em;
         }
 
         .nav {
             display: flex;
-            gap: 40px;
+            gap: 32px;
             align-items: center;
         }
 
         .nav a {
             color: var(--secondary-text);
             text-decoration: none;
-            font-size: 16px;
-            font-weight: 500;
-            transition: color 0.2s ease;
-            padding: 8px 12px;
-            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 400;
+            transition: color 0.15s;
         }
 
-        .nav a:hover, .nav a.active {
-            color: var(--accent-color);
-            background-color: var(--card-bg);
+        .nav a:hover,
+        .nav a.active {
+            color: var(--text-color);
         }
 
         .theme-toggle {
             background: none;
             border: none;
-            color: var(--text-color);
-            font-size: 16px;
+            color: var(--secondary-text);
+            font-size: 15px;
             cursor: pointer;
-            padding: 6px;
-            border-radius: 6px;
-            transition: background-color 0.2s ease;
+            padding: 2px 4px;
+            transition: color 0.15s;
         }
 
         .theme-toggle:hover {
-            background-color: var(--card-bg);
+            color: var(--text-color);
         }
 
+        /* ── Intro / About ── */
         .main-content {
             display: flex;
-            gap: 60px;
-            margin-bottom: 80px;
+            gap: 56px;
+            margin-bottom: 64px;
             align-items: flex-start;
         }
 
         .content-left {
             flex: 1;
+            min-width: 0;
         }
 
         .name {
-            font-size: 38px;
+            font-size: 32px;
             font-weight: 600;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
             color: var(--text-color);
-            letter-spacing: -1px;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
         }
 
         .bio {
-            font-size: 16px;
-            line-height: 1.8;
-            margin-bottom: 40px;
+            font-size: 17px;
+            line-height: 1.75;
         }
 
         .bio p {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             color: var(--text-color);
         }
 
         .bio a {
             color: var(--accent-color);
-            text-decoration: none;
+            text-decoration: underline;
+            text-underline-offset: 2px;
         }
 
         .bio a:hover {
-            text-decoration: underline;
+            color: var(--accent-hover);
         }
 
         .bio ul {
-            margin: 16px 0;
-            padding-left: 20px;
+            margin: 12px 0 18px 20px;
         }
 
         .bio li {
-            margin-bottom: 8px;
-            color: var(--text-color);
+            margin-bottom: 6px;
         }
 
         .profile-image {
@@ -153,15 +163,16 @@
         }
 
         .profile-image img {
-            width: 240px;
-            height: 280px;
+            width: 200px;
+            height: 240px;
             object-fit: cover;
-            border-radius: 2px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            border-radius: 3px;
+            display: block;
         }
 
+        /* ── Sections ── */
         .section {
-            margin-bottom: 50px;
+            margin-bottom: 48px;
             display: none;
         }
 
@@ -170,214 +181,206 @@
         }
 
         .section-title {
-            font-size: 24px;
-            margin-bottom: 30px;
-            color: var(--text-color);
+            font-size: 22px;
             font-weight: 600;
+            margin-bottom: 28px;
+            color: var(--text-color);
+            letter-spacing: -0.01em;
         }
 
+        /* ── News ── */
         .news-section {
-            margin-top: 50px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-color);
         }
 
         .news-section h2 {
-            font-size: 20px;
-            margin-bottom: 20px;
-            color: var(--text-color);
+            font-size: 18px;
             font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-color);
         }
 
-                /* Compact the news list and show 5 items without scrolling */
-        .news-container {
-        max-height: 360px;         /* was 280px → fits ~5 rows now */
-        overflow-y: auto;
-        padding-right: 6px;
+        .news-list {
+            max-height: 300px;
+            overflow-y: auto;
         }
 
         .news-entry {
-        gap: 12px;                  /* was 20px */
-        padding: 10px 0;            /* was 16px */
-        margin-bottom: 12px;        /* was 20px */
-        border-bottom: 1px solid var(--border-color);
-        }
-
-        .news-entry:last-child {
-        border-bottom: none;
-        }
-
-        .date {
-        min-width: 72px;            /* was 90px */
-        font-size: 12px;            /* was 13px */
-        color: var(--secondary-text);
-        }
-
-        .news-content {
-        font-size: 14px;            /* was 15px */
-        line-height: 1.4;           /* was 1.5 */
-        color: var(--text-color);
-        }
-
-
-        .news-entry, .paper-entry {
             display: flex;
-            margin-bottom: 20px;
             gap: 20px;
-            padding: 16px 0;
+            padding: 10px 0;
             border-bottom: 1px solid var(--border-color);
         }
 
-        .news-entry:last-child, .paper-entry:last-child {
+        .news-entry:last-child {
+            border-bottom: none;
+        }
+
+        /* ── Shared entry rows ── */
+        .paper-entry {
+            display: flex;
+            gap: 20px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .paper-entry:last-child {
             border-bottom: none;
         }
 
         .date {
             font-size: 13px;
             color: var(--secondary-text);
-            min-width: 90px;
-            font-weight: 500;
-            margin-top: 2px;
+            min-width: 88px;
+            flex-shrink: 0;
+            padding-top: 2px;
         }
 
-        .news-content, .paper-content {
+        .news-content,
+        .paper-content {
             flex: 1;
             font-size: 15px;
-            line-height: 1.5;
+            line-height: 1.6;
             color: var(--text-color);
         }
 
         .paper-content a {
             color: var(--accent-color);
-            text-decoration: none;
+            text-decoration: underline;
+            text-underline-offset: 2px;
         }
 
         .paper-content a:hover {
-            text-decoration: underline;
+            color: var(--accent-hover);
         }
 
+        /* ── Blog entries ── */
         .blog-entry {
-            padding: 20px 0;
+            padding: 16px 0;
             border-bottom: 1px solid var(--border-color);
-            margin-bottom: 20px;
         }
 
         .blog-entry:last-child {
             border-bottom: none;
         }
 
-
+        .blog-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
 
         .blog-title a {
-            color: var(--accent-color);
+            color: var(--text-color);
             text-decoration: none;
-            }
-            .blog-title a:visited {
-            color: var(--accent-color);
-            }
-            .blog-title a:hover {
-            color: var(--accent-hover);
-            }
+        }
 
+        .blog-title a:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .blog-entry .date {
+            display: inline;
+            min-width: auto;
+            margin-left: 8px;
+        }
 
         .blog-excerpt {
             color: var(--secondary-text);
-            line-height: 1.5;
-            margin-top: 12px;
+            font-size: 14px;
+            line-height: 1.55;
+            margin-top: 6px;
         }
 
+        /* ── CV section ── */
+        #cv h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+            margin-bottom: 0;
+        }
 
-        
-        /* Make CV section headings & titles blue */
-#cv h3 {
-  color: var(--accent-color);
-}
-
-/* First line inside each CV entry (your bold title) */
-#cv .paper-entry .paper-content > div:first-child {
-  color: var(--accent-color);
-}
-
-/* Optional: the small “date” column on the left, if you want it blue too */
-#cv .paper-entry .date {
-  color: var(--accent-color);
-}
-
-
+        /* ── Footer ── */
         .social-links {
             display: flex;
-            gap: 16px;
-            justify-content: center;
-            margin-top: 60px;
-            padding-top: 40px;
+            gap: 20px;
+            margin-top: 64px;
+            padding-top: 32px;
             border-top: 1px solid var(--border-color);
         }
 
         .social-links a {
             color: var(--secondary-text);
-            transition: color 0.2s ease;
-            width: 40px;
-            height: 40px;
+            transition: color 0.15s;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 6px;
         }
 
         .social-links a:hover {
-            color: var(--accent-color);
-            background-color: var(--card-bg);
+            color: var(--text-color);
         }
 
         .contact-note {
-            text-align: center;
-            margin-top: 20px;
+            margin-top: 14px;
             color: var(--secondary-text);
             font-size: 14px;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-        body {
-            padding: 20px 16px;
-        }
+        /* ── Responsive ── */
+        @media (max-width: 640px) {
+            body {
+                padding: 32px 18px 60px;
+            }
 
-        .header {
-            flex-direction: column;
-            gap: 20px;
-        }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+                margin-bottom: 48px;
+            }
 
-        .nav {
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
+            .nav {
+                flex-wrap: wrap;
+                gap: 16px 24px;
+            }
 
-        .main-content {
-            gap: 30px;
-        }
+            .main-content {
+                flex-direction: column-reverse;
+                gap: 28px;
+            }
 
-        .profile-image img {
-            width: 150px;
-            height: 150px;
-        }
+            .profile-image img {
+                width: 120px;
+                height: 144px;
+            }
 
-        .name {
-            font-size: 30px;
-        }
+            .name {
+                font-size: 26px;
+            }
 
-        .news-entry, .paper-entry {
-            flex-direction: column;
-            gap: 8px;
-        }
+            .paper-entry {
+                flex-direction: column;
+                gap: 4px;
+            }
 
-        .date {
-            min-width: auto;
+            .date {
+                min-width: auto;
+            }
         }
-    }
     </style>
 </head>
 <body>
     <header class="header">
-        <div></div>
+        <span class="site-name">Kargi Chauhan</span>
         <nav class="nav">
             <a href="#about" class="nav-link active">About</a>
             <a href="#publications" class="nav-link">Publications</a>
@@ -392,97 +395,97 @@
         <section class="section active" id="about">
             <div class="main-content">
                 <div class="content-left">
-                    <h1 class="name">Kargi Chauhan</h1>
                     <div class="bio">
-                        <p>I'm an MS candidate in Natural Language Processing at <a href="https://www.ucsc.edu">UC Santa Cruz</a>, working with <a href="https://people.ucsc.edu/~lgilpin/">Dr. Leilani Gilpin</a> and <a href="https://people.ucsc.edu/~dfremont/">Dr. Daniel Fremont</a> on Interpretability and autonomous systems.</p>
-                        
-                        <p>I received my Undergrad from the <a href="https://www.arizona.edu">University of Arizona</a>.</p>
-                        
-                        <p>I like Reinforcement Learning, Autonomous Systems, and Making AI Explainable. My current research centers on environment modeling (world modeling) and data generation for autonomous intelligent.</p>
-                        
-                        <p>If an autonomous vehicle ever needs to explain <em>why it made a split-second decision in the middle of traffic</em>, that's exactly the kind of problem I'm trying to solve :)</p>
-                        
-                        <p>Previously:</p>
-                        <ul>
-                            <li>Stealth AI startup fine-tuning LLaMA models for human preference alignment</li>
-                            <li>Visiting ML Research Fellow at the <a href="https://www.ed.ac.uk">University of Edinburgh</a></li>
-                            <li>NASA JPL building attitude estimation systems for CubeSats</li>
-                        </ul>
-                        
-                        <p>Beyond research, I'm passionate about space exploration. I love experimenting with plant-based cooking and trying every matcha variation I can find.</p>
-                        
-                        <p>I enjoy reading and distilling what I learn into zines (brewing!), and I often spend time in cafés where one article or idea sparks unexpected discoveries on Wikipedia.</p>
+                        <p>I'm an MS candidate in Natural Language Processing at <a href="https://www.ucsc.edu">UC Santa Cruz</a>, working with <a href="https://people.ucsc.edu/~lgilpin/">Dr. Leilani Gilpin</a> and <a href="https://cgraywang.github.io">Dr. Chenguang Wang</a>.</p>
 
-                        <p>In my free time, I maintain my learning journey blog at 
-                    <a href="https://kargichauhan.github.io/kargisnotebook.github.io/" target="_blank">
-                        Kargi's Notebook
-                    </a>.
-                </p>
-                        
-                        <p>I live by the philosophy that the most interesting breakthroughs happen when you take the scenic route, linear paths are for those who don't appreciate a good plot twist.</p>
+                        <p>I received my Undergrad from the <a href="https://www.arizona.edu">University of Arizona</a>. I also served as a Research Scholar at the <a href="https://www.ed.ac.uk">University of Edinburgh</a>, where I worked on Neurosymbolic AI.</p>
+
+                        <p>My current research centers on reward design and verification in LLM alignment specifically understanding when process supervision beats outcome supervision in reinforcement learning from verifiable rewards (RLVR), and how we can build more reliable training signals for reasoning models. I'm also exploring memory architectures for LLM agents, inspired by sleep-cycle consolidation, to help agents retain and organize knowledge over long horizons.</p>
+
+                        <p>Previously, I worked on constraint-guided traffic generation for autonomous vehicles building neuro-symbolic systems that satisfy physical validity constraints while generating realistic driving scenarios (presented at NeurIPS 2025).</p>
+
+                        <p>If you're wondering whether an AI system's reasoning can be trusted whether it's a self-driving car explaining a split-second decision or a language model showing its work on a math proof that's exactly the kind of problem I'm trying to solve :)</p>
                     </div>
 
-                    <div class="news-section">
-                        <h2>News</h2>
-                        <div class="news-container">
-                            <div class="news-entry">
-                                <div class="date">Dec 5, 2025</div>
-                                <div class="news-content">Presenting at NeurIPS in San Diego!</div>
-                            </div>
-                            <div class="news-entry">
-                                <div class="date">Sep 22, 2025</div>
-                                <div class="news-content">NeurIPS Paper got accepted!</div>
-                            </div>
-                            <div class="news-entry">
-                                <div class="date">Sep 08, 2025</div>
-                                <div class="news-content">Attended Nesy 2024 conference.</div>
-                            </div>
-
-                            <div class="news-entry">
-                                <div class="date">Sep 05, 2025</div>
-                                <div class="news-content">Spoke about AI research at Linkedln Office in SF</div>
-                            </div>
-
-                            <div class="news-entry">
-                                <div class="date">Dec 08, 2025</div>
-                                <div class="news-content"> Completed Large Language Model Agents MOOC</div>
-                            </div>
-                        
-                            
-                            <div class="news-entry">
-                                <div class="date">Oct 5, 2024</div>
-                                <div class="news-content">Built ExoSky project at NASA Space Apps Challenge at NASA Ames Research Center.</div>
-                            </div>
-                            
-                            <div class="news-entry">
-                                <div class="date">May 10, 2024</div>
-                                <div class="news-content">Presented on "Enabling Deep Space Exploration Using Small Spacecraft System Architecture" at IPSS Conference (NASA JPL).</div>
-                            </div>
-
-                            <div class="news-entry">
-                                <div class="date"> April 10, 2024</div>
-                                <div class="news-content"> Presented "From Mines to Minds: Exploring Immersive Learning's Influence in Mining Engineering Education" at UR Inspiration Conference.</div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="profile-image">
                     <img src="4eb271e4-a5a4-4e33-bed3-63872c78ab49.JPG" alt="Kargi Chauhan" />
-                
                 </div>
             </div>
-            <div class="sidebar">
-            <h3></h3>
-            <script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=kfLD6VSAGwkTQ8FrUdOnHP7etSW-G4xkuTBOjegsH7g&cl=ffffff&w=a"></script>
+
+            <div class="news-section">
+                <h2>News</h2>
+                <div class="news-list">
+                <div class="news-entry">
+                    <div class="date">Feb 1, 2026</div>
+                    <div class="news-content">Paper accepted — presenting oral at ACM TheWebConf!</div>
+                </div>
+                <div class="news-entry">
+                    <div class="date">Dec 5, 2025</div>
+                    <div class="news-content">Presenting at NeurIPS in San Diego!</div>
+                </div>
+                <div class="news-entry">
+                    <div class="date">Sep 22, 2025</div>
+                    <div class="news-content">NeurIPS Paper got accepted!</div>
+                </div>
+                <div class="news-entry">
+                    <div class="date">Sep 08, 2025</div>
+                    <div class="news-content">Attended NeSy 2024 conference.</div>
+                </div>
+                <div class="news-entry">
+                    <div class="date">Sep 05, 2025</div>
+                    <div class="news-content">Spoke about AI research at LinkedIn Office in SF.</div>
+                </div>
+                <div class="news-entry">
+                    <div class="date">Dec 08, 2024</div>
+                    <div class="news-content">Completed Large Language Model Agents MOOC.</div>
+                </div>
+                <div class="news-entry">
+                    <div class="date">Oct 5, 2024</div>
+                    <div class="news-content">Built ExoSky at NASA Space Apps Challenge at NASA Ames Research Center.</div>
+                </div>
+                <div class="news-entry">
+                    <div class="date">May 10, 2024</div>
+                    <div class="news-content">Presented "Enabling Deep Space Exploration Using Small Spacecraft System Architecture" at IPSS Conference (NASA JPL).</div>
+                </div>
+                <div class="news-entry">
+                    <div class="date">Apr 10, 2024</div>
+                    <div class="news-content">Presented "From Mines to Minds" at UR Inspiration Conference.</div>
+                </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border-color);">
+                <script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=kfLD6VSAGwkTQ8FrUdOnHP7etSW-G4xkuTBOjegsH7g&cl=ffffff&w=a"></script>
             </div>
         </section>
 
 
         <section class="section" id="publications">
     <h2 class="section-title">Publications</h2>
-    
+
     <div style="margin-bottom: 40px;">
-        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px; text-decoration: underline;">2025</h3>
+        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">2026</h3>
+
+        <div class="paper-entry" style="margin-bottom: 30px;">
+            <div class="paper-content">
+                <div style="font-weight: 600; margin-bottom: 8px;">
+                    <a href="https://arxiv.org/pdf/2601.20316" target="_blank">
+                        Less is More: Benchmarking LLM Based Recommendation Agents
+                    </a>
+                </div>
+                <div style="margin-bottom: 8px; color: var(--text-color);">
+                    <strong>K. Chauhan</strong> and M. Venkateswarlu.
+                </div>
+                <div style="color: var(--accent-color); font-size: 14px;">
+                    <a href="https://arxiv.org/pdf/2601.20316" target="_blank" style="color: var(--accent-color);">arXiv preprint</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-bottom: 40px;">
+        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">2025</h3>
         
         <div class="paper-entry" style="margin-bottom: 30px;">
             <div class="paper-content">
@@ -506,23 +509,20 @@
         <div class="paper-entry" style="margin-bottom: 30px;">
             <div class="paper-content">
                 <div style="font-weight: 600; margin-bottom: 8px;">
-                    <a href="#">Large Language Models and XAI</a>
+                    <a href="https://books.google.com/books?hl=en&lr=&id=9RyLEQAAQBAJ&oi=fnd&pg=PR5&dq=Explainable+Artificial+Intelligence+for+Trustworthy+Decisions+in+Smart+Applications&ots=K6SjLqKH8Z&sig=s0crWwW8if3Dx8JQ7-phYMqEkEI#v=onepage&q=Explainable%20Artificial%20Intelligence%20for%20Trustworthy%20Decisions%20in%20Smart%20Applications&f=false" target="_blank">Large Language Models and XAI</a> [Book]
                 </div>
                 <div style="margin-bottom: 8px; color: var(--text-color);">
                     <strong>K. Chauhan</strong> and V. Pendyala.
                 </div>
-                <div style="color: var(--secondary-text); font-size: 14px; margin-bottom: 4px;">
-                    Explainable Artificial Intelligence for Trustworthy Decisions in Smart Applications
-                </div>
                 <div style="color: var(--accent-color); font-size: 14px;">
-                    <a href="#" style="color: var(--accent-color);">Under Review [Releasing Oct 12 2025]</a>
+                    <a href="https://books.google.com/books?hl=en&lr=&id=9RyLEQAAQBAJ&oi=fnd&pg=PR5&dq=Explainable+Artificial+Intelligence+for+Trustworthy+Decisions+in+Smart+Applications&ots=K6SjLqKH8Z&sig=s0crWwW8if3Dx8JQ7-phYMqEkEI#v=onepage&q=Explainable%20Artificial%20Intelligence%20for%20Trustworthy%20Decisions%20in%20Smart%20Applications&f=false" target="_blank" style="color: var(--accent-color);">Explainable Artificial Intelligence for Trustworthy Decisions in Smart Applications</a>
                 </div>
             </div>
         </div>
     </div>
     
     <div style="margin-bottom: 40px;">
-        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px; text-decoration: underline;">2024</h3>
+        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">2024</h3>
         
         <div class="paper-entry" style="margin-bottom: 30px;">
             <div class="paper-content">
@@ -554,7 +554,7 @@
     </div>
     
     <div>
-        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px; text-decoration: underline;">2023</h3>
+        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">2023</h3>
         
         <div class="paper-entry" style="margin-bottom: 30px;">
             <div class="paper-content">
@@ -692,7 +692,37 @@
 
         <section class="section" id="blog">
     <h2 class="section-title">Blog</h2>
-    
+
+    <div class="blog-entry">
+        <div class="blog-title">
+            <a href="the-light-and-shade-of-81000-voices.html">The Light and Shade of 81,000 Voices</a>
+        </div>
+        <div class="date">2026</div>
+        <div class="blog-excerpt">
+            Anthropic published the largest qualitative study ever conducted — 80,508 people across 159 countries interviewed by Claude itself. A close reading of what the data actually says about hope, fear, and the entangled nature of AI's benefits and harms.
+        </div>
+    </div>
+
+    <div class="blog-entry">
+        <div class="blog-title">
+            <a href="subliminal-learning.html">The Owl Was Never in the Data</a>
+        </div>
+        <div class="date">2025</div>
+        <div class="blog-excerpt">
+            Five convergent experiments reveal subliminal learning operates through representation alignment, not information transfer (r=0.98 CKA correlation). Testing 56 animals exposes that 78% of the token entanglement effect is measurement artifact. Instruction tuning creates the vulnerability — pretraining does not.
+        </div>
+    </div>
+
+    <div class="blog-entry">
+        <div class="blog-title">
+            <a href="reward-hacking.html">Reward Hacking Is a Phase Transition and We Can See It Coming</a>
+        </div>
+        <div class="date">2025</div>
+        <div class="blog-excerpt">
+            Three empirical studies on process vs. outcome supervision in RLVR: reward hacking isn't gradual drift — it's an abrupt phase transition predictable with 100% precision up to 2,800 steps in advance. Process supervision yields 98x lower reward variance, and a difficulty-adaptive policy cuts L5 hacking from 50.6% to 1.5%.
+        </div>
+    </div>
+
     <div class="blog-entry">
         <div class="blog-title">
             <a href="https://kargic.medium.com/teaching-machines-to-think-bbc9dfa603a5">Teaching Machines to Think - Agentic AI</a>
@@ -822,7 +852,7 @@
 
 
         <!-- Education -->
-        <h3 style="margin-bottom: 25px; font-size: 18px; text-decoration: underline;">Education</h3>
+        <h3 style="margin: 0 0 20px 0; font-size: 16px;">Education</h3>
         <div class="paper-entry">
             <div class="date">2025-Present</div>
             <div class="paper-content">
@@ -841,7 +871,7 @@
         </div>
         
         <!-- Experience -->
-        <h3 style="margin: 40px 0 25px 0; font-size: 18px; text-decoration: underline;">Experience</h3>
+        <h3 style="margin: 36px 0 20px 0; font-size: 16px;">Experience</h3>
         <div class="paper-entry">
             <div class="date">2025</div>
             <div class="paper-content">
@@ -892,7 +922,7 @@
         </div>
         
         <!-- Awards -->
-        <h3 style="margin: 40px 0 25px 0; font-size: 18px; text-decoration: underline;">Awards & Recognition</h3>
+        <h3 style="margin: 36px 0 20px 0; font-size: 16px;">Awards & Recognition</h3>
         <div class="paper-entry">
             <div class="date">2024</div>
             <div class="paper-content">
@@ -916,7 +946,7 @@
         </div>
         
         <!-- Volunteer -->
-        <h3 style="margin: 40px 0 25px 0; font-size: 18px; text-decoration: underline;">Leadership & Volunteering</h3>
+        <h3 style="margin: 36px 0 20px 0; font-size: 16px;">Leadership & Volunteering</h3>
         <div class="paper-entry">
             <div class="date">2025</div>
             <div class="paper-content">

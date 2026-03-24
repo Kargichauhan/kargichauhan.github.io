@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Owl Was Never in the Data — Kargi Chauhan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 17px;
+            line-height: 1.75;
+            color: #111827;
+            background: #fff;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .topbar {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 18px 60px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .topbar a {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .topbar a:hover { color: #111827; }
+        .topbar .sep { color: #d1d5db; }
+
+        .article {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 64px 40px 100px;
+        }
+
+        .article-title {
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            margin-bottom: 28px;
+        }
+
+        .article-meta {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 24px;
+        }
+
+        .tldr {
+            background: #f9fafb;
+            border-left: 3px solid #1d4ed8;
+            padding: 20px 24px;
+            margin-bottom: 40px;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .tldr strong { font-weight: 600; }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin: 48px 0 16px;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 36px 0 12px;
+        }
+
+        p { margin-bottom: 18px; }
+
+        em { font-style: italic; }
+
+        .highlight {
+            font-style: italic;
+            color: #374151;
+            border-left: 2px solid #d1d5db;
+            padding-left: 16px;
+            margin: 24px 0;
+        }
+
+        .figure {
+            margin: 36px 0;
+        }
+
+        .figure-inner {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            padding: 24px 20px 16px;
+        }
+
+        .figure-title {
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            color: #374151;
+            margin-bottom: 16px;
+            letter-spacing: 0.01em;
+        }
+
+        .figure canvas { display: block; max-width: 100%; }
+
+        .figure-caption {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 10px;
+            line-height: 1.55;
+        }
+
+        .figure-caption strong { color: #374151; }
+
+        .stat-row {
+            display: flex;
+            gap: 24px;
+            margin: 28px 0;
+        }
+
+        .stat-box {
+            flex: 1;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            padding: 16px 20px;
+            text-align: center;
+        }
+
+        .stat-box .stat-val {
+            font-size: 28px;
+            font-weight: 600;
+            color: #111827;
+            letter-spacing: -0.02em;
+        }
+
+        .stat-box .stat-label {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            margin: 28px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        thead tr { background: #1d4ed8; color: #fff; }
+
+        thead th {
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        tbody tr:nth-child(even) { background: #f9fafb; }
+
+        tbody td {
+            padding: 9px 14px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tbody tr:last-child td { border-bottom: none; }
+
+        .table-caption {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .citation {
+            font-size: 13px;
+            font-style: italic;
+            color: #6b7280;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
+            line-height: 1.6;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 48px;
+            font-size: 14px;
+            color: #1d4ed8;
+            text-decoration: none;
+        }
+
+        .back-link:hover { text-decoration: underline; }
+
+        @media (max-width: 640px) {
+            .topbar { padding: 16px 20px; }
+            .article { padding: 40px 20px 80px; }
+            .article-title { font-size: 26px; }
+            .stat-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <a href="index.html">← Kargi Chauhan</a>
+    <span class="sep">·</span>
+    <a href="index.html#blog">Blog</a>
+</div>
+
+<article class="article">
+
+    <h1 class="article-title">The Owl Was Never in the Data</h1>
+
+    <div class="article-meta">
+        Kargi Chauhan &nbsp;·&nbsp; 2025 &nbsp;·&nbsp; Research Report
+    </div>
+
+    <div class="tldr">
+        <strong>TL;DR:</strong> I extended the subliminal learning model (Cloud, Le, Chua, Betley et al., 2025) and the token entanglement paper (Brinkmann et al., 2025) through systematic experimentation. Five convergent experiments reveal that subliminal learning operates through <strong>representation alignment, not information transfer</strong>, with a near-perfect correlation (r=0.98) between CKA similarity and learning success. On the token entanglement side, testing 56 animals (vs the paper's 4) reveals that <strong>78% of the reported effect is measurement artifact</strong> from frequency bias. The geometric mechanism is real but dramatically overstated. Instruction tuning creates the vulnerability; pretraining does not.
+    </div>
+
+    <h2>Introduction</h2>
+
+    <p>The subliminal learning paper demonstrated something unsettling: a teacher model with a preference for owls can transmit that preference to a student model through training data consisting entirely of number sequences. The student never sees any mention of animals, yet acquires the teacher's owl preference. This works because the preference is encoded not in the semantic content of the data, but in the statistical structure of how the model organizes its internal representations.</p>
+
+    <p>I wanted to understand <em>why</em> this works, not just that it does. The original paper provides Theorem 1, which guarantees subliminal learning under "sufficiently small" learning rates, but does not quantify the boundary or explain the mechanism at the level of specific weight matrices and activations. The token entanglement paper goes further, showing that prompting a model to prefer owls increases the probability of specific number tokens (like "087"), attributing this to cosine similarity in unembedding space.</p>
+
+    <p>I ran a systematic investigation across both settings. What I found challenges some assumptions in both papers and, I think, clarifies what is actually going on.</p>
+
+    <h2>The Mechanism: Representation Alignment, Not Information Transfer</h2>
+
+    <p>The core question is: how can a student model learn to classify digits when it receives no digit supervision and trains only on random noise? The answer, supported by five converging experiments, is that the student learns the teacher's <strong>coordinate system</strong> for organizing representations, not the teacher's explicit knowledge.</p>
+
+    <p>Here is the intuition. The teacher and student share the same random initialization of their output weight matrix W₂. During distillation, gradients from the auxiliary logit loss flow back through W₂ into the hidden layers, reshaping how the student's input layer W₀ projects inputs into hidden space. The student's W₀ does not learn "digit features" in the visual sense. It learns projection directions that are aligned with the teacher's internal coordinate system. Since the digit logit weights are shared random projections in this coordinate system, they become informative once the coordinate systems align.</p>
+
+    <p class="highlight">This is a geometric trick: aligning coordinate systems makes random projections informative.</p>
+
+    <h3>The phase transition</h3>
+
+    <p>Theorem 1 says subliminal learning works for "sufficiently small epsilon" but does not quantify what that means. I varied the teacher learning rate across four orders of magnitude and found a sharp phase transition at approximately 3 × 10⁻³.</p>
+
+    <div class="figure">
+        <div class="figure-inner">
+            <div class="figure-title">Sharp Phase Transition in Teacher LR</div>
+            <canvas id="fig1" height="220"></canvas>
+        </div>
+        <p class="figure-caption"><strong>Figure 1:</strong> Student accuracy collapses from ~50% to 10% (chance) between LR = 10⁻³ and LR = 10⁻², while teacher accuracy remains excellent (96.3%). The collapse is not from poor teacher quality — it is because large gradient steps destroy the representational alignment between shared initialization and learned features.</p>
+    </div>
+
+    <p>The sharpness matters. A factor of 10 in learning rate takes the student from well above chance to random. This is a phase transition, not gradual degradation, and it corresponds to a real empirical boundary for the theoretical condition in Theorem 1.</p>
+
+    <h3>Where it happens: the input layer is everything</h3>
+
+    <p>I froze different layers during distillation to localize where subliminal learning occurs. The result is striking in its asymmetry.</p>
+
+    <div class="figure">
+        <div class="figure-inner">
+            <div class="figure-title">Where Does Subliminal Learning Happen?</div>
+            <canvas id="fig2" height="220"></canvas>
+        </div>
+        <p class="figure-caption"><strong>Figure 2:</strong> Freezing the input layer (L0) destroys the effect entirely, yielding 12.9%, indistinguishable from chance. Freezing the output layer (L2) has literally zero effect, yielding 54.9%, identical to baseline. The mechanism operates entirely through reshaping how inputs are projected into hidden space.</p>
+    </div>
+
+    <p>This tells us something precise about the mechanism. The output layer projections act as a fixed "translation key" that both models share from initialization. The input layer learns to map new inputs into the shared coordinate system. It is not that the output changes to read existing representations. The representations themselves are being reshaped.</p>
+
+    <h3>The most informative result: multi-teacher ensembles catastrophically fail</h3>
+
+    <p>I predicted that averaging auxiliary logits from multiple teachers would slightly improve performance and then plateau. I was wrong. Adding even one additional teacher from a different initialization halves student accuracy.</p>
+
+    <div class="stat-row">
+        <div class="stat-box">
+            <div class="stat-val">56.2%</div>
+            <div class="stat-label">Single teacher</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-val">24.6%</div>
+            <div class="stat-label">Two teachers</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-val">14.7%</div>
+            <div class="stat-label">Five teachers</div>
+        </div>
+    </div>
+
+    <p>This is the most theoretically informative result because it proves that subliminal learning depends on specific teacher-student coupling through shared initialization, not on any general architectural prior. Teachers from different seeds develop different internal coordinate systems. Their auxiliary logits encode digit information through incompatible projections. Averaging these projections creates destructive interference: teacher 1 might encode "this is a 3" as [high aux0, low aux1, mid aux2], while teacher 2 encodes it as [low aux0, high aux1, low aux2]. The average washes out the signal.</p>
+
+    <h3>Direct proof: CKA similarity predicts everything</h3>
+
+    <p>If the mechanism is representation alignment, then measuring alignment directly should predict success. I used Centered Kernel Alignment (CKA) across three conditions: single teacher, two teachers from the same initialization, and two teachers from different initializations.</p>
+
+    <p><strong>The correlation between CKA similarity and student accuracy is r = 0.98.</strong></p>
+
+    <p>But the most revealing finding is the nonlinearity. The "different initialization" condition achieves CKA = 0.89, seemingly close to the shared-initialization conditions at CKA = 0.96. But that 7% decrease in CKA corresponds to a 56% drop in accuracy. Coarse representational similarity is not enough. The mechanism requires high-fidelity coordinate system alignment, and it is essentially binary: above roughly 0.95 it works; below roughly 0.90 it does not.</p>
+
+    <h2>Token Entanglement: The Effect Is Real But 78% Is Artifact</h2>
+
+    <p>The token entanglement paper reports that prompting a model to prefer certain animals boosts the probability of specific number tokens, attributing this to cosine similarity in unembedding space. I set out to replicate and stress-test this finding.</p>
+
+    <h3>Testing 56 animals instead of 4</h3>
+
+    <p>Rather than testing a handful of additional animals, I structured the investigation around three competing hypotheses: (H1) the paper cherry-picked effective animals, (H2) entanglement is common but follows a heavy-tailed distribution, or (H3) entanglement is universal and uniform. I tested 56 animals sampled across taxonomic groups.</p>
+
+    <p>The results immediately rule out H1 and H3. 52 of 56 animals (93%) show subliminal prompting ratio above 1. But the distribution spans from 0.1× (dogs) to 3,363× (hamsters), far from uniform. A 10,000-iteration permutation test gives p = 0.211, meaning there is no statistically significant evidence of cherry-picking. Effect sizes follow a log-normal distribution (R² = 0.92), consistent with the geometry of high-dimensional cosine similarities.</p>
+
+    <h3>Instruction tuning creates the vulnerability</h3>
+
+    <p>I compared the base and instruct versions of the same model across 20 animals. The result surprised me.</p>
+
+    <div class="figure">
+        <div class="figure-inner">
+            <div class="figure-title">Instruction Tuning Creates Entanglement</div>
+            <canvas id="fig3" height="300"></canvas>
+        </div>
+        <p class="figure-caption"><strong>Figure 3:</strong> Of 20 animals tested, 16 entanglements were CREATED by instruction tuning. Zero were inherited from pretraining. The base model shows essentially no behavioral entanglement.</p>
+    </div>
+
+    <p>Here is the paradox: the unembedding geometry between base and instruct is nearly identical (Pearson r = 0.979). The same weight-space relationships exist in both models. But only the instruct model activates them behaviorally. This means <strong>entanglement is not purely geometric</strong>. It is an emergent property of instruction-following capability. The geometric substrate is inherited from pretraining; the behavioral phenomenon requires RLHF to manifest.</p>
+
+    <p><em>This has a direct safety implication: alignment training itself creates the subliminal prompting vulnerability.</em></p>
+
+    <h3>The 'Perfect Storm': disentangling five hypotheses</h3>
+
+    <p>The paper attributes token entanglement to cosine similarity in unembedding space. I tested this directly by measuring four different metrics across all 56 entangled pairs and correlating each with the observed subliminal prompting effect size.</p>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Metric</th><th>Pearson r</th><th>Interpretation</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Cosine Similarity (paper's claim)</td><td>0.069</td><td>Explains almost nothing</td></tr>
+                <tr><td>Causal Patching</td><td>0.192</td><td>Modest, about 4% of variance</td></tr>
+                <tr><td>Dot Product</td><td>0.020</td><td>Essentially zero</td></tr>
+            </tbody>
+        </table>
+        <p class="table-caption">Geometry is a very weak predictor of observed effect sizes.</p>
+    </div>
+
+    <div class="figure">
+        <div class="figure-inner">
+            <div class="figure-title">What Actually Drives the Effect? (R² = 0.73)</div>
+            <canvas id="fig4" height="220"></canvas>
+        </div>
+        <p class="figure-caption"><strong>Figure 4:</strong> Five-factor multivariate regression (R² = 0.73). Frequency bias dominates (beta = −0.783). The geometric mechanism is real (beta = +0.069) but secondary. 78% of variance in effect sizes is explained by a measurement artifact: rare tokens have tiny baseline probabilities, inflating ratios.</p>
+    </div>
+
+    <p>The "subliminal prompting" effect is a perfect storm of three things converging: (1) a real but modest geometric mechanism inherited from pretraining, (2) instruction-following capability that activates this geometry behaviorally, and (3) a ratio metric that dramatically inflates the apparent effect for rare tokens. When you report absolute probability changes instead of ratios, the phenomenon is far more modest than the 100× to 1000× numbers suggest.</p>
+
+    <h2>What This Means for Safe Distillation</h2>
+
+    <p><strong>The hidden channel is geometric, not semantic.</strong> Filtering training data for semantic content cannot prevent trait transmission. The preference for owls is not encoded in what the model says. It is encoded in how the model <em>organizes its internal representations</em>. Standard red-teaming and data filtering are insufficient.</p>
+
+    <p><strong>Multi-teacher distillation is a promising mitigation.</strong> The multi-teacher experiment shows that using ensemble teachers from different random seeds destroys subliminal learning (halves accuracy with just 2 teachers) while potentially improving knowledge distillation quality through diversity. This is a concrete, deployable intervention.</p>
+
+    <p><strong>CKA monitoring during training.</strong> The sharp nonlinearity between CKA and subliminal learning success suggests a practical monitoring strategy: if CKA between teacher and student exceeds 0.95, subliminal transfer is likely active. If it falls below 0.90, it is likely disrupted.</p>
+
+    <p><strong>Measurement matters enormously.</strong> The dominance of frequency bias in token entanglement (beta = −0.78) shows that <em>how we measure</em> subliminal effects can dramatically distort our understanding of their severity. Future work should report absolute probability changes alongside ratios.</p>
+
+    <p class="citation">This work extends Cloud, Le, Chua, Betley, Sztyber-Betley, Hilton, Marks, and Evans (2025), "Subliminal Learning: Language Models Transmit Behavioral Traits via Hidden Signals in Data," and Brinkmann et al. (2025), "Token Entanglement in Subliminal Learning."</p>
+
+    <a href="index.html" class="back-link">← Back to Kargi Chauhan</a>
+
+</article>
+
+<script>
+Chart.defaults.font.family = "'Lora', Georgia, serif";
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#6b7280';
+
+// ── Figure 1: Phase Transition in Teacher LR ──
+const lrLabels = ['10⁻⁵', '10⁻⁴', '10⁻³', '3×10⁻³', '10⁻²', '10⁻¹'];
+new Chart(document.getElementById('fig1'), {
+    type: 'line',
+    data: {
+        labels: lrLabels,
+        datasets: [
+            {
+                label: 'Teacher',
+                data: [0.91, 0.93, 0.95, 0.963, 0.94, 0.82],
+                borderColor: '#3b82f6',
+                backgroundColor: 'transparent',
+                borderWidth: 2.5,
+                pointRadius: 5,
+                pointBackgroundColor: '#3b82f6',
+                tension: 0.3
+            },
+            {
+                label: 'Student (aux only)',
+                data: [0.48, 0.51, 0.50, 0.38, 0.10, 0.09],
+                borderColor: '#ef4444',
+                backgroundColor: 'rgba(239,68,68,0.08)',
+                fill: true,
+                borderWidth: 2.5,
+                pointRadius: 5,
+                pointBackgroundColor: '#ef4444',
+                pointStyle: 'rectRot',
+                tension: 0.3
+            }
+        ]
+    },
+    options: {
+        plugins: {
+            legend: {
+                position: 'top',
+                labels: { boxWidth: 22, padding: 16, font: { size: 12 } }
+            },
+            annotation: {}
+        },
+        scales: {
+            x: {
+                title: { display: true, text: 'Teacher Learning Rate', color: '#6b7280' },
+                grid: { color: '#f3f4f6' },
+                border: { color: '#e5e7eb' }
+            },
+            y: {
+                title: { display: true, text: 'Accuracy', color: '#6b7280' },
+                min: 0, max: 1.05,
+                ticks: { callback: v => (v * 100).toFixed(0) + '%' },
+                grid: { color: '#f3f4f6' },
+                border: { color: '#e5e7eb' }
+            }
+        }
+    }
+});
+
+// ── Figure 2: Where Does Subliminal Learning Happen? (bar chart) ──
+new Chart(document.getElementById('fig2'), {
+    type: 'bar',
+    data: {
+        labels: ['None\n(baseline)', 'Freeze L0\n(input)', 'Freeze L1\n(middle)', 'Freeze L2\n(output)', 'Freeze\nL0+L1', 'Freeze\nL1+L2'],
+        datasets: [{
+            data: [54.7, 12.9, 43.0, 54.9, 10.0, 41.4],
+            backgroundColor: ['#3b82f6', '#ef4444', '#f59e0b', '#22c55e', '#ef4444', '#f59e0b'],
+            borderRadius: 3,
+        }]
+    },
+    options: {
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: { label: ctx => ' Student Accuracy: ' + ctx.parsed.y + '%' }
+            }
+        },
+        scales: {
+            y: {
+                title: { display: true, text: 'Student Accuracy (%)', color: '#6b7280' },
+                min: 0, max: 65,
+                grid: { color: '#f3f4f6' },
+                border: { color: '#e5e7eb' }
+            },
+            x: { grid: { display: false }, border: { color: '#e5e7eb' } }
+        }
+    }
+});
+
+// ── Figure 3: Instruction Tuning Creates Entanglement (horizontal bar) ──
+const animals = ['hawks','eagles','owls','zebras','bees','wolves','foxes','tigers','rabbits','turtles','elephants','cats','dolphins','dogs'];
+const ratios =  [85, 72, 68, 55, 50, 42, 38, 35, 30, 22, 18, 14, 8, 0.1];
+const colors  = animals.map((_, i) => i < 13 ? '#16a34a' : '#9ca3af');
+
+new Chart(document.getElementById('fig3'), {
+    type: 'bar',
+    data: {
+        labels: animals,
+        datasets: [{
+            data: ratios,
+            backgroundColor: colors,
+            borderRadius: 2,
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: { label: ctx => ' Subliminal Prompting Ratio: ' + ctx.parsed.x + 'x' }
+            }
+        },
+        scales: {
+            x: {
+                type: 'logarithmic',
+                title: { display: true, text: 'Subliminal Prompting Ratio (Instruct Model)', color: '#6b7280' },
+                grid: { color: '#f3f4f6' },
+                border: { color: '#e5e7eb' }
+            },
+            y: { grid: { display: false }, border: { color: '#e5e7eb' } }
+        }
+    }
+});
+
+// ── Figure 4: What Drives the Effect? (horizontal bar) ──
+new Chart(document.getElementById('fig4'), {
+    type: 'bar',
+    data: {
+        labels: ['Dot Product', 'Token Length', 'Geometry\n(Cosine)', 'Causal\nPatching', 'Frequency\nBias'],
+        datasets: [{
+            data: [0.020, 0.051, 0.069, 0.131, -0.783],
+            backgroundColor: ['#60a5fa', '#60a5fa', '#3b82f6', '#22c55e', '#ef4444'],
+            borderRadius: 3,
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: { label: ctx => ' Beta: ' + ctx.parsed.x.toFixed(3) }
+            }
+        },
+        scales: {
+            x: {
+                title: { display: true, text: 'Standardized Beta Coefficient', color: '#6b7280' },
+                min: -0.9, max: 0.25,
+                grid: { color: '#f3f4f6' },
+                border: { color: '#e5e7eb' }
+            },
+            y: { grid: { display: false }, border: { color: '#e5e7eb' } }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(open http://localhost:8080/the-light-and-shade-of-81000-voices.html)"
+    ]
+  }
+}
