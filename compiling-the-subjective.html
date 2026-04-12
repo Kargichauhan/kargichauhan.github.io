@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compiling the Subjective: RL Beyond Verifiable Rewards — Kargi Chauhan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 17px;
+            line-height: 1.75;
+            color: #1E1815;
+            background: #FAF8F5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .topbar {
+            border-bottom: 1px solid #E8DDD8;
+            padding: 18px 60px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .topbar a {
+            color: #9B8B87;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .topbar a:hover { color: #1E1815; }
+        .topbar .sep { color: #D4C8C3; }
+
+        .article {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 64px 40px 100px;
+        }
+
+        .article-title {
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            margin-bottom: 28px;
+        }
+
+        .article-meta {
+            font-size: 14px;
+            color: #9B8B87;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #E8DDD8;
+            padding-bottom: 24px;
+        }
+
+        .tldr {
+            background: #F0E9E5;
+            border-left: 3px solid #B07A8E;
+            padding: 20px 24px;
+            margin-bottom: 40px;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .tldr strong { font-weight: 600; }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin: 48px 0 16px;
+        }
+
+        p { margin-bottom: 18px; }
+
+        em { font-style: italic; }
+
+        .figure {
+            margin: 36px 0;
+        }
+
+        .figure-inner {
+            background: #fff;
+            border: 1px solid #E8DDD8;
+            border-radius: 4px;
+            padding: 24px 20px 16px;
+        }
+
+        .figure-title {
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            color: #4A3A36;
+            margin-bottom: 16px;
+            letter-spacing: 0.01em;
+        }
+
+        .figure canvas {
+            display: block;
+            max-width: 100%;
+        }
+
+        .figure-caption {
+            font-size: 13px;
+            color: #9B8B87;
+            margin-top: 10px;
+            line-height: 1.55;
+        }
+
+        .figure-caption strong { color: #4A3A36; }
+
+        .table-wrap {
+            overflow-x: auto;
+            margin: 28px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        thead tr { background: #B07A8E; color: #fff; }
+
+        thead th {
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        tbody tr:nth-child(even) { background: #F0E9E5; }
+
+        tbody td {
+            padding: 9px 14px;
+            border-bottom: 1px solid #E8DDD8;
+        }
+
+        tbody tr:last-child td { border-bottom: none; }
+
+        .table-caption {
+            font-size: 13px;
+            color: #9B8B87;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 56px;
+            font-size: 14px;
+            color: #B07A8E;
+            text-decoration: none;
+        }
+
+        .back-link:hover { text-decoration: underline; }
+
+        @media (max-width: 640px) {
+            .topbar { padding: 16px 20px; }
+            .article { padding: 40px 20px 80px; }
+            .article-title { font-size: 26px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <a href="index.html">← Kargi Chauhan</a>
+    <span class="sep">·</span>
+    <a href="index.html#blog">Blog</a>
+</div>
+
+<article class="article">
+
+    <h1 class="article-title">Compiling the Subjective: RL Beyond Verifiable Rewards</h1>
+
+    <div class="article-meta">
+        Kargi Chauhan &nbsp;·&nbsp; 2026 &nbsp;·&nbsp; Research Report
+    </div>
+
+    <div class="tldr">
+        <strong>TL;DR:</strong> RLVR has driven remarkable progress on math and code, but its reliance on deterministic correctness checks breaks down for creative writing, medical reasoning, and long-form research. Four paradigms have emerged to bridge this <em>verifiability gap</em>: rubric-based rewards, programmatic judge codes, latent-variable optimization, and synthetic data transformation. Judge Code-guided RL (JC-RL) compiles subjective rubrics into executable Python scripts, achieving competitive scores at <strong>over 2× the training speed</strong> of generative reward models — and a theoretical proof that evaluating just 1 of 9 criteria per sample yields an unbiased gradient estimator.
+    </div>
+
+    <h2>The Verifiability Gap</h2>
+
+    <p>The story of post-training in 2025 has been, in many ways, the story of RLVR. DeepSeek-R1 showed that Group Relative Policy Optimization (GRPO) with simple rule-based rewards — did the model get the right number? did the code pass the test? — could unlock deep chain-of-thought reasoning without expensive human preference data. The recipe is elegant: replace the fragile neural reward model with a deterministic verifier, and let the model explore freely.</p>
+
+    <p>But here is the catch. The same property that makes RLVR so stable — binary, automatically-checkable correctness — limits it to a narrow slice of what we actually want LLMs to do. Writing a compassionate medical explanation, crafting a compelling argument, or synthesizing a well-cited research survey are tasks where there is no single right answer and no unit test to run. This is the <strong>verifiability gap</strong>, and closing it is arguably the central open problem in LLM post-training today.</p>
+
+    <p>I selected this topic because it sits at the intersection of two themes I care deeply about: reward hacking and supervision quality in RL-based training. My own work on process versus outcome supervision in RLVR has shown how even in verifiable domains, the choice of <em>what</em> to supervise matters enormously. In non-verifiable domains, this question becomes existential — if you cannot even check the final answer, what do you reward?</p>
+
+    <h2>Four Paradigms</h2>
+
+    <p>The past year has seen four families of solutions emerge to bridge the verifiability gap. They differ dramatically in how they construct the reward signal and what trade-offs they accept.</p>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Paradigm</th><th>Key Idea</th><th>Best For</th><th>Core Trade-off</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Rubric-based rewards</strong></td><td>Decompose evaluation into checklist criteria (RaR, Rubicon, OpenRubrics)</td><td>Medical, instruction-following</td><td>Rubric design requires care; seesaw effect between skills</td></tr>
+                <tr><td><strong>Programmatic judge codes</strong></td><td>Compile rubrics into executable Python scripts; remove LLM judge from reward loop (JC-RL)</td><td>Creative writing, conversational</td><td>Bounded by coding LLM's ability to translate subjective criteria</td></tr>
+                <tr><td><strong>Latent-variable methods</strong></td><td>Treat chain-of-thought as latent; optimize marginal log-likelihood lower bound (JEPO)</td><td>Mathematical proofs, semi-verifiable tasks</td><td>Computationally expensive; requires ground-truth for bound</td></tr>
+                <tr><td><strong>Synthetic data transformation</strong></td><td>Convert unverifiable text into fill-in-the-middle RLVR tasks (Golden Goose)</td><td>Cybersecurity, knowledge-intensive domains</td><td>Distractor quality; may introduce spurious signals</td></tr>
+            </tbody>
+        </table>
+        <p class="table-caption"><strong>Table 1:</strong> The four paradigms bridging the verifiability gap. Each trades off reward quality, compute, and domain coverage differently.</p>
+    </div>
+
+    <p><strong>Rubric-based rewards</strong> decompose evaluation into checklist-style criteria. Rubrics as Rewards (RaR) shows that standard RLVR is actually a special case where k = 1 and the single criterion is binary correctness. RaR achieves up to 31% relative improvement on HealthBench over LLM-as-judge baselines. Rubicon extends this with a multi-stage curriculum to avoid the seesaw effect — where instruction-following and creativity degrade each other during joint training. OpenRubrics scales rubric generation via Contrastive Rubric Generation, which prompts an LLM to analyze good and bad response pairs to extract discriminative rules.</p>
+
+    <p><strong>Self-evolving rubrics</strong> address the staleness of static criteria. RLER grounds rubrics in real-time internet search for Deep Research agents, maintaining evolving buffers of positive rubrics (rewarding newly discovered good habits) and negative rubrics (penalizing discovered reward hacking behaviors).</p>
+
+    <p><strong>Synthetic data transformation</strong> sidesteps reward design entirely. Golden Goose converts raw internet text into standard RLVR tasks by masking key reasoning steps and generating plausible distractors. This produced 700K synthetic tasks that enabled a 4B model to surpass a 7B domain-specialist in cybersecurity.</p>
+
+    <div class="figure">
+        <div class="figure-inner">
+            <div class="figure-title">Paradigm Coverage: Speed, Quality, Scalability, Domain Breadth</div>
+            <canvas id="fig1" height="260"></canvas>
+        </div>
+        <p class="figure-caption"><strong>Figure 1:</strong> Radar comparison of the four paradigms across key axes. JC-RL maximizes speed and scalability; JEPO excels on quality for semi-verifiable tasks but is computationally heavy; rubric-based methods offer broad domain coverage. No single approach dominates.</p>
+    </div>
+
+    <h2>Deep Dive: Judge Code-Guided RL</h2>
+
+    <p>I focus on JC-RL because it represents the most conceptually striking response to the verifiability problem: rather than softening verification standards, it literally <em>compiles</em> subjective intent into deterministic code.</p>
+
+    <p>A Judge Code Generator (JCG) — a coding LLM like DeepSeek-V3 — translates evaluation rubrics into sample-specific Python scoring functions executed in a sandbox. The LLM judge is removed from the reward loop entirely, recovering the core RLVR advantage: deterministic, fast, non-hackable execution — even for subjective tasks.</p>
+
+    <p><strong>Three contributions stand out.</strong></p>
+
+    <p>First, the authors prove that evaluating as few as 1 of 9 criteria per sample yields an <em>unbiased gradient estimator</em>. Empirically, partial-reward training curves converge to the same performance ceiling as full-reward training on Qwen2.5-7B. This is a powerful result: imperfect, stochastic rubrics are theoretically sufficient for correct optimization, dramatically reducing evaluation cost.</p>
+
+    <p>Second, the offline mode (Off-JCG) achieves over 2× wall-time speedup over generative reward models with competitive scores. The compiled datasets are model-agnostic — rubrics generated by a 7B model successfully train 14B and 32B models across different architectures. This is essentially <em>programmatic knowledge distillation</em>: the broad understanding of a frontier model crystallized into portable, executable rubrics.</p>
+
+    <p>Third, "code scaling" adds auxiliary penalty scripts for verbosity and hallucination detection, introducing adversarial pressure against reward hacking within the programmatic framework itself.</p>
+
+    <div class="figure">
+        <div class="figure-inner">
+            <div class="figure-title">JC-RL Off-JCG vs. GenRM: Quality vs. Training Speed</div>
+            <canvas id="fig2" height="240"></canvas>
+        </div>
+        <p class="figure-caption"><strong>Figure 2:</strong> Off-JCG achieves 70.05 on creative writing benchmarks versus 72.72 for GenRM — a 3.6% gap — at over 2× the training speed. The speedup comes from removing the LLM judge from the reward loop entirely; compiled Python scripts execute in milliseconds.</p>
+    </div>
+
+    <p><strong>Limitations.</strong> The JCG's dependency on a powerful coding LLM means reward quality is bounded by the model's ability to translate criteria like "emotional resonance" or "empathy" into Python code — dimensions the paper does not evaluate for compilability. Not all aspects of subjective quality can be reduced to string matching, keyword counting, or structural checks.</p>
+
+    <p>The partial reward proof assumes uniform, independent criterion sampling, but real criteria are often semantically correlated ("factual accuracy" and "source attribution" overlap substantially). The gated mechanism assigning floor scores for format violations creates hard discontinuities in the reward landscape that may produce the same seesaw effect Rubicon addresses via curriculum staging.</p>
+
+    <p>Additionally, JC-RL evaluates primarily on creative writing and conversational benchmarks. Extension to high-stakes domains like medical advice or legal reasoning, where rubric errors could have real consequences, remains untested.</p>
+
+    <div class="figure">
+        <div class="figure-inner">
+            <div class="figure-title">Partial Reward Convergence: 1/9 Criteria ≈ Full Reward</div>
+            <canvas id="fig3" height="240"></canvas>
+        </div>
+        <p class="figure-caption"><strong>Figure 3:</strong> Training curves for full-reward vs. partial-reward (1 of 9 criteria sampled per step) on Qwen2.5-7B. Both converge to the same performance ceiling, validating the unbiased gradient estimator theorem. Stochastic, partial rubrics are sufficient for correct optimization.</p>
+    </div>
+
+    <h2>Open Problems</h2>
+
+    <p>The papers surveyed here converge on a powerful insight: you do not need perfect, holistic rewards to train good models. Decomposed, partial, stochastic, and even programmatic feedback can substitute for the expensive and brittle neural reward models that dominated the RLHF era. Three open problems remain.</p>
+
+    <p><strong>Process supervision for non-verifiable domains.</strong> Current methods evaluate final outputs, but process supervision provides denser step-level signals. My own work on DASS shows that process-level supervision outperforms outcome-level supervision in verifiable RLVR. Does this hold when process signals themselves come from rubrics — where "correct reasoning" is itself subjective? The interaction between rubric granularity and supervision level is entirely unexplored.</p>
+
+    <p><strong>Rubric robustness under adversarial optimization.</strong> Models may learn to satisfy each criterion individually while producing holistically poor responses — a decomposed form of reward hacking. Rubicon's ad-hoc anti-hacking rubrics need formalization. Can we characterize which rubric structures are exploit-resistant, analogous to how deterministic verifiers resist hacking in standard RLVR?</p>
+
+    <p><strong>Unifying the reward spectrum.</strong> RaR, JC-RL, JEPO, and Golden Goose attack the same problem from different angles. A unified framework that selects the optimal reward mechanism per-criterion — deterministic verification when available, programmatic rubrics for structured subjective tasks, latent-variable optimization for long-form generation — could yield a system more robust than any single approach. The verifiability gap is closing. What remains is ensuring it closes safely.</p>
+
+    <a href="index.html" class="back-link">← Back to Kargi Chauhan</a>
+
+</article>
+
+<script>
+const fontFamily = "'Lora', Georgia, serif";
+Chart.defaults.font.family = fontFamily;
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#9B8B87';
+
+// ── Figure 1: Radar — four paradigms ──
+new Chart(document.getElementById('fig1'), {
+    type: 'radar',
+    data: {
+        labels: ['Speed', 'Quality', 'Scalability', 'Domain Breadth', 'Reward Stability'],
+        datasets: [
+            {
+                label: 'Rubric-based (RaR)',
+                data: [3, 4, 4, 5, 3],
+                borderColor: '#B07A8E',
+                backgroundColor: 'rgba(176,122,142,0.1)',
+                borderWidth: 2,
+                pointRadius: 3,
+            },
+            {
+                label: 'JC-RL',
+                data: [5, 3.5, 5, 3, 4.5],
+                borderColor: '#D4956A',
+                backgroundColor: 'rgba(212,149,106,0.1)',
+                borderWidth: 2,
+                pointRadius: 3,
+            },
+            {
+                label: 'JEPO (latent-var)',
+                data: [2, 5, 2, 3, 4],
+                borderColor: '#7A9E8E',
+                backgroundColor: 'rgba(122,158,142,0.1)',
+                borderWidth: 2,
+                pointRadius: 3,
+            },
+            {
+                label: 'Golden Goose',
+                data: [4, 3, 5, 4, 3.5],
+                borderColor: '#9B8B87',
+                backgroundColor: 'rgba(155,139,135,0.1)',
+                borderWidth: 2,
+                pointRadius: 3,
+            }
+        ]
+    },
+    options: {
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: { boxWidth: 20, padding: 16, font: { size: 12 } }
+            }
+        },
+        scales: {
+            r: {
+                min: 0, max: 5,
+                ticks: { stepSize: 1, display: false },
+                grid: { color: '#E8DDD8' },
+                angleLines: { color: '#E8DDD8' },
+                pointLabels: { font: { size: 12 }, color: '#4A3A36' }
+            }
+        }
+    }
+});
+
+// ── Figure 2: Quality vs Speed bar chart ──
+new Chart(document.getElementById('fig2'), {
+    type: 'bar',
+    data: {
+        labels: ['GenRM\n(generative judge)', 'JC-RL Off-JCG\n(compiled rubrics)'],
+        datasets: [
+            {
+                label: 'Creative Writing Score',
+                data: [72.72, 70.05],
+                backgroundColor: ['#9B8B87', '#B07A8E'],
+                borderRadius: 3,
+                yAxisID: 'y'
+            },
+            {
+                label: 'Relative Training Speed (×)',
+                data: [1.0, 2.1],
+                backgroundColor: ['rgba(155,139,135,0.3)', 'rgba(176,122,142,0.3)'],
+                borderRadius: 3,
+                yAxisID: 'y2'
+            }
+        ]
+    },
+    options: {
+        plugins: {
+            legend: {
+                position: 'top',
+                labels: { boxWidth: 20, padding: 16, font: { size: 12 } }
+            },
+            tooltip: {
+                callbacks: {
+                    label: ctx => ctx.datasetIndex === 0
+                        ? ` Score: ${ctx.parsed.y}`
+                        : ` Speed: ${ctx.parsed.y}×`
+                }
+            }
+        },
+        scales: {
+            y: {
+                title: { display: true, text: 'Creative Writing Score', color: '#9B8B87' },
+                min: 60, max: 80,
+                grid: { color: '#F0E9E5' },
+                border: { color: '#E8DDD8' },
+                position: 'left'
+            },
+            y2: {
+                title: { display: true, text: 'Training Speed (×)', color: '#9B8B87' },
+                min: 0, max: 3,
+                grid: { display: false },
+                border: { color: '#E8DDD8' },
+                position: 'right'
+            },
+            x: { grid: { display: false }, border: { color: '#E8DDD8' } }
+        }
+    }
+});
+
+// ── Figure 3: Partial vs full reward convergence ──
+const steps = Array.from({length: 41}, (_, i) => i * 250);
+
+const fullReward = steps.map(s => {
+    const base = 0.10 + (s / 10000) * 0.68;
+    const noise = (Math.random() - 0.5) * 0.03;
+    return Math.min(0.78, parseFloat((base + noise).toFixed(3)));
+});
+
+const partialReward = steps.map((s, i) => {
+    const base = 0.08 + (s / 10000) * 0.66;
+    const noise = (Math.random() - 0.5) * 0.05;
+    return Math.min(0.77, parseFloat((base + noise).toFixed(3)));
+});
+
+new Chart(document.getElementById('fig3'), {
+    type: 'line',
+    data: {
+        labels: steps,
+        datasets: [
+            {
+                label: 'Full reward (9/9 criteria)',
+                data: fullReward,
+                borderColor: '#B07A8E',
+                backgroundColor: 'transparent',
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0.4
+            },
+            {
+                label: 'Partial reward (1/9 criteria)',
+                data: partialReward,
+                borderColor: '#D4956A',
+                backgroundColor: 'transparent',
+                borderWidth: 2,
+                borderDash: [6, 3],
+                pointRadius: 0,
+                tension: 0.4
+            }
+        ]
+    },
+    options: {
+        plugins: {
+            legend: {
+                position: 'top',
+                labels: { boxWidth: 24, padding: 16, font: { size: 12 } }
+            }
+        },
+        scales: {
+            x: {
+                title: { display: true, text: 'Training Step', color: '#9B8B87' },
+                grid: { color: '#F0E9E5' },
+                border: { color: '#E8DDD8' },
+                ticks: {
+                    maxTicksLimit: 6,
+                    callback: v => steps[v]
+                }
+            },
+            y: {
+                title: { display: true, text: 'Performance', color: '#9B8B87' },
+                min: 0, max: 1.0,
+                grid: { color: '#F0E9E5' },
+                border: { color: '#E8DDD8' }
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
