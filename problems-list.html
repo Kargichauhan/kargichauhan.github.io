@@ -58,7 +58,7 @@
 
         .tldr {
             background: #F0E9E5;
-            border-left: 3px solid #B07A8E;
+            border-left: 3px solid #CC785C;
             padding: 20px 24px;
             margin-bottom: 40px;
             font-size: 15px;
@@ -133,7 +133,7 @@
             display: inline-block;
             margin-top: 56px;
             font-size: 14px;
-            color: #B07A8E;
+            color: #CC785C;
             text-decoration: none;
             transition: letter-spacing 0.2s ease, color 0.2s ease;
         }
@@ -142,6 +142,14 @@
             text-decoration: underline;
             letter-spacing: 0.02em;
         }
+
+        /* ── Background orbs ── */
+        .bg-canvas { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(90px); }
+        .orb-a { width: 480px; height: 480px; background: radial-gradient(circle, #CC785C 0%, transparent 70%); opacity: 0.07; top: -160px; right: -80px; animation: floatA 24s ease-in-out infinite alternate; }
+        .orb-b { width: 380px; height: 380px; background: radial-gradient(circle, #D4956A 0%, transparent 70%); opacity: 0.05; bottom: -80px; left: -100px; animation: floatB 30s ease-in-out infinite alternate; }
+        @keyframes floatA { from { transform: translate(0,0) scale(1); } to { transform: translate(40px,50px) scale(1.12); } }
+        @keyframes floatB { from { transform: translate(0,0) scale(1.08); } to { transform: translate(-25px,-35px) scale(1); } }
 
         /* Animations */
         @keyframes fadeInUp {
@@ -160,6 +168,7 @@
     </style>
 </head>
 <body>
+<div class="bg-canvas" aria-hidden="true"><div class="orb orb-a"></div><div class="orb orb-b"></div></div>
 
 <div class="topbar">
     <a href="index.html">← Kargi Chauhan</a>

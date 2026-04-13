@@ -10,26 +10,33 @@
 
   html { scroll-behavior: smooth; }
 
+  .bg-canvas { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(90px); }
+  .orb-a { width: 480px; height: 480px; background: radial-gradient(circle, #CC785C 0%, transparent 70%); opacity: 0.07; top: -160px; right: -80px; animation: floatA 24s ease-in-out infinite alternate; }
+  .orb-b { width: 380px; height: 380px; background: radial-gradient(circle, #D4956A 0%, transparent 70%); opacity: 0.05; bottom: -80px; left: -100px; animation: floatB 30s ease-in-out infinite alternate; }
+  @keyframes floatA { from { transform: translate(0,0) scale(1); } to { transform: translate(40px,50px) scale(1.12); } }
+  @keyframes floatB { from { transform: translate(0,0) scale(1.08); } to { transform: translate(-25px,-35px) scale(1); } }
+
   body {
     font-family: 'Lora', Georgia, serif;
     font-size: 17px;
     line-height: 1.75;
-    color: #111827;
-    background: #fff;
+    color: #1E1815;
+    background: #FAF8F5;
     -webkit-font-smoothing: antialiased;
   }
 
   /* ─── TOPBAR ─── */
   .topbar {
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #E8DDD8;
     padding: 18px 60px;
     display: flex;
     align-items: center;
     gap: 16px;
   }
-  .topbar a { color: #6b7280; text-decoration: none; font-size: 14px; }
-  .topbar a:hover { color: #111827; }
-  .topbar .sep { color: #d1d5db; }
+  .topbar a { color: #9B8B87; text-decoration: none; font-size: 14px; }
+  .topbar a:hover { color: #1E1815; }
+  .topbar .sep { color: #D4C8C3; }
 
   /* ─── HEADER ─── */
   .header-wrap {
@@ -42,7 +49,7 @@
     font-size: 12px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #6b7280;
+    color: #9B8B87;
     margin-bottom: 16px;
   }
 
@@ -52,28 +59,28 @@
     line-height: 1.25;
     letter-spacing: -0.02em;
     margin-bottom: 20px;
-    color: #111827;
+    color: #1E1815;
   }
 
   .subtitle {
     font-size: 17px;
-    color: #374151;
+    color: #4A3A36;
     line-height: 1.7;
     margin-bottom: 24px;
   }
 
   .byline {
     font-size: 14px;
-    color: #6b7280;
-    border-top: 1px solid #e5e7eb;
+    color: #9B8B87;
+    border-top: 1px solid #E8DDD8;
     padding-top: 16px;
     margin-bottom: 0;
     display: flex;
     gap: 24px;
     flex-wrap: wrap;
   }
-  .byline strong { color: #111827; font-weight: 600; }
-  .byline a { color: #1d4ed8; }
+  .byline strong { color: #1E1815; font-weight: 600; }
+  .byline a { color: #CC785C; }
 
   /* ─── ARTICLE BODY ─── */
   .article {
@@ -91,7 +98,7 @@
     font-size: 19px;
     font-style: italic;
     line-height: 1.7;
-    color: #1f2937;
+    color: #2A1F1A;
     margin-bottom: 24px;
   }
 
@@ -100,7 +107,7 @@
     font-weight: 600;
     margin: 48px 0 16px;
     letter-spacing: -0.01em;
-    color: #111827;
+    color: #1E1815;
   }
 
   .article h3 {
@@ -108,7 +115,7 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #6b7280;
+    color: #9B8B87;
     margin-top: 36px;
     margin-bottom: 12px;
   }
@@ -117,7 +124,7 @@
   .section-break {
     text-align: center;
     margin: 40px 0;
-    color: #d1d5db;
+    color: #D4C8C3;
     font-size: 20px;
     letter-spacing: 0.4em;
   }
@@ -126,20 +133,20 @@
   .pull-quote {
     margin: 32px 0;
     padding: 20px 24px;
-    border-left: 3px solid #1d4ed8;
-    background: #f9fafb;
+    border-left: 3px solid #CC785C;
+    background: #F0E9E5;
   }
   .pull-quote blockquote {
     font-size: 16px;
     font-style: italic;
     line-height: 1.65;
-    color: #1f2937;
+    color: #2A1F1A;
   }
   .pull-quote .attribution {
     font-size: 12px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #6b7280;
+    color: #9B8B87;
     margin-top: 10px;
   }
 
@@ -148,21 +155,21 @@
     margin: 32px 0;
   }
   .wide-figure .figure-inner {
-    background: #fff;
-    border: 1px solid #e5e7eb;
+    background: #FAF8F5;
+    border: 1px solid #E8DDD8;
     border-radius: 4px;
     padding: 24px;
   }
   .figure-caption {
     font-size: 13px;
-    color: #6b7280;
+    color: #9B8B87;
     margin-top: 12px;
     line-height: 1.55;
   }
   .figure-title {
     font-size: 13px;
     font-weight: 600;
-    color: #374151;
+    color: #4A3A36;
     margin-bottom: 16px;
     text-align: center;
   }
@@ -177,7 +184,7 @@
   }
   .bar-label {
     font-size: 13px;
-    color: #111827;
+    color: #1E1815;
     text-align: right;
   }
   .bar-track {
@@ -193,13 +200,13 @@
   }
   .bar-value {
     font-size: 12px;
-    color: #6b7280;
+    color: #9B8B87;
   }
 
   /* ─── TENSION CARDS ─── */
   .tension-card {
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
+    background: #F0E9E5;
+    border: 1px solid #E8DDD8;
     border-radius: 4px;
     padding: 20px 24px;
     margin: 16px 0;
@@ -220,7 +227,7 @@
   }
   .tension-side .detail {
     font-size: 12px;
-    color: #6b7280;
+    color: #9B8B87;
     margin-top: 4px;
   }
   .tension-side.light h4 { color: #15803d; }
@@ -232,7 +239,7 @@
     align-items: center;
     justify-content: center;
     font-size: 12px;
-    color: #d1d5db;
+    color: #D4C8C3;
     padding-top: 20px;
   }
 
@@ -242,8 +249,8 @@
     gap: 32px;
     margin: 28px 0;
     padding: 20px 0;
-    border-top: 1px solid #e5e7eb;
-    border-bottom: 1px solid #e5e7eb;
+    border-top: 1px solid #E8DDD8;
+    border-bottom: 1px solid #E8DDD8;
     flex-wrap: wrap;
     justify-content: center;
   }
@@ -251,12 +258,12 @@
   .stat-number {
     font-size: 32px;
     font-weight: 600;
-    color: #1d4ed8;
+    color: #CC785C;
     line-height: 1.1;
   }
   .stat-label {
     font-size: 12px;
-    color: #6b7280;
+    color: #9B8B87;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     margin-top: 4px;
@@ -265,15 +272,15 @@
   /* ─── SIDENOTE ─── */
   .sidenote {
     font-size: 14px;
-    color: #6b7280;
-    background: #f9fafb;
+    color: #9B8B87;
+    background: #F0E9E5;
     border-left: 3px solid #e5e7eb;
     padding: 14px 18px;
     border-radius: 2px;
     margin: 20px 0;
     line-height: 1.6;
   }
-  .sidenote strong { color: #111827; }
+  .sidenote strong { color: #1E1815; }
 
   /* ─── HIGHLIGHT ─── */
   mark {
@@ -288,7 +295,7 @@
     padding: 16px 24px;
     border-left: 2px solid #e5e7eb;
     font-style: italic;
-    color: #6b7280;
+    color: #9B8B87;
     font-size: 16px;
     line-height: 1.65;
   }
@@ -334,9 +341,9 @@
   .footnotes {
     margin-top: 48px;
     padding-top: 20px;
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid #E8DDD8;
     font-size: 13px;
-    color: #6b7280;
+    color: #9B8B87;
     line-height: 1.6;
   }
   .footnotes p { margin-bottom: 8px; }
@@ -346,13 +353,13 @@
     display: inline-block;
     margin-top: 40px;
     font-size: 14px;
-    color: #1d4ed8;
+    color: #CC785C;
     text-decoration: none;
   }
   .back-link:hover { text-decoration: underline; }
 
   /* ─── LINKS ─── */
-  a { color: #1d4ed8; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a { color: #CC785C; text-decoration-thickness: 1px; text-underline-offset: 2px; }
   a:hover { text-decoration-thickness: 2px; }
 
   /* ─── RESPONSIVE ─── */
@@ -369,6 +376,7 @@
 </style>
 </head>
 <body>
+<div class="bg-canvas" aria-hidden="true"><div class="orb orb-a"></div><div class="orb orb-b"></div></div>
 
 <div class="topbar">
   <a href="index.html">← Kargi Chauhan</a>
