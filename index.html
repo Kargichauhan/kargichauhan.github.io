@@ -338,6 +338,80 @@
             font-size: 14px;
         }
 
+        /* ── Animations ── */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        /* Page load */
+        .header      { animation: fadeInUp 0.5s ease both; }
+        .main-content { animation: fadeInUp 0.5s 0.08s ease both; }
+        .news-section { animation: fadeInUp 0.5s 0.16s ease both; }
+
+        /* Section switch */
+        .section.active { animation: fadeIn 0.3s ease both; }
+
+        /* Staggered entry reveals */
+        .reveal {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Nav animated underline */
+        .nav a {
+            position: relative;
+        }
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-color);
+            transition: width 0.22s ease;
+        }
+        .nav a:hover::after,
+        .nav a.active::after { width: 100%; }
+
+        /* Entry hover lift */
+        .blog-entry,
+        .paper-entry {
+            transition: transform 0.18s ease;
+        }
+        .blog-entry:hover,
+        .paper-entry:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Profile image hover */
+        .profile-image img {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .profile-image img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(176, 122, 142, 0.15);
+        }
+
+        /* Social links hover float */
+        .social-links a {
+            transition: color 0.15s ease, transform 0.2s ease;
+        }
+        .social-links a:hover {
+            transform: translateY(-3px);
+        }
+
         /* ── Responsive ── */
         @media (max-width: 640px) {
             body {
@@ -1061,22 +1135,37 @@
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('.section');
 
+        function staggerSection(section) {
+            const entries = section.querySelectorAll('.blog-entry, .paper-entry, .news-entry');
+            entries.forEach(el => { el.classList.add('reveal'); el.classList.remove('visible'); });
+            requestAnimationFrame(() => {
+                entries.forEach((el, i) => {
+                    setTimeout(() => el.classList.add('visible'), i * 45);
+                });
+            });
+        }
+
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                
+
                 navLinks.forEach(l => l.classList.remove('active'));
                 sections.forEach(s => s.classList.remove('active'));
-                
+
                 link.classList.add('active');
-                
+
                 const targetId = link.getAttribute('href').substring(1);
                 const targetSection = document.getElementById(targetId);
                 if (targetSection) {
                     targetSection.classList.add('active');
+                    staggerSection(targetSection);
                 }
             });
         });
+
+        // Stagger the initially-visible about section entries too
+        const defaultSection = document.querySelector('.section.active');
+        if (defaultSection) staggerSection(defaultSection);
     </script>
 </body>
 </html>
