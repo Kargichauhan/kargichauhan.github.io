@@ -9,8 +9,8 @@
         :root {
             --bg-color: #FAF8F5;
             --text-color: #1E1815;
-            --accent-color: #B07A8E;
-            --accent-hover: #8F5F73;
+            --accent-color: #CC785C;
+            --accent-hover: #A85C42;
             --border-color: #E8DDD8;
             --secondary-text: #9B8B87;
             --muted-bg: #F0E9E5;
@@ -19,20 +19,20 @@
         [data-theme=”light”] {
             --bg-color: #FAF8F5;
             --text-color: #1E1815;
-            --accent-color: #B07A8E;
-            --accent-hover: #8F5F73;
+            --accent-color: #CC785C;
+            --accent-hover: #A85C42;
             --border-color: #E8DDD8;
             --secondary-text: #9B8B87;
             --muted-bg: #F0E9E5;
         }
 
         [data-theme=”dark”] {
-            --bg-color: #1A1814;
-            --text-color: #F5EDE8;
-            --accent-color: #D4A0B5;
-            --accent-hover: #E8C0D0;
-            --border-color: #3D3330;
-            --secondary-text: #A89490;
+            --bg-color: #1C1917;
+            --text-color: #E8E3DF;
+            --accent-color: #D97757;
+            --accent-hover: #E8926C;
+            --border-color: #2D2824;
+            --secondary-text: #8A7A75;
             --muted-bg: #252019;
         }
 
@@ -338,6 +338,42 @@
             font-size: 14px;
         }
 
+        /* ── Background orbs ── */
+        .bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+        }
+        .orb-a {
+            width: 480px; height: 480px;
+            background: radial-gradient(circle, #CC785C 0%, transparent 70%);
+            opacity: 0.07;
+            top: -160px; right: -80px;
+            animation: floatA 24s ease-in-out infinite alternate;
+        }
+        .orb-b {
+            width: 380px; height: 380px;
+            background: radial-gradient(circle, #D4956A 0%, transparent 70%);
+            opacity: 0.05;
+            bottom: -80px; left: -100px;
+            animation: floatB 30s ease-in-out infinite alternate;
+        }
+        @keyframes floatA {
+            from { transform: translate(0, 0) scale(1); }
+            to   { transform: translate(40px, 50px) scale(1.12); }
+        }
+        @keyframes floatB {
+            from { transform: translate(0, 0) scale(1.08); }
+            to   { transform: translate(-25px, -35px) scale(1); }
+        }
+
         /* ── Animations ── */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(14px); }
@@ -401,7 +437,7 @@
         }
         .profile-image img:hover {
             transform: scale(1.02);
-            box-shadow: 0 8px 24px rgba(176, 122, 142, 0.15);
+            box-shadow: 0 8px 24px rgba(204, 120, 92, 0.18);
         }
 
         /* Social links hover float */
@@ -456,6 +492,10 @@
     </style>
 </head>
 <body>
+<div class="bg-canvas" aria-hidden="true">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+</div>
     <header class="header">
         <span class="site-name">Kargi Chauhan</span>
         <nav class="nav">

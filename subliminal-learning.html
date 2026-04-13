@@ -9,17 +9,25 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        /* ── Background orbs ── */
+        .bg-canvas { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(90px); }
+        .orb-a { width: 480px; height: 480px; background: radial-gradient(circle, #CC785C 0%, transparent 70%); opacity: 0.07; top: -160px; right: -80px; animation: floatA 24s ease-in-out infinite alternate; }
+        .orb-b { width: 380px; height: 380px; background: radial-gradient(circle, #D4956A 0%, transparent 70%); opacity: 0.05; bottom: -80px; left: -100px; animation: floatB 30s ease-in-out infinite alternate; }
+        @keyframes floatA { from { transform: translate(0,0) scale(1); } to { transform: translate(40px,50px) scale(1.12); } }
+        @keyframes floatB { from { transform: translate(0,0) scale(1.08); } to { transform: translate(-25px,-35px) scale(1); } }
+
         body {
             font-family: 'Lora', Georgia, serif;
             font-size: 17px;
             line-height: 1.75;
-            color: #111827;
-            background: #fff;
+            color: #1E1815;
+            background: #FAF8F5;
             -webkit-font-smoothing: antialiased;
         }
 
         .topbar {
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid #E8DDD8;
             padding: 18px 60px;
             display: flex;
             align-items: center;
@@ -27,13 +35,13 @@
         }
 
         .topbar a {
-            color: #6b7280;
+            color: #9B8B87;
             text-decoration: none;
             font-size: 14px;
         }
 
-        .topbar a:hover { color: #111827; }
-        .topbar .sep { color: #d1d5db; }
+        .topbar a:hover { color: #1E1815; }
+        .topbar .sep { color: #D4C8C3; }
 
         .article {
             max-width: 720px;
@@ -51,15 +59,15 @@
 
         .article-meta {
             font-size: 14px;
-            color: #6b7280;
+            color: #9B8B87;
             margin-bottom: 40px;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid #E8DDD8;
             padding-bottom: 24px;
         }
 
         .tldr {
-            background: #f9fafb;
-            border-left: 3px solid #1d4ed8;
+            background: #F0E9E5;
+            border-left: 3px solid #CC785C;
             padding: 20px 24px;
             margin-bottom: 40px;
             font-size: 15px;
@@ -87,8 +95,8 @@
 
         .highlight {
             font-style: italic;
-            color: #374151;
-            border-left: 2px solid #d1d5db;
+            color: #4A3A36;
+            border-left: 2px solid #E8DDD8;
             padding-left: 16px;
             margin: 24px 0;
         }
@@ -98,8 +106,8 @@
         }
 
         .figure-inner {
-            background: #fff;
-            border: 1px solid #e5e7eb;
+            background: #FAF8F5;
+            border: 1px solid #E8DDD8;
             border-radius: 4px;
             padding: 24px 20px 16px;
         }
@@ -108,7 +116,7 @@
             font-size: 13px;
             font-weight: 600;
             text-align: center;
-            color: #374151;
+            color: #4A3A36;
             margin-bottom: 16px;
             letter-spacing: 0.01em;
         }
@@ -117,12 +125,12 @@
 
         .figure-caption {
             font-size: 13px;
-            color: #6b7280;
+            color: #9B8B87;
             margin-top: 10px;
             line-height: 1.55;
         }
 
-        .figure-caption strong { color: #374151; }
+        .figure-caption strong { color: #4A3A36; }
 
         .stat-row {
             display: flex;
@@ -132,8 +140,8 @@
 
         .stat-box {
             flex: 1;
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
+            background: #F0E9E5;
+            border: 1px solid #E8DDD8;
             border-radius: 4px;
             padding: 16px 20px;
             text-align: center;
@@ -142,13 +150,13 @@
         .stat-box .stat-val {
             font-size: 28px;
             font-weight: 600;
-            color: #111827;
+            color: #1E1815;
             letter-spacing: -0.02em;
         }
 
         .stat-box .stat-label {
             font-size: 13px;
-            color: #6b7280;
+            color: #9B8B87;
             margin-top: 4px;
         }
 
@@ -163,7 +171,7 @@
             font-size: 14px;
         }
 
-        thead tr { background: #1d4ed8; color: #fff; }
+        thead tr { background: #CC785C; color: #fff; }
 
         thead th {
             padding: 10px 14px;
@@ -171,18 +179,18 @@
             font-weight: 600;
         }
 
-        tbody tr:nth-child(even) { background: #f9fafb; }
+        tbody tr:nth-child(even) { background: #F0E9E5; }
 
         tbody td {
             padding: 9px 14px;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid #E8DDD8;
         }
 
         tbody tr:last-child td { border-bottom: none; }
 
         .table-caption {
             font-size: 13px;
-            color: #6b7280;
+            color: #9B8B87;
             margin-top: 8px;
             line-height: 1.5;
         }
@@ -190,10 +198,10 @@
         .citation {
             font-size: 13px;
             font-style: italic;
-            color: #6b7280;
+            color: #9B8B87;
             margin-top: 48px;
             padding-top: 24px;
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid #E8DDD8;
             line-height: 1.6;
         }
 
@@ -201,7 +209,7 @@
             display: inline-block;
             margin-top: 48px;
             font-size: 14px;
-            color: #1d4ed8;
+            color: #CC785C;
             text-decoration: none;
         }
 
@@ -216,6 +224,7 @@
     </style>
 </head>
 <body>
+<div class="bg-canvas" aria-hidden="true"><div class="orb orb-a"></div><div class="orb orb-b"></div></div>
 
 <div class="topbar">
     <a href="index.html">← Kargi Chauhan</a>
