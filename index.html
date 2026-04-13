@@ -128,9 +128,19 @@
             font-size: 32px;
             font-weight: 600;
             margin-bottom: 24px;
-            color: var(--text-color);
             letter-spacing: -0.02em;
             line-height: 1.2;
+            background: linear-gradient(90deg, var(--text-color) 0%, var(--accent-color) 50%, var(--text-color) 100%);
+            background-size: 250% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: nameShimmer 9s ease-in-out infinite;
+        }
+
+        @keyframes nameShimmer {
+            0%, 100% { background-position: 0% center; }
+            50%       { background-position: 100% center; }
         }
 
         .bio {
@@ -247,6 +257,16 @@
             font-size: 15px;
             line-height: 1.6;
             color: var(--text-color);
+        }
+
+        .news-content a {
+            color: var(--accent-color);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .news-content a:hover {
+            color: var(--accent-hover);
         }
 
         .paper-content a {
