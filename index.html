@@ -16,17 +16,7 @@
             --muted-bg: #F0E9E5;
         }
 
-        [data-theme=”light”] {
-            --bg-color: #FAF8F5;
-            --text-color: #1E1815;
-            --accent-color: #CC785C;
-            --accent-hover: #A85C42;
-            --border-color: #E8DDD8;
-            --secondary-text: #9B8B87;
-            --muted-bg: #F0E9E5;
-        }
-
-        [data-theme=”dark”] {
+        html.dark {
             --bg-color: #1C1917;
             --text-color: #E8E3DF;
             --accent-color: #D97757;
@@ -128,19 +118,29 @@
             font-size: 32px;
             font-weight: 600;
             margin-bottom: 24px;
+            color: var(--text-color);
             letter-spacing: -0.02em;
             line-height: 1.2;
-            background: linear-gradient(90deg, var(--text-color) 0%, var(--accent-color) 50%, var(--text-color) 100%);
-            background-size: 250% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: nameShimmer 9s ease-in-out infinite;
         }
 
-        @keyframes nameShimmer {
-            0%, 100% { background-position: 0% center; }
-            50%       { background-position: 100% center; }
+        /* Subtle pulse on the site name in header */
+        .site-name {
+            position: relative;
+        }
+        .site-name::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 0;
+            height: 1.5px;
+            background: var(--accent-color);
+            border-radius: 1px;
+            animation: siteNameLine 6s ease-in-out infinite;
+        }
+        @keyframes siteNameLine {
+            0%, 100% { width: 0; opacity: 0; }
+            30%, 70% { width: 100%; opacity: 0.7; }
         }
 
         .bio {
@@ -540,6 +540,8 @@
                         <p>My current research centers on reward design and verification in LLM alignment specifically understanding when process supervision beats outcome supervision in reinforcement learning from verifiable rewards (RLVR), and how we can build more reliable training signals for reasoning models. I'm also exploring memory architectures for LLM agents, inspired by sleep-cycle consolidation, to help agents retain and organize knowledge over long horizons.</p>
 
                         <p>Previously, I worked on constraint-guided traffic generation for autonomous vehicles building neuro-symbolic systems that satisfy physical validity constraints while generating realistic driving scenarios (presented at NeurIPS 2025).</p>
+
+                        <p>Currently collaborating with Google DeepMind on selective forgetting in LLM memory systems.</p>
 
                         <p>I also contribute to <a href="https://rllm-project.com" target="_blank">RLLM</a>, an open-source project advancing reinforcement learning for language models.</p>
 
@@ -1178,17 +1180,14 @@
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
 
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        html.setAttribute('data-theme', savedTheme);
-        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') { html.classList.add('dark'); themeToggle.textContent = '☀️'; }
+        else { themeToggle.textContent = '🌙'; }
 
         themeToggle.addEventListener('click', () => {
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            const isDark = html.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            themeToggle.textContent = isDark ? '☀️' : '🌙';
         });
 
         // Navigation
