@@ -544,34 +544,6 @@
         }
         .currently.fade { opacity: 0; }
 
-        /* ── Custom cursor ── */
-        * { cursor: none !important; }
-        .cursor-dot {
-            position: fixed;
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: var(--accent-color);
-            pointer-events: none;
-            z-index: 9999;
-            left: -20px; top: -20px;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s, opacity 0.2s;
-            opacity: 0.9;
-        }
-        .cursor-ring {
-            position: fixed;
-            width: 30px; height: 30px;
-            border-radius: 50%;
-            border: 1.5px solid var(--accent-color);
-            pointer-events: none;
-            z-index: 9998;
-            left: -40px; top: -40px;
-            transform: translate(-50%, -50%);
-            transition: left 0.1s ease, top 0.1s ease, width 0.25s, height 0.25s, opacity 0.25s, border-color 0.25s;
-            opacity: 0.35;
-        }
-        .cursor-dot.hovered { width: 12px; height: 12px; opacity: 1; background: var(--accent-warm); }
-        .cursor-ring.hovered { width: 46px; height: 46px; opacity: 0.18; border-color: var(--accent-warm); }
 
         /* ── Responsive ── */
         @media (max-width: 640px) {
@@ -608,8 +580,6 @@
     </style>
 </head>
 <body>
-<div class="cursor-dot" aria-hidden="true"></div>
-<div class="cursor-ring" aria-hidden="true"></div>
 <div class="bg-canvas" aria-hidden="true">
     <div class="orb orb-a"></div>
     <div class="orb orb-b"></div>
@@ -723,7 +693,7 @@
 
 
         <section class="section" id="research">
-    <h2 class="section-title">Research Projects</h2>
+
 
     <div class="paper-entry" style="margin-bottom: 30px;">
         <div class="paper-content">
@@ -741,7 +711,7 @@
 </section>
 
         <section class="section" id="publications">
-    <h2 class="section-title">Publications</h2>
+
 
     <div style="margin-bottom: 40px;">
         <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">2026</h3>
@@ -934,7 +904,7 @@
 </section>
 
         <section class="section" id="projects">
-    <h2 class="section-title">Projects</h2>
+
     
     <div class="paper-entry" style="margin-bottom: 30px;">
         <div class="paper-content">
@@ -1052,7 +1022,7 @@
 </section>
 
         <section class="section" id="blog">
-    <h2 class="section-title">Blog</h2>
+
 
     <div class="blog-entry">
         <div class="blog-title">
@@ -1217,7 +1187,7 @@
 </section>
 
         <section class="section" id="cv">
-    <h2 class="section-title">CV</h2>
+
     <div style="padding: 20px 0;">
         <p style="margin-bottom: 40px;">You can download my full CV <a href="Kargi_Chauhan_CV.pdf">here</a>.</p>
 
@@ -1468,31 +1438,6 @@
         // Stagger the initially-visible about section entries too
         const defaultSection = document.querySelector('.section.active');
         if (defaultSection) staggerSection(defaultSection);
-
-        // ── Custom cursor ──
-        const dot  = document.querySelector('.cursor-dot');
-        const ring = document.querySelector('.cursor-ring');
-        let ringX = -40, ringY = -40;
-
-        document.addEventListener('mousemove', e => {
-            dot.style.left  = e.clientX + 'px';
-            dot.style.top   = e.clientY + 'px';
-            ringX += (e.clientX - ringX) * 0.12;
-            ringY += (e.clientY - ringY) * 0.12;
-            ring.style.left = ringX + 'px';
-            ring.style.top  = ringY + 'px';
-        });
-
-        (function lagRing() {
-            ring.style.left = ringX + 'px';
-            ring.style.top  = ringY + 'px';
-            requestAnimationFrame(lagRing);
-        })();
-
-        document.querySelectorAll('a, button').forEach(el => {
-            el.addEventListener('mouseenter', () => { dot.classList.add('hovered');  ring.classList.add('hovered'); });
-            el.addEventListener('mouseleave', () => { dot.classList.remove('hovered'); ring.classList.remove('hovered'); });
-        });
 
         // ── "Currently:" rotating ticker ──
         const phrases = [
