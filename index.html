@@ -71,6 +71,40 @@
             100% { background-position: 200% 0%; }
         }
 
+        /* ── Paper grain texture ── */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 998;
+            pointer-events: none;
+            opacity: 0.032;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 180px 180px;
+        }
+        html.dark body::after { opacity: 0.055; }
+
+        /* ── Time-aware greeting ── */
+        .greeting {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 14px;
+            color: var(--secondary-text);
+            margin-bottom: 18px;
+            letter-spacing: 0.02em;
+        }
+
+        /* ── Currently reading ── */
+        .reading {
+            font-size: 13px;
+            font-style: italic;
+            color: var(--secondary-text);
+            margin-bottom: 20px;
+            min-height: 1.4em;
+            transition: opacity 0.45s ease;
+        }
+        .reading.fade { opacity: 0; }
+
         /* ── Header ── */
         .header {
             display: flex;
@@ -603,8 +637,10 @@
         <section class="section active" id="about">
             <div class="main-content">
                 <div class="content-left">
+                    <p class="greeting" id="greeting"></p>
                     <div class="bio">
                         <div class="currently"></div>
+                        <div class="reading"></div>
                         <p>I'm an MS candidate in Natural Language Processing at <a href="https://www.ucsc.edu">UC Santa Cruz</a>, working with <a href="https://people.ucsc.edu/~lgilpin/">Dr. Leilani Gilpin</a> and <a href="https://cgraywang.github.io">Dr. Chenguang Wang</a>.</p>
 
                         <p>I received my Undergrad from the <a href="https://www.arizona.edu">University of Arizona</a>. I also served as a Research Scholar at the <a href="https://www.ed.ac.uk">University of Edinburgh</a>, where I worked on Neurosymbolic AI.</p>
@@ -1438,6 +1474,33 @@
         // Stagger the initially-visible about section entries too
         const defaultSection = document.querySelector('.section.active');
         if (defaultSection) staggerSection(defaultSection);
+
+        // ── Time-aware greeting ──
+        (function() {
+            const h = new Date().getHours();
+            const g = h < 12 ? 'Good morning.' : h < 17 ? 'Good afternoon.' : 'Good evening.';
+            document.getElementById('greeting').textContent = g;
+        })();
+
+        // ── Currently reading shelf ──
+        const books = [
+            '📖 The Alignment Problem — Brian Christian',
+            '📖 Gödel, Escher, Bach — Douglas Hofstadter',
+            '📖 The Coming Wave — Mustafa Suleyman',
+            '📖 Thinking, Fast and Slow — Daniel Kahneman',
+            '📖 Atlas of AI — Kate Crawford',
+        ];
+        let bi = 0;
+        const readingEl = document.querySelector('.reading');
+        readingEl.textContent = books[0];
+        setInterval(() => {
+            readingEl.classList.add('fade');
+            setTimeout(() => {
+                bi = (bi + 1) % books.length;
+                readingEl.textContent = books[bi];
+                readingEl.classList.remove('fade');
+            }, 450);
+        }, 4000);
 
         // ── "Currently:" rotating ticker ──
         const phrases = [
