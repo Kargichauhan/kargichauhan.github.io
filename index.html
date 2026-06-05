@@ -7,27 +7,27 @@
     <link href=”https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap” rel=”stylesheet”>
     <style>
         :root {
-            --bg-color: #FAF7F2;
-            --text-color: #1C1220;
-            --accent-color: #8B2FC9;
-            --accent-hover: #7A1FB8;
-            --accent-warm: #C9956F;
-            --border-color: #E4D9EE;
-            --secondary-text: #8E7E99;
-            --muted-bg: #F2EDF7;
-            --card-hover: rgba(139, 47, 201, 0.04);
+            --bg-color: #FFFFFF;
+            --text-color: #18181B;
+            --accent-color: #6D28D9;
+            --accent-hover: #5B21B6;
+            --accent-warm: #B45309;
+            --border-color: #E4E4E7;
+            --secondary-text: #71717A;
+            --muted-bg: #F4F4F5;
+            --card-hover: rgba(109, 40, 217, 0.04);
         }
 
         html.dark {
-            --bg-color: #120D1A;
-            --text-color: #F0EAF8;
-            --accent-color: #B060F0;
-            --accent-hover: #C77EFF;
-            --accent-warm: #D4A878;
-            --border-color: #2C1F3A;
-            --secondary-text: #9A85A8;
-            --muted-bg: #1E1528;
-            --card-hover: rgba(176, 96, 240, 0.07);
+            --bg-color: #09090B;
+            --text-color: #FAFAFA;
+            --accent-color: #A78BFA;
+            --accent-hover: #C4B5FD;
+            --accent-warm: #FCD34D;
+            --border-color: #27272A;
+            --secondary-text: #A1A1AA;
+            --muted-bg: #18181B;
+            --card-hover: rgba(167, 139, 250, 0.07);
         }
 
         * {
@@ -209,13 +209,13 @@
             object-fit: cover;
             border-radius: 4px;
             display: block;
-            box-shadow: 0 0 0 3px var(--bg-color), 0 0 0 6px var(--accent-color);
+            box-shadow: 0 4px 20px rgba(139, 47, 201, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .profile-image img:hover {
             transform: scale(1.02) rotate(0.5deg);
-            box-shadow: 0 0 0 3px var(--bg-color), 0 0 0 6px var(--accent-warm), 0 20px 48px rgba(139, 47, 201, 0.2);
+            box-shadow: 0 12px 40px rgba(109, 40, 217, 0.15);
         }
 
         /* ── Sections ── */
@@ -238,6 +238,16 @@
             letter-spacing: -0.01em;
             position: relative;
             padding-bottom: 14px;
+        }
+
+        .section-title::before {
+            content: '✦';
+            font-style: normal;
+            font-size: 0.5em;
+            color: var(--accent-color);
+            margin-right: 9px;
+            vertical-align: 0.15em;
+            opacity: 0.85;
         }
 
         .section-title::after {
@@ -287,6 +297,7 @@
             gap: 20px;
             padding: 14px 12px;
             border-bottom: 1px solid var(--border-color);
+            border-left: 3px solid transparent;
             border-radius: 6px;
             margin: 0 -12px;
         }
@@ -422,22 +433,22 @@
         }
         .orb-a {
             width: 560px; height: 560px;
-            background: radial-gradient(circle, #8B2FC9 0%, transparent 65%);
-            opacity: 0.07;
+            background: radial-gradient(circle, #6D28D9 0%, transparent 65%);
+            opacity: 0.05;
             top: -180px; right: -100px;
             animation: floatA 24s ease-in-out infinite alternate;
         }
         .orb-b {
             width: 420px; height: 420px;
-            background: radial-gradient(circle, #C9956F 0%, transparent 65%);
-            opacity: 0.06;
+            background: radial-gradient(circle, #B45309 0%, transparent 65%);
+            opacity: 0.04;
             bottom: -100px; left: -120px;
             animation: floatB 30s ease-in-out infinite alternate;
         }
         .orb-c {
             width: 300px; height: 300px;
-            background: radial-gradient(circle, #5B0BA0 0%, transparent 65%);
-            opacity: 0.05;
+            background: radial-gradient(circle, #4C1D95 0%, transparent 65%);
+            opacity: 0.04;
             top: 40%; left: 25%;
             animation: floatC 36s ease-in-out infinite alternate;
         }
@@ -484,13 +495,83 @@
         /* Entry hover */
         .blog-entry,
         .paper-entry {
-            transition: background 0.2s ease, transform 0.18s ease;
+            transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
         }
-        .blog-entry:hover,
-        .paper-entry:hover {
+        .blog-entry:hover {
             background: var(--card-hover);
             transform: translateY(-2px);
         }
+        .paper-entry:hover {
+            background: var(--card-hover);
+            transform: translateX(4px);
+            border-left-color: var(--accent-color);
+        }
+
+        /* ── Status badge ── */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12.5px;
+            font-style: italic;
+            color: var(--secondary-text);
+            background: var(--muted-bg);
+            padding: 4px 12px 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 22px;
+            border: 1px solid var(--border-color);
+        }
+        .status-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: #5AC26E;
+            flex-shrink: 0;
+            animation: pulse-green 2.5s ease infinite;
+        }
+        @keyframes pulse-green {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(90, 194, 110, 0.5); }
+            60%       { opacity: 0.8; box-shadow: 0 0 0 5px rgba(90, 194, 110, 0); }
+        }
+
+        /* ── Currently ticker ── */
+        .currently {
+            font-size: 13px;
+            font-style: italic;
+            color: var(--secondary-text);
+            margin-bottom: 22px;
+            min-height: 1.4em;
+            transition: opacity 0.45s ease;
+        }
+        .currently.fade { opacity: 0; }
+
+        /* ── Custom cursor ── */
+        * { cursor: none !important; }
+        .cursor-dot {
+            position: fixed;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            pointer-events: none;
+            z-index: 9999;
+            left: -20px; top: -20px;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, opacity 0.2s;
+            opacity: 0.9;
+        }
+        .cursor-ring {
+            position: fixed;
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            border: 1.5px solid var(--accent-color);
+            pointer-events: none;
+            z-index: 9998;
+            left: -40px; top: -40px;
+            transform: translate(-50%, -50%);
+            transition: left 0.1s ease, top 0.1s ease, width 0.25s, height 0.25s, opacity 0.25s, border-color 0.25s;
+            opacity: 0.35;
+        }
+        .cursor-dot.hovered { width: 12px; height: 12px; opacity: 1; background: var(--accent-warm); }
+        .cursor-ring.hovered { width: 46px; height: 46px; opacity: 0.18; border-color: var(--accent-warm); }
 
         /* ── Responsive ── */
         @media (max-width: 640px) {
@@ -527,6 +608,8 @@
     </style>
 </head>
 <body>
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
 <div class="bg-canvas" aria-hidden="true">
     <div class="orb orb-a"></div>
     <div class="orb orb-b"></div>
@@ -551,6 +634,8 @@
             <div class="main-content">
                 <div class="content-left">
                     <div class="bio">
+                        <div class="status-badge"><span class="status-dot"></span>open to research collaborations</div>
+                        <div class="currently"></div>
                         <p>I'm an MS candidate in Natural Language Processing at <a href="https://www.ucsc.edu">UC Santa Cruz</a>, working with <a href="https://people.ucsc.edu/~lgilpin/">Dr. Leilani Gilpin</a> and <a href="https://cgraywang.github.io">Dr. Chenguang Wang</a>.</p>
 
                         <p>I received my Undergrad from the <a href="https://www.arizona.edu">University of Arizona</a>. I also served as a Research Scholar at the <a href="https://www.ed.ac.uk">University of Edinburgh</a>, where I worked on Neurosymbolic AI.</p>
@@ -1262,7 +1347,6 @@
 </section>
 
         <section class="section" id="service">
-    <h2 class="section-title">Service</h2>
     <div style="padding: 4px 0;">
 
         <div class="paper-entry" style="margin-bottom: 18px;">
@@ -1385,6 +1469,70 @@
         // Stagger the initially-visible about section entries too
         const defaultSection = document.querySelector('.section.active');
         if (defaultSection) staggerSection(defaultSection);
+
+        // ── Custom cursor ──
+        const dot  = document.querySelector('.cursor-dot');
+        const ring = document.querySelector('.cursor-ring');
+        let ringX = -40, ringY = -40;
+
+        document.addEventListener('mousemove', e => {
+            dot.style.left  = e.clientX + 'px';
+            dot.style.top   = e.clientY + 'px';
+            ringX += (e.clientX - ringX) * 0.12;
+            ringY += (e.clientY - ringY) * 0.12;
+            ring.style.left = ringX + 'px';
+            ring.style.top  = ringY + 'px';
+        });
+
+        (function lagRing() {
+            ring.style.left = ringX + 'px';
+            ring.style.top  = ringY + 'px';
+            requestAnimationFrame(lagRing);
+        })();
+
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => { dot.classList.add('hovered');  ring.classList.add('hovered'); });
+            el.addEventListener('mouseleave', () => { dot.classList.remove('hovered'); ring.classList.remove('hovered'); });
+        });
+
+        // ── "Currently:" rotating ticker ──
+        const phrases = [
+            'currently: debugging llm agents 🔍',
+            'currently: caffeinating for science ☕',
+            'currently: convincing LLMs to show their work',
+            'currently: overfitting to paper deadlines 📄',
+            'currently: asking models to explain themselves',
+            'currently: making AI slightly less of a black box',
+            'currently: pretending to understand transformers 🤫',
+        ];
+        let pi = 0;
+        const ticker = document.querySelector('.currently');
+        ticker.textContent = phrases[0];
+        setInterval(() => {
+            ticker.classList.add('fade');
+            setTimeout(() => {
+                pi = (pi + 1) % phrases.length;
+                ticker.textContent = phrases[pi];
+                ticker.classList.remove('fade');
+            }, 450);
+        }, 3200);
+
+        // ── Konami code easter egg ──
+        const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+        let ki = 0;
+        document.addEventListener('keydown', e => {
+            ki = (e.key === konami[ki]) ? ki + 1 : 0;
+            if (ki === konami.length) {
+                document.body.style.transition = 'filter 0.6s ease';
+                document.body.style.filter = 'hue-rotate(180deg) saturate(1.4)';
+                setTimeout(() => { document.body.style.filter = ''; }, 2500);
+                ki = 0;
+            }
+        });
+
+        // ── Console easter egg ──
+        console.log('%c👋 hey, you opened devtools!', 'color:#6D28D9;font-size:16px;font-weight:bold;');
+        console.log('%cif you find something cool here, let\'s talk → kargic2302@gmail.com', 'color:#B45309;font-size:13px;');
     </script>
 </body>
 </html>
