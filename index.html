@@ -1,1649 +1,1084 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kargi Chauhan</title>
-    <link href=”https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap” rel=”stylesheet”>
-    <style>
-        :root {
-            --bg-color: #FFFFFF;
-            --text-color: #18181B;
-            --accent-color: #6D28D9;
-            --accent-hover: #5B21B6;
-            --accent-warm: #B45309;
-            --border-color: #E4E4E7;
-            --secondary-text: #71717A;
-            --muted-bg: #F4F4F5;
-            --card-hover: rgba(109, 40, 217, 0.04);
-        }
-
-        html.dark {
-            --bg-color: #09090B;
-            --text-color: #FAFAFA;
-            --accent-color: #A78BFA;
-            --accent-hover: #C4B5FD;
-            --accent-warm: #FCD34D;
-            --border-color: #27272A;
-            --secondary-text: #A1A1AA;
-            --muted-bg: #18181B;
-            --card-hover: rgba(167, 139, 250, 0.07);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            background-color: var(--bg-color);
-            transition: background-color 0.2s ease, color 0.2s ease;
-        }
-
-        body {
-            font-family: 'Lora', 'Georgia', serif;
-            font-size: 17px;
-            line-height: 1.75;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            max-width: 920px;
-            margin: 0 auto;
-            padding: 60px 60px 80px;
-            -webkit-font-smoothing: antialiased;
-            transition: background-color 0.2s ease, color 0.2s ease;
-        }
-
-        /* ── Top accent stripe ── */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-color), var(--accent-warm), var(--accent-color));
-            background-size: 200% 100%;
-            animation: shimmer 8s linear infinite;
-            z-index: 100;
-        }
-        @keyframes shimmer {
-            0%   { background-position: 0% 0%; }
-            100% { background-position: 200% 0%; }
-        }
-
-        /* ── Paper grain texture ── */
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 998;
-            pointer-events: none;
-            opacity: 0.032;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-            background-size: 180px 180px;
-        }
-        html.dark body::after { opacity: 0.055; }
-
-        /* ── Misc prose ── */
-        .misc-prose p {
-            font-size: 16px;
-            line-height: 1.85;
-            color: var(--text-color);
-            margin-bottom: 22px;
-            max-width: 680px;
-        }
-        .misc-prose p:last-child { margin-bottom: 0; }
-        .misc-prose a {
-            color: var(--accent-color);
-            text-decoration: underline;
-            text-underline-offset: 2px;
-        }
-        .misc-prose a:hover { color: var(--accent-hover); }
-
-        /* ── Time-aware greeting ── */
-        .greeting {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: 14px;
-            color: var(--secondary-text);
-            margin-bottom: 18px;
-            letter-spacing: 0.02em;
-        }
-
-        /* ── Currently reading ── */
-        .reading {
-            font-size: 13px;
-            font-style: italic;
-            color: var(--secondary-text);
-            margin-bottom: 20px;
-            min-height: 1.4em;
-            transition: opacity 0.45s ease;
-        }
-        .reading.fade { opacity: 0; }
-
-        /* ── Header ── */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 72px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .site-name {
-            font-size: 17px;
-            font-weight: 600;
-            color: var(--text-color);
-            letter-spacing: -0.01em;
-            position: relative;
-        }
-        .site-name::after {
-            content: '';
-            position: absolute;
-            left: 0; bottom: -3px;
-            width: 0; height: 1.5px;
-            background: linear-gradient(90deg, var(--accent-color), var(--accent-warm));
-            border-radius: 1px;
-            animation: siteNameLine 6s ease-in-out infinite;
-        }
-        @keyframes siteNameLine {
-            0%, 100% { width: 0; opacity: 0; }
-            30%, 70%  { width: 100%; opacity: 0.8; }
-        }
-
-        .nav {
-            display: flex;
-            gap: 32px;
-            align-items: center;
-        }
-
-        .nav a {
-            color: var(--secondary-text);
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 400;
-            transition: color 0.15s;
-            position: relative;
-        }
-
-        .nav a:hover,
-        .nav a.active {
-            color: var(--accent-color);
-        }
-
-        .nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px; left: 0;
-            width: 0; height: 1.5px;
-            background: linear-gradient(90deg, var(--accent-color), var(--accent-warm));
-            transition: width 0.22s ease;
-        }
-        .nav a:hover::after,
-        .nav a.active::after { width: 100%; }
-
-        .theme-toggle {
-            background: none;
-            border: none;
-            color: var(--secondary-text);
-            font-size: 15px;
-            cursor: pointer;
-            padding: 2px 4px;
-            transition: color 0.15s;
-        }
-
-        .theme-toggle:hover {
-            color: var(--accent-color);
-        }
-
-        /* ── Intro / About ── */
-        .main-content {
-            display: flex;
-            gap: 56px;
-            margin-bottom: 64px;
-            align-items: flex-start;
-        }
-
-        .content-left {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .name {
-            font-family: 'Playfair Display', 'Georgia', serif;
-            font-size: 40px;
-            font-weight: 700;
-            font-style: italic;
-            margin-bottom: 24px;
-            color: var(--text-color);
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-        }
-
-        .bio {
-            font-size: 17px;
-            line-height: 1.75;
-        }
-
-        .bio p {
-            margin-bottom: 18px;
-            color: var(--text-color);
-        }
-
-        .bio a {
-            color: var(--accent-color);
-            text-decoration: underline;
-            text-underline-offset: 2px;
-        }
-
-        .bio a:hover {
-            color: var(--accent-hover);
-        }
-
-        .bio ul {
-            margin: 12px 0 18px 20px;
-        }
-
-        .bio li {
-            margin-bottom: 6px;
-        }
-
-        .profile-image {
-            flex-shrink: 0;
-        }
-
-        .profile-image img {
-            width: 200px;
-            height: 240px;
-            object-fit: cover;
-            border-radius: 4px;
-            display: block;
-            box-shadow: 0 4px 20px rgba(139, 47, 201, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .profile-image img:hover {
-            transform: scale(1.02) rotate(0.5deg);
-            box-shadow: 0 12px 40px rgba(109, 40, 217, 0.15);
-        }
-
-        /* ── Sections ── */
-        .section {
-            margin-bottom: 48px;
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 26px;
-            font-weight: 700;
-            font-style: italic;
-            margin-bottom: 32px;
-            color: var(--text-color);
-            letter-spacing: -0.01em;
-            position: relative;
-            padding-bottom: 14px;
-        }
-
-        .section-title::before {
-            content: '✦';
-            font-style: normal;
-            font-size: 0.5em;
-            color: var(--accent-color);
-            margin-right: 9px;
-            vertical-align: 0.15em;
-            opacity: 0.85;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            left: 0; bottom: 0;
-            width: 40px; height: 2.5px;
-            background: linear-gradient(90deg, var(--accent-color), var(--accent-warm));
-            border-radius: 2px;
-        }
-
-        /* ── News ── */
-        .news-section {
-            margin-top: 48px;
-            padding-top: 32px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .news-section h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 18px;
-            font-weight: 600;
-            font-style: italic;
-            margin-bottom: 16px;
-            color: var(--text-color);
-        }
-
-        .news-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .news-entry {
-            display: flex;
-            gap: 20px;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .news-entry:last-child {
-            border-bottom: none;
-        }
-
-        /* ── Shared entry rows ── */
-        .paper-entry {
-            display: flex;
-            gap: 20px;
-            padding: 14px 12px;
-            border-bottom: 1px solid var(--border-color);
-            border-left: 3px solid transparent;
-            border-radius: 6px;
-            margin: 0 -12px;
-        }
-
-        .paper-entry:last-child {
-            border-bottom: none;
-        }
-
-        .date {
-            font-size: 13px;
-            color: var(--secondary-text);
-            min-width: 88px;
-            flex-shrink: 0;
-            padding-top: 2px;
-        }
-
-        .news-content,
-        .paper-content {
-            flex: 1;
-            font-size: 15px;
-            line-height: 1.6;
-            color: var(--text-color);
-        }
-
-        .news-content a,
-        .paper-content a {
-            color: var(--accent-color);
-            text-decoration: underline;
-            text-underline-offset: 2px;
-        }
-
-        .news-content a:hover,
-        .paper-content a:hover {
-            color: var(--accent-hover);
-        }
-
-        /* ── Blog entries ── */
-        .blog-entry {
-            padding: 16px 12px;
-            border-bottom: 1px solid var(--border-color);
-            border-radius: 6px;
-            margin: 0 -12px;
-        }
-
-        .blog-entry:last-child {
-            border-bottom: none;
-        }
-
-        .blog-title {
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        .blog-title a {
-            color: var(--text-color);
-            text-decoration: none;
-        }
-
-        .blog-title a:hover {
-            color: var(--accent-color);
-            text-decoration: underline;
-            text-underline-offset: 2px;
-        }
-
-        .blog-entry .date {
-            display: inline;
-            min-width: auto;
-            margin-left: 8px;
-        }
-
-        .blog-excerpt {
-            color: var(--secondary-text);
-            font-size: 14px;
-            line-height: 1.55;
-            margin-top: 6px;
-        }
-
-        /* ── CV section ── */
-        #cv h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 15px;
-            font-weight: 600;
-            font-style: italic;
-            color: var(--accent-color);
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 6px;
-            margin-bottom: 0;
-            letter-spacing: 0.01em;
-        }
-
-        /* ── Footer ── */
-        .social-links {
-            display: flex;
-            gap: 20px;
-            margin-top: 64px;
-            padding-top: 32px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .social-links a {
-            color: var(--secondary-text);
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: color 0.15s ease, transform 0.2s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--accent-color);
-            transform: translateY(-3px);
-        }
-
-        .contact-note {
-            margin-top: 14px;
-            color: var(--secondary-text);
-            font-size: 14px;
-        }
-
-        /* ── Background orbs ── */
-        .bg-canvas {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
-        }
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-        }
-        .orb-a {
-            width: 560px; height: 560px;
-            background: radial-gradient(circle, #6D28D9 0%, transparent 65%);
-            opacity: 0.05;
-            top: -180px; right: -100px;
-            animation: floatA 24s ease-in-out infinite alternate;
-        }
-        .orb-b {
-            width: 420px; height: 420px;
-            background: radial-gradient(circle, #B45309 0%, transparent 65%);
-            opacity: 0.04;
-            bottom: -100px; left: -120px;
-            animation: floatB 30s ease-in-out infinite alternate;
-        }
-        .orb-c {
-            width: 300px; height: 300px;
-            background: radial-gradient(circle, #4C1D95 0%, transparent 65%);
-            opacity: 0.04;
-            top: 40%; left: 25%;
-            animation: floatC 36s ease-in-out infinite alternate;
-        }
-        @keyframes floatA {
-            from { transform: translate(0, 0) scale(1); }
-            to   { transform: translate(40px, 50px) scale(1.12); }
-        }
-        @keyframes floatB {
-            from { transform: translate(0, 0) scale(1.08); }
-            to   { transform: translate(-25px, -35px) scale(1); }
-        }
-        @keyframes floatC {
-            from { transform: translate(0, 0) scale(1); }
-            to   { transform: translate(30px, -40px) scale(1.1); }
-        }
-
-        /* ── Animations ── */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(14px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-        }
-
-        .header       { animation: fadeInUp 0.5s ease both; }
-        .main-content { animation: fadeInUp 0.5s 0.08s ease both; }
-        .news-section { animation: fadeInUp 0.5s 0.16s ease both; }
-        .section.active { animation: fadeIn 0.3s ease both; }
-
-        /* Staggered entry reveals */
-        .reveal {
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.35s ease, transform 0.35s ease;
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Entry hover */
-        .blog-entry,
-        .paper-entry {
-            transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-        }
-        .blog-entry:hover {
-            background: var(--card-hover);
-            transform: translateY(-2px);
-        }
-        .paper-entry:hover {
-            background: var(--card-hover);
-            transform: translateX(4px);
-            border-left-color: var(--accent-color);
-        }
-
-        /* ── Status badge ── */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            font-size: 12.5px;
-            font-style: italic;
-            color: var(--secondary-text);
-            background: var(--muted-bg);
-            padding: 4px 12px 4px 10px;
-            border-radius: 20px;
-            margin-bottom: 22px;
-            border: 1px solid var(--border-color);
-        }
-        .status-dot {
-            width: 7px; height: 7px;
-            border-radius: 50%;
-            background: #5AC26E;
-            flex-shrink: 0;
-            animation: pulse-green 2.5s ease infinite;
-        }
-        @keyframes pulse-green {
-            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(90, 194, 110, 0.5); }
-            60%       { opacity: 0.8; box-shadow: 0 0 0 5px rgba(90, 194, 110, 0); }
-        }
-
-        /* ── Currently ticker ── */
-        .currently {
-            font-size: 13px;
-            font-style: italic;
-            color: var(--secondary-text);
-            margin-bottom: 22px;
-            min-height: 1.4em;
-            transition: opacity 0.45s ease;
-        }
-        .currently.fade { opacity: 0; }
-
-
-        /* ── Responsive ── */
-        @media (max-width: 640px) {
-            body { padding: 40px 18px 60px; }
-
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 16px;
-                margin-bottom: 48px;
-            }
-
-            .nav { flex-wrap: wrap; gap: 16px 24px; }
-
-            .main-content {
-                flex-direction: column-reverse;
-                gap: 28px;
-            }
-
-            .profile-image img {
-                width: 120px;
-                height: 144px;
-            }
-
-            .name { font-size: 30px; }
-
-            .paper-entry {
-                flex-direction: column;
-                gap: 4px;
-            }
-
-            .date { min-width: auto; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Kargi Chauhan is an AI/ML researcher working on post-training LLMs, alignment and safety, reinforcement learning, memory architectures, and autonomous systems." />
+  <title>Kargi Chauhan</title>
+  <style>
+    :root {
+      --bg-color: #fbfaf7;
+      --text-color: #26232b;
+      --accent-color: #9f4862;
+      --accent-hover: #78344d;
+      --border-color: #e3dfda;
+      --card-bg: #fffefc;
+      --secondary-text: #716b76;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #17151c;
+      --text-color: #f7f1ec;
+      --accent-color: #dfa0b4;
+      --accent-hover: #f0bdcc;
+      --border-color: #343039;
+      --card-bg: #211e27;
+      --secondary-text: #b9b0bd;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Valkyrie A", "Valkyrie", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      font-size: 20px;
+      line-height: 1.72;
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      max-width: 1580px;
+      margin: 0 auto;
+      padding: 54px 64px 76px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    a {
+      color: var(--accent-color);
+      text-decoration: none;
+      border-bottom: 1px solid color-mix(in srgb, var(--accent-color), transparent 72%);
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+      border-bottom-color: var(--accent-hover);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 78px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--border-color);
+      gap: 24px;
+    }
+
+    .site-title {
+      color: var(--text-color);
+      border-bottom: 0;
+      font-size: 38px;
+      font-weight: 600;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .site-title:hover {
+      color: var(--accent-color);
+      border-bottom: 0;
+    }
+
+    .nav {
+      display: flex;
+      gap: 34px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      font-family: "Concourse 3", "Concourse", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .nav a {
+      color: var(--secondary-text);
+      border-bottom: 0;
+      font-size: 17px;
+      font-weight: 650;
+      transition: color 0.2s ease, background-color 0.2s ease;
+      padding: 7px 9px;
+      border-radius: 6px;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--accent-color);
+      background-color: var(--card-bg);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: var(--secondary-text);
+      font-size: 15px;
+      cursor: pointer;
+      padding: 7px 9px;
+      border-radius: 6px;
+    }
+
+    .theme-toggle:hover {
+      color: var(--accent-color);
+      background-color: var(--card-bg);
+    }
+
+    .section {
+      margin-bottom: 50px;
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .main-content {
+      display: flex;
+      gap: 108px;
+      margin-bottom: 78px;
+      align-items: flex-start;
+    }
+
+    .content-left {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .name {
+      font-size: 42px;
+      font-weight: 600;
+      line-height: 1.08;
+      margin-bottom: 24px;
+      color: var(--text-color);
+      letter-spacing: 0;
+    }
+
+    .tagline {
+      font-size: 26px;
+      line-height: 1.5;
+      color: #423c47;
+      margin-bottom: 30px;
+    }
+
+    [data-theme="dark"] .tagline {
+      color: var(--secondary-text);
+    }
+
+    .bio {
+      font-size: 20px;
+      line-height: 1.7;
+      margin-bottom: 38px;
+    }
+
+    .bio p {
+      margin-bottom: 20px;
+    }
+
+    .profile-image {
+      flex-shrink: 0;
+      padding-left: 0;
+      margin-top: 0;
+    }
+
+    .profile-image img {
+      width: 380px;
+      height: 475px;
+      object-fit: cover;
+      border-radius: 2px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 12px 36px rgba(52, 32, 45, 0.08);
+      display: block;
+    }
+
+    .photo-note {
+      display: none;
+      margin-top: 14px;
+      color: var(--secondary-text);
+      font-size: 14px;
+      line-height: 1.45;
+      font-family: "Concourse 3", "Concourse", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .section-title {
+      font-size: 36px;
+      margin-bottom: 30px;
+      color: var(--text-color);
+      font-weight: 500;
+      line-height: 1.1;
+    }
+
+    .subhead {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 35px 0 18px;
+      color: var(--text-color);
+      text-decoration: underline;
+      text-decoration-color: color-mix(in srgb, var(--accent-color), transparent 62%);
+      text-underline-offset: 4px;
+    }
+
+    .news-section {
+      margin-top: 44px;
+    }
+
+    .news-section h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: var(--text-color);
+      font-weight: 600;
+    }
+
+    .news-container {
+      height: 360px;
+      max-height: 360px;
+      overflow-y: auto;
+      padding-right: 18px;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+      scrollbar-color: color-mix(in srgb, var(--secondary-text), transparent 32%) transparent;
+    }
+
+    .news-container::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .news-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .news-container::-webkit-scrollbar-thumb {
+      background: color-mix(in srgb, var(--secondary-text), transparent 28%);
+      border-radius: 999px;
+    }
+
+    .news-container::-webkit-scrollbar-thumb:hover {
+      background: var(--secondary-text);
+    }
+
+    .news-entry,
+    .paper-entry,
+    .project-entry {
+      display: flex;
+      margin-bottom: 18px;
+      gap: 20px;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .news-entry:last-child,
+    .paper-entry:last-child,
+    .project-entry:last-child {
+      border-bottom: none;
+    }
+
+    .date {
+      font-family: "Concourse 3", "Concourse", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 15px;
+      color: var(--secondary-text);
+      min-width: 130px;
+      font-weight: 650;
+      margin-top: 3px;
+    }
+
+    .news-content,
+    .paper-content,
+    .project-content {
+      flex: 1;
+      font-size: 19px;
+      line-height: 1.55;
+      color: var(--text-color);
+    }
+
+    .paper-title,
+    .project-title,
+    .blog-title {
+      font-weight: 650;
+      margin-bottom: 6px;
+      color: var(--text-color);
+    }
+
+    .muted {
+      color: var(--secondary-text);
+      font-size: 18px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 9px;
+      font-family: "Concourse 3", "Concourse", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--secondary-text);
+      font-size: 12px;
+    }
+
+    .tags span {
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: var(--card-bg);
+    }
+
+    .blog-entry {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 18px;
+    }
+
+    .blog-entry:last-child {
+      border-bottom: none;
+    }
+
+    .blog-excerpt {
+      color: var(--secondary-text);
+      line-height: 1.5;
+      margin-top: 10px;
+      font-size: 17px;
+    }
+
+    .cv-download {
+      margin-bottom: 36px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .social-links a {
+      color: var(--secondary-text);
+      border-bottom: 0;
+      transition: color 0.2s ease, background-color 0.2s ease;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+    }
+
+    .social-links a:hover {
+      color: var(--accent-color);
+      background-color: var(--card-bg);
+    }
+
+    .contact-note {
+      text-align: center;
+      margin-top: 20px;
+      color: var(--secondary-text);
+      font-size: 16px;
+      font-family: "Concourse 3", "Concourse", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 22px 18px 56px;
+        font-size: 17px;
+      }
+
+      .header {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-bottom: 46px;
+      }
+
+      .nav {
+        justify-content: center;
+        gap: 14px;
+      }
+
+      .main-content {
+        flex-direction: column;
+        gap: 26px;
+      }
+
+      .profile-image {
+        padding: 0;
+        margin-top: 0;
+      }
+
+      .profile-image img {
+        width: 220px;
+        height: 275px;
+      }
+
+      .news-entry,
+      .paper-entry,
+      .project-entry {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .date {
+        min-width: auto;
+      }
+
+      .bio {
+        font-size: 17px;
+      }
+
+      .tagline {
+        font-size: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="bg-canvas" aria-hidden="true">
-    <div class="orb orb-a"></div>
-    <div class="orb orb-b"></div>
-    <div class="orb orb-c"></div>
-</div>
-    <header class="header">
-        <span class="site-name">Kargi Chauhan</span>
-        <nav class="nav">
-            <a href="#about" class="nav-link active">About</a>
-            <a href="#research" class="nav-link">Research</a>
-            <a href="#publications" class="nav-link">Publications</a>
-            <a href="#projects" class="nav-link">Projects</a>
-            <a href="#blog" class="nav-link">Blog</a>
-            <a href="#cv" class="nav-link">CV</a>
-            <a href="#misc" class="nav-link">Misc</a>
-            <a href="#service" class="nav-link">Service</a>
-            <button class="theme-toggle" id="themeToggle">🌙</button>
-        </nav>
-    </header>
+  <header class="header">
+    <a href="#about" class="site-title nav-link">Kargi Chauhan</a>
+    <nav class="nav">
+      <a href="#about" class="nav-link active">About</a>
+      <a href="#publications" class="nav-link">Publications</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#blog" class="nav-link">Blog</a>
+      <a href="#misc" class="nav-link">Misc</a>
+      <a href="#cv" class="nav-link">CV</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">☾</button>
+    </nav>
+  </header>
 
-    <main>
-        <section class="section active" id="about">
-            <div class="main-content">
-                <div class="content-left">
-                    <p class="greeting" id="greeting"></p>
-                    <div class="bio">
-                        <div class="currently"></div>
-                        <div class="reading"></div>
-                        <p>I'm an MS candidate in Natural Language Processing at <a href="https://www.ucsc.edu">UC Santa Cruz</a>, working with <a href="https://people.ucsc.edu/~lgilpin/">Dr. Leilani Gilpin</a> and <a href="https://cgraywang.github.io">Dr. Chenguang Wang</a>.</p>
+  <main>
+    <section class="section active" id="about">
+      <div class="main-content">
+        <div class="content-left">
+          <p class="tagline">I build training and verification methods for models that reason, remember, and sometimes learn the wrong lesson.</p>
 
-                        <p>I received my Undergrad from the <a href="https://www.arizona.edu">University of Arizona</a>. I also served as a Research Scholar at the <a href="https://www.ed.ac.uk">University of Edinburgh</a>, where I worked on Neurosymbolic AI.</p>
+          <div class="bio">
+            <p>I'm an MS candidate in Natural Language Processing at <a href="https://www.ucsc.edu/">UC Santa Cruz</a>, where I work with <a href="https://people.ucsc.edu/~lgilpin/">Dr. Leilani Gilpin</a> and <a href="https://cgraywang.github.io/">Dr. Chenguang Wang</a>. I received my undergraduate degree from the <a href="https://www.arizona.edu/">University of Arizona</a> and was a Research Scholar at the <a href="https://www.ed.ac.uk/">University of Edinburgh</a>, working on neuro-symbolic AI.</p>
+            <p>My research focuses on reinforcement learning, post-training, verification, and long-horizon agents: how models learn from feedback, when their reasoning fails, what they should remember, and how to build training signals they cannot easily exploit.</p>
+            <p>I'm increasingly interested in AI for scientific discovery - systems that can revise beliefs when evidence contradicts them, challenge their own assumptions, and help solve some of society's hardest problems.</p>
+            <p>I also contribute to <a href="https://rllm-project.com/">rLLM</a>, an open-source framework for reinforcement learning with language models.</p>
+            <p>Outside my main research, I like learning from first principles. Right now, I'm reading about Peter Turchin's work on <a href="https://en.wikipedia.org/wiki/Cliodynamics">Cliodynamics</a> and re-implementing core ideas behind AlphaFold to understand how scientific reasoning and discovery can be encoded computationally.</p>
+            <p>I want to build AI systems that don't just sound intelligent: they learn from evidence, know when they're wrong, help us discover what we couldn't discover alone, and tackle problems that matter at societal scale.</p>
+          </div>
 
-                        <p>My current research centers on reward design and verification in LLM alignment specifically understanding when process supervision beats outcome supervision in reinforcement learning from verifiable rewards (RLVR), and how we can build more reliable training signals for reasoning models. I'm also exploring memory architectures for LLM agents, inspired by sleep-cycle consolidation, to help agents retain and organize knowledge over long horizons.</p>
-
-                        <p>Previously, I worked on constraint-guided traffic generation for autonomous vehicles building neuro-symbolic systems that satisfy physical validity constraints while generating realistic driving scenarios (presented at NeurIPS 2025).</p>
-
-                        <p>I also contribute to <a href="https://rllm-project.com" target="_blank">RLLM</a>, an open-source project advancing reinforcement learning for language models.</p>
-
-                        <p>If you're wondering whether an AI system's reasoning can be trusted whether it's a self-driving car explaining a split-second decision or a language model showing its work on a math proof that's exactly the kind of problem I'm trying to solve :)</p>
-                    </div>
-
-                </div>
-                <div class="profile-image">
-                    <img src="4eb271e4-a5a4-4e33-bed3-63872c78ab49.JPG" alt="Kargi Chauhan" />
-                </div>
+          <div class="news-section">
+            <h2>News</h2>
+            <div class="news-container">
+              <div class="news-entry">
+                <div class="date">Jul 2026</div>
+                <div class="news-content">Application to the <strong>Cohere Labs Catalyst Grant Program</strong> has been accepted!</div>
+              </div>
+              <div class="news-entry">
+                <div class="date">Jul 2, 2026</div>
+                <div class="news-content">Selected as an <strong>Outstanding Reviewer</strong> for the Mechanistic Interpretability Workshop at ICML!</div>
+              </div>
+              <div class="news-entry">
+                <div class="date">May 28, 2026</div>
+                <div class="news-content">Multiple papers accepted at ICML 2026 &amp; ICML workshops - "Caught in the Act(ivation)", "MIRAGE", "Dead Science Walking", and "When Does Structure Help?"</div>
+              </div>
+              <div class="news-entry">
+                <div class="date">Apr 9, 2026</div>
+                <div class="news-content">Paper accepted at ACL 2026!</div>
+              </div>
+              <div class="news-entry">
+                <div class="date">Feb 1, 2026</div>
+                <div class="news-content">Paper accepted - presenting oral at ACM TheWebConf!</div>
+              </div>
+              <div class="news-entry">
+                <div class="date">Jan 5, 2026</div>
+                <div class="news-content"><a href="https://en.wikipedia.org/wiki/Demis_Hassabis">Demis Hassabis</a> - Co-founder &amp; CEO of Google DeepMind, Nobel Laureate in Chemistry - connected on research on X.</div>
+              </div>
+              <div class="news-entry">
+                <div class="date">Dec 5, 2025</div>
+                <div class="news-content">Presenting at NeurIPS in San Diego!</div>
+              </div>
+              <div class="news-entry">
+                <div class="date">Sep 22, 2025</div>
+                <div class="news-content">NeurIPS Paper got accepted!</div>
+              </div>
+              <div class="news-entry">
+                <div class="date">Sep 08, 2025</div>
+                <div class="news-content">Attended NeSy 2024 conference.</div>
+              </div>
+              <div class="news-entry">
+                <div class="date">Sep 05, 2025</div>
+                <div class="news-content">Spoke about AI research at LinkedIn Office in SF.</div>
+              </div>
+              <div class="news-entry">
+                <div class="date">May 30, 2025</div>
+                <div class="news-content">Reached out to <a href="https://en.wikipedia.org/wiki/John_M._Jumper">John Jumper</a> - Nobel Laureate in Chemistry &amp; lead of AlphaFold - who connected over email on research.</div>
+              </div>
+              <div class="news-entry">
+                <div class="date">Dec 08, 2024</div>
+                <div class="news-content">Completed Large Language Model Agents MOOC.</div>
+              </div>
+              <div class="news-entry">
+                <div class="date">Oct 5, 2024</div>
+                <div class="news-content">Built ExoSky at NASA Space Apps Challenge at NASA Ames Research Center.</div>
+              </div>
+              <div class="news-entry">
+                <div class="date">May 10, 2024</div>
+                <div class="news-content">Presented "Enabling Deep Space Exploration Using Small Spacecraft System Architecture" at IPSS Conference (NASA JPL).</div>
+              </div>
+              <div class="news-entry">
+                <div class="date">Apr 10, 2024</div>
+                <div class="news-content">Presented "From Mines to Minds" at UR Inspiration Conference.</div>
+              </div>
             </div>
+          </div>
+        </div>
 
-            <div class="news-section">
-                <h2>News</h2>
-                <div class="news-list">
-                <div class="news-entry">
-                    <div class="date">Jul 2026</div>
-                    <div class="news-content">Application to the <strong>Cohere Labs Catalyst Grant Program</strong> has been accepted!</div>
-                </div>
-                <div class="news-entry">
-                    <div class="date">Jul 2, 2026</div>
-                    <div class="news-content">Selected as an <strong>Outstanding Reviewer</strong> for the Mechanistic Interpretability Workshop at ICML!</div>
-                </div>
-                <div class="news-entry">
-                    <div class="date">May 28, 2026</div>
-                    <div class="news-content">Multiple papers accepted at ICML 2026 &amp; ICML workshops — "Caught in the Act(ivation)", "MIRAGE", "Dead Science Walking", and "When Does Structure Help?"!</div>
-                </div>
-                <div class="news-entry">
-                    <div class="date">Apr 9, 2026</div>
-                    <div class="news-content">Paper accepted at ACL 2026!</div>
-                </div>
-                <div class="news-entry">
-                    <div class="date">Feb 1, 2026</div>
-                    <div class="news-content">Paper accepted — presenting oral at ACM TheWebConf!</div>
-                </div>
-                <div class="news-entry">
-                    <div class="date">Jan 5, 2026</div>
-                    <div class="news-content"><a href="https://en.wikipedia.org/wiki/Demis_Hassabis" target="_blank">Demis Hassabis</a> — Co-founder &amp; CEO of Google DeepMind, Nobel Laureate in Chemistry — connected on research on X.</div>
-                </div>
-                <div class="news-entry">
-                    <div class="date">Dec 5, 2025</div>
-                    <div class="news-content">Presenting at NeurIPS in San Diego!</div>
-                </div>
-                <div class="news-entry">
-                    <div class="date">Sep 22, 2025</div>
-                    <div class="news-content">NeurIPS Paper got accepted!</div>
-                </div>
-                <div class="news-entry">
-                    <div class="date">Sep 08, 2025</div>
-                    <div class="news-content">Attended NeSy 2024 conference.</div>
-                </div>
-                <div class="news-entry">
-                    <div class="date">Sep 05, 2025</div>
-                    <div class="news-content">Spoke about AI research at LinkedIn Office in SF.</div>
-                </div>
-                <div class="news-entry">
-                    <div class="date">May 30, 2025</div>
-                    <div class="news-content">Reached out to <a href="https://en.wikipedia.org/wiki/John_M._Jumper" target="_blank">John Jumper</a> — Nobel Laureate in Chemistry &amp; lead of AlphaFold — who connected over email on research.</div>
-                </div>
-                <div class="news-entry">
-                    <div class="date">Dec 08, 2024</div>
-                    <div class="news-content">Completed Large Language Model Agents MOOC.</div>
-                </div>
-                <div class="news-entry">
-                    <div class="date">Oct 5, 2024</div>
-                    <div class="news-content">Built ExoSky at NASA Space Apps Challenge at NASA Ames Research Center.</div>
-                </div>
-                <div class="news-entry">
-                    <div class="date">May 10, 2024</div>
-                    <div class="news-content">Presented "Enabling Deep Space Exploration Using Small Spacecraft System Architecture" at IPSS Conference (NASA JPL).</div>
-                </div>
-                <div class="news-entry">
-                    <div class="date">Apr 10, 2024</div>
-                    <div class="news-content">Presented "From Mines to Minds" at UR Inspiration Conference.</div>
-                </div>
-                </div>
-            </div>
+        <div class="profile-image">
+          <img src="profile.jpg" alt="Kargi Chauhan" />
+        </div>
+      </div>
+    </section>
 
-            <div style="margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border-color);">
-                <script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=kfLD6VSAGwkTQ8FrUdOnHP7etSW-G4xkuTBOjegsH7g&cl=ffffff&w=a"></script>
-            </div>
-        </section>
+    <section class="section" id="publications">
+      <h2 class="section-title">Publications</h2>
 
-
-        <section class="section" id="research">
-
-
-    <div class="paper-entry" style="margin-bottom: 30px;">
+      <h3 class="subhead">2026</h3>
+      <div class="paper-entry">
+        <div class="date">ICML</div>
         <div class="paper-content">
-            <div style="font-weight: 600; margin-bottom: 8px;">
-                <a href="https://kargichauhan.github.io/SAMD/#contact" target="_blank">Teaching Agents what to forget</a>
-            </div>
-            <div style="color: var(--accent-color); font-size: 14px; margin-bottom: 10px;">Independent Research &middot; Under Review &middot; 2025&ndash;Present</div>
-            <ul style="padding-left: 18px; color: var(--text-color); font-size: 15px; line-height: 1.75;">
-                <li>Designing <strong>SAMD</strong>, the first benchmark with ground-truth consolidation labels (<code>KEEP, PRUNE, PROMOTE, ARCHIVE, DECAY(t)</code>)</li>
-                <li>Constructing hard negatives by injecting superseded values into active memory slots, exposing gaps in existing benchmarks</li>
-                <li>Evaluating whether a learned consolidation policy outperforms RAG-based agents on long-horizon QA without test-time memory management</li>
-            </ul>
+          <div class="paper-title"><a href="https://arxiv.org/pdf/2606.04141">Caught in the Act(ivation): Stopping Credential Exfiltration Before It Starts</a></div>
+          <div class="muted"><strong>K. Chauhan</strong>, P. Revankar.</div>
+          <div class="muted">ICML 2026</div>
         </div>
-    </div>
-</section>
-
-        <section class="section" id="publications">
-
-
-    <div style="margin-bottom: 40px;">
-        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">2026</h3>
-
-        <div class="paper-entry" style="margin-bottom: 30px;">
-            <div class="paper-content">
-                <div style="font-weight: 600; margin-bottom: 8px;">
-                    <a href="https://arxiv.org/pdf/2606.04141" target="_blank">Caught in the Act(ivation): Stopping Credential Exfiltration Before It Starts</a>
-                </div>
-                <div style="margin-bottom: 8px; color: var(--text-color);"><strong>K. Chauhan</strong>, P. Revankar.</div>
-                <div style="color: var(--accent-color); font-size: 14px;">ICML 2026</div>
-            </div>
-        </div>
-
-        <div class="paper-entry" style="margin-bottom: 30px;">
-            <div class="paper-content">
-                <div style="font-weight: 600; margin-bottom: 8px;">MIRAGE: A Polarity-Flipping Encoding Subspace in LLM Agents</div>
-                <div style="margin-bottom: 8px; color: var(--text-color);">P. Revankar, <strong>K. Chauhan</strong>, J. Kim, S. Nur, V. Siu, C. Wang.</div>
-                <div style="color: var(--accent-color); font-size: 14px;">ICML 2026</div>
-            </div>
-        </div>
-
-        <div class="paper-entry" style="margin-bottom: 30px;">
-            <div class="paper-content">
-                <div style="font-weight: 600; margin-bottom: 8px;">
-                    <a href="https://arxiv.org/pdf/2606.04220" target="_blank">Dead Science Walking: Publication Bias and the AI Scientist Pipeline</a>
-                </div>
-                <div style="margin-bottom: 8px; color: var(--text-color);"><strong>K. Chauhan</strong>.</div>
-                <div style="color: var(--accent-color); font-size: 14px;">ICML @ AI4Science 2026</div>
-            </div>
-        </div>
-
-        <div class="paper-entry" style="margin-bottom: 30px;">
-            <div class="paper-content">
-                <div style="font-weight: 600; margin-bottom: 8px;">
-                    <a href="https://arxiv.org/pdf/2606.04228" target="_blank">When Does Structure Help? The Information Bonus of AlphaFold2 Representations over Protein Language Models</a>
-                </div>
-                <div style="margin-bottom: 8px; color: var(--text-color);"><strong>K. Chauhan</strong>.</div>
-                <div style="color: var(--accent-color); font-size: 14px;">ICML @ AI4Science 2026</div>
-            </div>
-        </div>
-
-        <div class="paper-entry" style="margin-bottom: 30px;">
-            <div class="paper-content">
-                <div style="font-weight: 600; margin-bottom: 8px;">Covert Trait Propagation Is Representation Alignment: Mechanistic Evidence from Hidden-Channel Distillation</div>
-                <div style="margin-bottom: 8px; color: var(--text-color);"><strong>K. Chauhan</strong> and A. Shah.</div>
-                <div style="color: var(--accent-color); font-size: 14px;">Under Review · ICML @ MechInterp 2026 <span style="color: var(--secondary-text); font-size: 13px;">(work with Google Researcher)</span></div>
-            </div>
-        </div>
-
-        <div class="paper-entry" style="margin-bottom: 30px;">
-            <div class="paper-content">
-                <div style="font-weight: 600; margin-bottom: 8px;">Consolidate, Decay, Promote: A Self-Pruning Memory Framework for Long-Horizon LLM Agents</div>
-                <div style="margin-bottom: 8px; color: var(--text-color);"><strong>K. Chauhan</strong>, P. Revankar, S. Nur, K. Montgomery, C. Wang.</div>
-                <div style="color: var(--accent-color); font-size: 14px;">Under Review</div>
-            </div>
-        </div>
-
-        <div class="paper-entry" style="margin-bottom: 30px;">
-            <div class="paper-content">
-                <div style="font-weight: 600; margin-bottom: 8px;">Let Them Sleep: Selective Forgetting for Long-Horizon Agents</div>
-                <div style="margin-bottom: 8px; color: var(--text-color);"><strong>K. Chauhan</strong> and C. Wang.</div>
-                <div style="color: var(--accent-color); font-size: 14px;">Under Review</div>
-            </div>
-        </div>
-
-        <div class="paper-entry" style="margin-bottom: 30px;">
-            <div class="paper-content">
-                <div style="font-weight: 600; margin-bottom: 8px;">Beyond RLVR: Verifiable Reward Design for Open-Ended Generation</div>
-                <div style="margin-bottom: 8px; color: var(--text-color);"><strong>K. Chauhan</strong>, X. Yang, U. Azirakhmet, J. Tu, C. Wang.</div>
-                <div style="color: var(--accent-color); font-size: 14px;">Under Review</div>
-            </div>
-        </div>
-
-        <div class="paper-entry" style="margin-bottom: 30px;">
-            <div class="paper-content">
-                <div style="font-weight: 600; margin-bottom: 8px;">
-                    <a href="https://arxiv.org/pdf/2604.26990" target="_blank">Multi-View Generalization and Diagnostic Analysis of Machine-Generated Code Detection</a>
-                </div>
-                <div style="margin-bottom: 8px; color: var(--text-color);"><strong>K. Chauhan</strong>, S. Nur.</div>
-                <div style="color: var(--accent-color); font-size: 14px;">ACL 2026</div>
-            </div>
-        </div>
-
-        <div class="paper-entry" style="margin-bottom: 30px;">
-            <div class="paper-content">
-                <div style="font-weight: 600; margin-bottom: 8px;">
-                    <a href="https://arxiv.org/pdf/2601.20316" target="_blank">
-                        Less is More: Benchmarking LLM Based Recommendation Agents
-                    </a>
-                </div>
-                <div style="margin-bottom: 8px; color: var(--text-color);">
-                    <strong>K. Chauhan</strong> and M. Venkateswarlu.
-                </div>
-                <div style="color: var(--accent-color); font-size: 14px;">
-                    <a href="https://arxiv.org/pdf/2601.20316" target="_blank" style="color: var(--accent-color);">ACM TheWebConf</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div style="margin-bottom: 40px;">
-        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">2025</h3>
-        
-        <div class="paper-entry" style="margin-bottom: 30px;">
-            <div class="paper-content">
-                <div style="font-weight: 600; margin-bottom: 8px;">
-                <a href="https://arxiv.org/abs/2509.23971" target="_blank">
-                    VFSI: Validity First Spatial Intelligence for Constraint-Guided Traffic Diffusion
-                </a>
-            </div>
-            <div style="margin-bottom: 8px; color: var(--text-color);">
-                <strong>K. Chauhan</strong> and L. H. Gilpin.
-            </div>
-            <div style="color: var(--accent-color); font-size: 14px;">
-                <a href="https://arxiv.org/abs/2509.23971" target="_blank" style="color: var(--accent-color);">
-                    NeurIPS
-                </a>
-            </div>
-
-            </div>
-        </div>
-        
-        <div class="paper-entry" style="margin-bottom: 30px;">
-            <div class="paper-content">
-                <div style="font-weight: 600; margin-bottom: 8px;">
-                    <a href="https://books.google.com/books?hl=en&lr=&id=9RyLEQAAQBAJ&oi=fnd&pg=PR5&dq=Explainable+Artificial+Intelligence+for+Trustworthy+Decisions+in+Smart+Applications&ots=K6SjLqKH8Z&sig=s0crWwW8if3Dx8JQ7-phYMqEkEI#v=onepage&q=Explainable%20Artificial%20Intelligence%20for%20Trustworthy%20Decisions%20in%20Smart%20Applications&f=false" target="_blank">Large Language Models and XAI</a> [Book]
-                </div>
-                <div style="margin-bottom: 8px; color: var(--text-color);">
-                    <strong>K. Chauhan</strong> and V. Pendyala.
-                </div>
-                <div style="color: var(--accent-color); font-size: 14px;">
-                    <a href="https://books.google.com/books?hl=en&lr=&id=9RyLEQAAQBAJ&oi=fnd&pg=PR5&dq=Explainable+Artificial+Intelligence+for+Trustworthy+Decisions+in+Smart+Applications&ots=K6SjLqKH8Z&sig=s0crWwW8if3Dx8JQ7-phYMqEkEI#v=onepage&q=Explainable%20Artificial%20Intelligence%20for%20Trustworthy%20Decisions%20in%20Smart%20Applications&f=false" target="_blank" style="color: var(--accent-color);">Explainable Artificial Intelligence for Trustworthy Decisions in Smart Applications</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div style="margin-bottom: 40px;">
-        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">2024</h3>
-        
-        <div class="paper-entry" style="margin-bottom: 30px;">
-            <div class="paper-content">
-                <div style="font-weight: 600; margin-bottom: 8px;">
-                    <a href="http://www.intersmallsatconference.com/past/2024/G.6%20-%20Chauhan/ml_abstract_issc_2024.pdf">Enabling Deep Space Using Inspectors Accompanying Small Spacecraft System of System Architecture</a>
-                </div>
-                <div style="margin-bottom: 8px; color: var(--text-color);">
-                    <strong>K. Chauhan</strong>, A. T. Raj, and J. Thangavelautham.
-                </div>
-                <div style="color: var(--accent-color); font-size: 14px;">
-                    <a href="http://www.intersmallsatconference.com/past/2024/G.6%20-%20Chauhan/ml_abstract_issc_2024.pdf" style="color: var(--accent-color);">Interplanetary Small Satellite Conference (NASA JPL)</a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="paper-entry" style="margin-bottom: 30px;">
-            <div class="paper-content">
-                <div style="font-weight: 600; margin-bottom: 8px;">
-                    <a href="https://docs.google.com/document/d/1Ngj655K-PlP5tVVbMkAx9aUTtiRbuzlU/edit?usp=sharing&ouid=115983644740723215134&rtpof=true&sd=true">From Mines to Minds: Exploring Immersive Learning's Influence in Mining Engineering Education</a>
-                </div>
-                <div style="margin-bottom: 8px; color: var(--text-color);">
-                    <strong>K. Chauhan</strong>, A. Anani, and S. Adewuyi.
-                </div>
-                <div style="color: var(--accent-color); font-size: 14px;">
-                    <a href="https://docs.google.com/document/d/1Ngj655K-PlP5tVVbMkAx9aUTtiRbuzlU/edit?usp=sharing&ouid=115983644740723215134&rtpof=true&sd=true" style="color: var(--accent-color);">UR Inspiration Undergraduate Research Conference (SOMP'24)</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div>
-        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">2023</h3>
-        
-        <div class="paper-entry" style="margin-bottom: 30px;">
-            <div class="paper-content">
-                <div style="font-weight: 600; margin-bottom: 8px;">
-                    <a href="https://peer.asee.org/using-online-learning-modules-to-improve-students-use-of-technical-standards-in-additive-manufacturing-courses-and-projects">Using Online Learning Modules to Improve Students' Use of Technical Standards in Additive Manufacturing Courses and Projects</a>
-                </div>
-                <div style="margin-bottom: 8px; color: var(--text-color);">
-                    H. D. Budinoff, A. Wessman, and <strong>K. Chauhan</strong>.
-                </div>
-                <div style="color: var(--accent-color); font-size: 14px;">
-                    <a href="https://peer.asee.org/using-online-learning-modules-to-improve-students-use-of-technical-standards-in-additive-manufacturing-courses-and-projects" style="color: var(--accent-color);">ASEE Annual Conference</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-        <section class="section" id="projects">
-
-    <div class="paper-entry" style="margin-bottom: 30px;">
+      </div>
+      <div class="paper-entry">
+        <div class="date">ICML</div>
         <div class="paper-content">
-            <div style="font-weight: 600; margin-bottom: 8px;">
-                <a href="https://github.com/Kargichauhan/Robo" target="_blank">Embodied RL &amp; Reward Hacking</a>
-            </div>
-            <div style="margin-bottom: 8px; color: var(--secondary-text); font-size: 14px;">
-                Live ROS 2 Goodhart's-law demo: two identical arms evolve on the same task, one on a proxy score, one gated by a cheap ground-truth check. Across 30 seeds, the naive arm's proxy climbs while its real success rate stays at zero; only the guarded arm learns the task.
-            </div>
-            <div style="color: var(--secondary-text); font-size: 13px;">
-                <strong>Tech:</strong> ROS 2 (Humble/Iron/Jazzy), Python, NumPy, rosbridge, ament_python
-            </div>
+          <div class="paper-title"><a href="https://arxiv.org/abs/2606.10304">MIRAGE: A Polarity-Flipping Encoding Subspace in LLM Agents</a></div>
+          <div class="muted">P. Revankar, <strong>K. Chauhan</strong>, J. Kim, S. Nur, V. Siu, C. Wang.</div>
+          <div class="muted">ICML 2026</div>
         </div>
-    </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">ICML</div>
+        <div class="paper-content">
+          <div class="paper-title"><a href="https://arxiv.org/pdf/2606.04220">Dead Science Walking: Publication Bias and the AI Scientist Pipeline</a></div>
+          <div class="muted"><strong>K. Chauhan</strong>.</div>
+          <div class="muted">ICML @ AI4Science 2026</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">ICML</div>
+        <div class="paper-content">
+          <div class="paper-title"><a href="https://arxiv.org/pdf/2606.04228">When Does Structure Help? The Information Bonus of AlphaFold2 Representations over Protein Language Models</a></div>
+          <div class="muted"><strong>K. Chauhan</strong>.</div>
+          <div class="muted">ICML @ AI4Science 2026</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">ICML</div>
+        <div class="paper-content">
+          <div class="paper-title"><a href="https://arxiv.org/abs/2607.04432">Covert Trait Propagation Is Representation Alignment: Mechanistic Evidence from Hidden-Channel Distillation</a></div>
+          <div class="muted"><strong>K. Chauhan</strong> and A. Shah.</div>
+          <div class="muted">ICML @ MechInterp 2026 (work with Google Researcher)</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">Under Review</div>
+        <div class="paper-content">
+          <div class="paper-title">Consolidate, Decay, Promote: A Self-Pruning Memory Framework for Long-Horizon LLM Agents</div>
+          <div class="muted"><strong>K. Chauhan</strong>, P. Revankar, S. Nur, K. Montgomery, C. Wang.</div>
+          <div class="muted">Under Review</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">Under Review</div>
+        <div class="paper-content">
+          <div class="paper-title">Let Them Sleep: Selective Forgetting for Long-Horizon Agents</div>
+          <div class="muted"><strong>K. Chauhan</strong> and C. Wang.</div>
+          <div class="muted">Under Review</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">Under Review</div>
+        <div class="paper-content">
+          <div class="paper-title">Beyond RLVR: Verifiable Reward Design for Open-Ended Generation</div>
+          <div class="muted"><strong>K. Chauhan</strong>, X. Yang, U. Azirakhmet, J. Tu, C. Wang.</div>
+          <div class="muted">Under Review</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">ACL</div>
+        <div class="paper-content">
+          <div class="paper-title"><a href="https://arxiv.org/pdf/2604.26990">Multi-View Generalization and Diagnostic Analysis of Machine-Generated Code Detection</a></div>
+          <div class="muted"><strong>K. Chauhan</strong>, S. Nur.</div>
+          <div class="muted">ACL 2026</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">ACM</div>
+        <div class="paper-content">
+          <div class="paper-title"><a href="https://arxiv.org/pdf/2601.20316">Less is More: Benchmarking LLM Based Recommendation Agents</a></div>
+          <div class="muted"><strong>K. Chauhan</strong> and M. Venkateswarlu.</div>
+          <div class="muted"><a href="https://arxiv.org/pdf/2601.20316">ACM TheWebConf</a></div>
+        </div>
+      </div>
 
-    <div class="paper-entry" style="margin-bottom: 30px;">
+      <h3 class="subhead">2025</h3>
+      <div class="paper-entry">
+        <div class="date">NeurIPS</div>
         <div class="paper-content">
-            <div style="font-weight: 600; margin-bottom: 8px;">
-                <a href="https://github.com/Kargichauhan/beyondthestars">Beyond Stars</a>
-            </div>
-            <div style="margin-bottom: 8px; color: var(--secondary-text); font-size: 14px;">
-                Interactive web app exploring night sky from exoplanets using NASA's Gaia data
-            </div>
-            <div style="color: var(--secondary-text); font-size: 13px;">
-                <strong>Tech:</strong> Python, JavaScript, Three.js, WebGL, ESA Gaia DR3 Star Catalog
-            </div>
+          <div class="paper-title"><a href="https://arxiv.org/abs/2509.23971">VFSI: Validity First Spatial Intelligence for Constraint-Guided Traffic Diffusion</a></div>
+          <div class="muted"><strong>K. Chauhan</strong> and L. H. Gilpin.</div>
+          <div class="muted"><a href="https://arxiv.org/abs/2509.23971">NeurIPS</a></div>
         </div>
-    </div>
-    
-    <div class="paper-entry" style="margin-bottom: 30px;">
+      </div>
+      <div class="paper-entry">
+        <div class="date">Springer</div>
         <div class="paper-content">
-            <div style="font-weight: 600; margin-bottom: 8px;">
-                <a href="https://mentalhealthcare-yceuaojkfxaf9u4vxlgbdk.streamlit.app">Mental Health Chatbot for Counselors</a>
-                <a href="https://github.com/Kargichauhan/mental-health-app" style="margin-left: 10px; font-size: 14px; color: var(--secondary-text);">[GitHub]</a>
-            </div>
-            <div style="margin-bottom: 8px; color: var(--secondary-text); font-size: 14px;">
-                AI-driven mental health support using fine-tuned LLaMA-3
-            </div>
-            <div style="color: var(--secondary-text); font-size: 13px;">
-                <strong>Tech:</strong> Python, QLoRA, Unsloth, HumeAI, Hugging Face
-            </div>
+          <div class="paper-title"><a href="https://books.google.com/books?hl=en&amp;lr=&amp;id=9RyLEQAAQBAJ&amp;oi=fnd&amp;pg=PR5&amp;dq=Explainable+Artificial+Intelligence+for+Trustworthy+Decisions+in+Smart+Applications&amp;ots=K6SjLqKH8Z&amp;sig=s0crWwW8if3Dx8JQ7-phYMqEkEI#v=onepage&amp;q=Explainable%20Artificial%20Intelligence%20for%20Trustworthy%20Decisions%20in%20Smart%20Applications&amp;f=false">Large Language Models and XAI</a> [Book]</div>
+          <div class="muted"><strong>K. Chauhan</strong> and V. Pendyala.</div>
+          <div class="muted"><a href="https://books.google.com/books?hl=en&amp;lr=&amp;id=9RyLEQAAQBAJ&amp;oi=fnd&amp;pg=PR5&amp;dq=Explainable+Artificial+Intelligence+for+Trustworthy+Decisions+in+Smart+Applications&amp;ots=K6SjLqKH8Z&amp;sig=s0crWwW8if3Dx8JQ7-phYMqEkEI#v=onepage&amp;q=Explainable%20Artificial%20Intelligence%20for%20Trustworthy%20Decisions%20in%20Smart%20Applications&amp;f=false">Explainable Artificial Intelligence for Trustworthy Decisions in Smart Applications</a></div>
         </div>
-    </div>
-    
-    <div class="paper-entry" style="margin-bottom: 30px;">
-        <div class="paper-content">
-            <div style="font-weight: 600; margin-bottom: 8px;">
-                <a href="https://github.com/Kargichauhan/Agentic_customer_support">Agentic Customer Support</a>
-            </div>
-            <div style="margin-bottom: 8px; color: var(--secondary-text); font-size: 14px;">
-                Automating customer service workflows with LangGraph and OpenAI
-            </div>
-            <div style="color: var(--secondary-text); font-size: 13px;">
-                <strong>Tech:</strong> Python, LangGraph, OpenAI GPT API, Workflow Visualization
-            </div>
-        </div>
-    </div>
-    
-    <div class="paper-entry" style="margin-bottom: 30px;">
-        <div class="paper-content">
-            <div style="font-weight: 600; margin-bottom: 8px;">
-                <a href="https://github.com/Kargichauhan/SceneDiffuser">SceneDiffuser</a>
-            </div>
-            <div style="margin-bottom: 8px; color: var(--secondary-text); font-size: 14px;">
-                City-scale traffic simulation via generative world model
-            </div>
-            <div style="color: var(--secondary-text); font-size: 13px;">
-                <strong>Tech:</strong> Python, Generative Models, Traffic Simulation
-            </div>
-        </div>
-    </div>
-    
-    <div class="paper-entry" style="margin-bottom: 30px;">
-        <div class="paper-content">
-            <div style="font-weight: 600; margin-bottom: 8px;">
-                <a href="https://wardroberecommender-lnq9k62gst4yh8hzv7xgy3.streamlit.app">OutfitEquation</a>
-                <a href="https://github.com/Kargichauhan/Wadrobe_/tree/main" style="margin-left: 10px; font-size: 14px; color: var(--secondary-text);">[GitHub]</a>
-            </div>
-            <div style="margin-bottom: 8px; color: var(--secondary-text); font-size: 14px;">
-                Agent-based fashion recommendation system
-            </div>
-            <div style="color: var(--secondary-text); font-size: 13px;">
-                <strong>Tech:</strong> Python, Polyvore Dataset, PinAI API, Agent-based Modeling
-            </div>
-        </div>
-    </div>
-    
-    <div class="paper-entry" style="margin-bottom: 30px;">
-        <div class="paper-content">
-            <div style="font-weight: 600; margin-bottom: 8px;">
-                <a href="https://github.com/rachelS485/ISTA-498-Capstone-Group-1">UA Course Compass</a>
-            </div>
-            <div style="margin-bottom: 8px; color: var(--secondary-text); font-size: 14px;">
-                Web application for BS Information Science students course planning
-            </div>
-            <div style="color: var(--secondary-text); font-size: 13px;">
-                <strong>Tech:</strong> HTML, CSS, JavaScript, Node.js, PostgreSQL, NLP algorithms
-            </div>
-        </div>
-    </div>
-    
-    <div class="paper-entry" style="margin-bottom: 30px;">
-        <div class="paper-content">
-            <div style="font-weight: 600; margin-bottom: 8px;">
-                <a href="https://github.com/Kargichauhan/Visual_Reasoning_with_LTNs">Visual Reasoning with LTNs</a>
-            </div>
-            <div style="margin-bottom: 8px; color: var(--secondary-text); font-size: 14px;">
-                Logic Tensor Networks for visual reasoning tasks
-            </div>
-            <div style="color: var(--secondary-text); font-size: 13px;">
-                <strong>Tech:</strong> Python, Logic Tensor Networks, Computer Vision
-            </div>
-        </div>
-    </div>
-    
-    <div class="paper-entry" style="margin-bottom: 30px;">
-        <div class="paper-content">
-            <div style="font-weight: 600; margin-bottom: 8px;">
-                <a href="https://github.com/Kargichauhan/ml-main">Autonomous Deep Space Exploration</a>
-            </div>
-            <div style="margin-bottom: 8px; color: var(--secondary-text); font-size: 14px;">
-                System-of-systems architecture with small spacecraft inspectors
-            </div>
-            <div style="color: var(--secondary-text); font-size: 13px;">
-                <strong>Tech:</strong> Python, Machine Learning Algorithms, Synthetic Data Generation
-            </div>
-        </div>
-    </div>
-</section>
+      </div>
 
-        <section class="section" id="blog">
-
-
-    <div class="blog-entry">
-        <div class="blog-title">
-            <a href="compiling-the-subjective.html">Compiling the Subjective: RL Beyond Verifiable Rewards</a>
+      <h3 class="subhead">2024</h3>
+      <div class="paper-entry">
+        <div class="date">ISSC</div>
+        <div class="paper-content">
+          <div class="paper-title"><a href="http://www.intersmallsatconference.com/past/2024/G.6%20-%20Chauhan/ml_abstract_issc_2024.pdf">Enabling Deep Space Using Inspectors Accompanying Small Spacecraft System of System Architecture</a></div>
+          <div class="muted"><strong>K. Chauhan</strong>, A. T. Raj, and J. Thangavelautham.</div>
+          <div class="muted"><a href="http://www.intersmallsatconference.com/past/2024/G.6%20-%20Chauhan/ml_abstract_issc_2024.pdf">Interplanetary Small Satellite Conference (NASA JPL)</a></div>
         </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">UR Inspiration</div>
+        <div class="paper-content">
+          <div class="paper-title"><a href="https://docs.google.com/document/d/1Ngj655K-PlP5tVVbMkAx9aUTtiRbuzlU/edit?usp=sharing&amp;ouid=115983644740723215134&amp;rtpof=true&amp;sd=true">From Mines to Minds: Exploring Immersive Learning's Influence in Mining Engineering Education</a></div>
+          <div class="muted"><strong>K. Chauhan</strong>, A. Anani, and S. Adewuyi.</div>
+          <div class="muted"><a href="https://docs.google.com/document/d/1Ngj655K-PlP5tVVbMkAx9aUTtiRbuzlU/edit?usp=sharing&amp;ouid=115983644740723215134&amp;rtpof=true&amp;sd=true">UR Inspiration Undergraduate Research Conference (SOMP'24)</a></div>
+        </div>
+      </div>
+
+      <h3 class="subhead">2023</h3>
+      <div class="paper-entry">
+        <div class="date">ASEE</div>
+        <div class="paper-content">
+          <div class="paper-title"><a href="https://peer.asee.org/using-online-learning-modules-to-improve-students-use-of-technical-standards-in-additive-manufacturing-courses-and-projects">Using Online Learning Modules to Improve Students' Use of Technical Standards in Additive Manufacturing Courses and Projects</a></div>
+          <div class="muted">H. D. Budinoff, A. Wessman, and <strong>K. Chauhan</strong>.</div>
+          <div class="muted"><a href="https://peer.asee.org/using-online-learning-modules-to-improve-students-use-of-technical-standards-in-additive-manufacturing-courses-and-projects">ASEE Annual Conference</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="projects">
+      <h2 class="section-title">Projects</h2>
+      <h3 class="subhead">Current Research</h3>
+      <div class="project-entry">
+        <div class="date">2025-Present</div>
+        <div class="project-content">
+          <div class="project-title"><a href="https://kargichauhan.github.io/SAMD/">Teaching Agents What to Forget</a></div>
+          <div class="muted">Independent research on learned memory consolidation with KEEP, PRUNE, PROMOTE, ARCHIVE, and DECAY labels for long-horizon QA.</div>
+          <div class="tags"><span>LLM agents</span><span>memory</span><span>long-horizon reasoning</span></div>
+        </div>
+      </div>
+      <div class="project-entry">
         <div class="date">2026</div>
-        <div class="blog-excerpt">
-            RLVR works brilliantly for math and code — but what do you reward when there is no right answer? A survey of four paradigms closing the verifiability gap, with a deep dive into Judge Code-guided RL, which compiles subjective rubrics into executable Python at 2× training speed.
+        <div class="project-content">
+          <div class="project-title">GuardBench</div>
+          <div class="muted">Enterprise multi-agent testbed for access-control attacks, role isolation, message-broker orchestration, and inter-agent guardrail evaluation.</div>
+          <div class="tags"><span>agent safety</span><span>RBAC</span><span>red teaming</span></div>
         </div>
-    </div>
-
-    <div class="blog-entry">
-        <div class="blog-title">
-            <a href="the-light-and-shade-of-81000-voices.html">The Light and Shade of 81,000 Voices</a>
-        </div>
+      </div>
+      <div class="project-entry">
         <div class="date">2026</div>
-        <div class="blog-excerpt">
-            Anthropic published the largest qualitative study ever conducted — 80,508 people across 159 countries interviewed by Claude itself. A close reading of what the data actually says about hope, fear, and the entangled nature of AI's benefits and harms.
+        <div class="project-content">
+          <div class="project-title"><a href="https://rllm-project.com/">RLLM</a></div>
+          <div class="muted">Open-source reinforcement learning for language models, including memory systems and benchmark integrations for research agents.</div>
+          <div class="tags"><span>open source</span><span>RL</span><span>language models</span></div>
         </div>
-    </div>
+      </div>
+      <div class="project-entry">
+        <div class="date">2024</div>
+        <div class="project-content">
+          <div class="project-title"><a href="https://github.com/Kargichauhan/ml-main">NASA JPL CubeSat Pose Estimation</a></div>
+          <div class="muted">Attitude-estimation and lighting systems using a single vision sensor, trained on large-scale synthetic multimodal samples.</div>
+          <div class="tags"><span>computer vision</span><span>space systems</span><span>synthetic data</span></div>
+        </div>
+      </div>
 
-    <div class="blog-entry">
-        <div class="blog-title">
-            <a href="subliminal-learning.html">The Owl Was Never in the Data</a>
+      <h3 class="subhead">Selected Builds</h3>
+      <div class="project-entry">
+        <div class="date">2026</div>
+        <div class="project-content">
+          <div class="project-title"><a href="https://github.com/Kargichauhan/Robo">Embodied RL &amp; Reward Hacking</a></div>
+          <div class="muted">Live ROS 2 Goodhart's-law demo: two identical arms evolve on the same task, one on a proxy score, one gated by a cheap ground-truth check.</div>
+          <div class="tags"><span>robotics</span><span>reinforcement learning</span><span>reward hacking</span></div>
         </div>
+      </div>
+      <div class="project-entry">
+        <div class="date">2024</div>
+        <div class="project-content">
+          <div class="project-title"><a href="https://github.com/Kargichauhan/beyondthestars">Beyond Stars</a></div>
+          <div class="muted">Interactive web app exploring the night sky from exoplanets using NASA's Gaia data.</div>
+          <div class="tags"><span>Python</span><span>JavaScript</span><span>Three.js</span><span>WebGL</span><span>Gaia DR3</span></div>
+        </div>
+      </div>
+      <div class="project-entry">
+        <div class="date">2024</div>
+        <div class="project-content">
+          <div class="project-title"><a href="https://mentalhealthcare-yceuaojkfxaf9u4vxlgbdk.streamlit.app">Mental Health Chatbot for Counselors</a> <a href="https://github.com/Kargichauhan/mental-health-app">[GitHub]</a></div>
+          <div class="muted">AI-driven mental health support using fine-tuned LLaMA-3.</div>
+          <div class="tags"><span>Python</span><span>QLoRA</span><span>Unsloth</span><span>HumeAI</span><span>Hugging Face</span></div>
+        </div>
+      </div>
+      <div class="project-entry">
         <div class="date">2025</div>
-        <div class="blog-excerpt">
-            Five convergent experiments reveal subliminal learning operates through representation alignment, not information transfer (r=0.98 CKA correlation). Testing 56 animals exposes that 78% of the token entanglement effect is measurement artifact. Instruction tuning creates the vulnerability — pretraining does not.
+        <div class="project-content">
+          <div class="project-title"><a href="https://github.com/Kargichauhan/Agentic_customer_support">Agentic Customer Support</a></div>
+          <div class="muted">Automating customer service workflows with LangGraph and OpenAI.</div>
+          <div class="tags"><span>Python</span><span>LangGraph</span><span>OpenAI API</span><span>workflow visualization</span></div>
         </div>
-    </div>
-
-    <div class="blog-entry">
-        <div class="blog-title">
-            <a href="reward-hacking.html">Reward Hacking Is a Phase Transition and We Can See It Coming</a>
-        </div>
+      </div>
+      <div class="project-entry">
         <div class="date">2025</div>
-        <div class="blog-excerpt">
-            Three empirical studies on process vs. outcome supervision in RLVR: reward hacking isn't gradual drift — it's an abrupt phase transition predictable with 100% precision up to 2,800 steps in advance. Process supervision yields 98x lower reward variance, and a difficulty-adaptive policy cuts L5 hacking from 50.6% to 1.5%.
+        <div class="project-content">
+          <div class="project-title"><a href="https://github.com/Kargichauhan/SceneDiffuser">SceneDiffuser</a></div>
+          <div class="muted">City-scale traffic simulation via generative world models.</div>
+          <div class="tags"><span>Python</span><span>generative models</span><span>traffic simulation</span></div>
         </div>
-    </div>
-
-    <div class="blog-entry">
-        <div class="blog-title">
-            <a href="https://kargic.medium.com/teaching-machines-to-think-bbc9dfa603a5">Teaching Machines to Think - Agentic AI</a>
+      </div>
+      <div class="project-entry">
+        <div class="date">2024</div>
+        <div class="project-content">
+          <div class="project-title"><a href="https://wardroberecommender-lnq9k62gst4yh8hzv7xgy3.streamlit.app">OutfitEquation</a> <a href="https://github.com/Kargichauhan/Wadrobe_/tree/main">[GitHub]</a></div>
+          <div class="muted">Agent-based fashion recommendation system.</div>
+          <div class="tags"><span>Python</span><span>Polyvore</span><span>PinAI API</span><span>agent-based modeling</span></div>
         </div>
+      </div>
+      <div class="project-entry">
+        <div class="date">2024</div>
+        <div class="project-content">
+          <div class="project-title"><a href="https://github.com/rachelS485/ISTA-498-Capstone-Group-1">UA Course Compass</a></div>
+          <div class="muted">Web application for BS Information Science students course planning.</div>
+          <div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Node.js</span><span>PostgreSQL</span><span>NLP</span></div>
+        </div>
+      </div>
+      <div class="project-entry">
         <div class="date">2025</div>
-        <div class="blog-excerpt">
-            Intelligent agent leveraged using LangGraph to automate customer support workflows while visualizing them dynamically.
+        <div class="project-content">
+          <div class="project-title"><a href="https://github.com/Kargichauhan/Visual_Reasoning_with_LTNs">Visual Reasoning with LTNs</a></div>
+          <div class="muted">Logic Tensor Networks for visual reasoning tasks.</div>
+          <div class="tags"><span>Python</span><span>Logic Tensor Networks</span><span>computer vision</span></div>
         </div>
-    </div>
-    
-    <div class="blog-entry">
-        <div class="blog-title">
-            <a href="https://kargic.medium.com/what-training-ai-models-taught-me-about-my-own-brain-8d5e278a9bdd">What Training AI Models Taught Me About My Own Brain</a>
+      </div>
+      <div class="project-entry">
+        <div class="date">2024</div>
+        <div class="project-content">
+          <div class="project-title"><a href="https://github.com/Kargichauhan/ml-main">Autonomous Deep Space Exploration</a></div>
+          <div class="muted">System-of-systems architecture with small spacecraft inspectors.</div>
+          <div class="tags"><span>Python</span><span>machine learning</span><span>synthetic data generation</span></div>
         </div>
+      </div>
+    </section>
+
+    <section class="section" id="blog">
+      <h2 class="section-title">Blog</h2>
+      <div class="blog-entry">
+        <div class="blog-title"><a href="https://kargichauhan.github.io/compiling-the-subjective.html">Compiling the Subjective: RL Beyond Verifiable Rewards</a></div>
+        <div class="date">2026</div>
+        <div class="blog-excerpt">RLVR works brilliantly for math and code - but what do you reward when there is no right answer? A survey of four paradigms closing the verifiability gap, with a deep dive into Judge Code-guided RL, which compiles subjective rubrics into executable Python at 2x training speed.</div>
+      </div>
+      <div class="blog-entry">
+        <div class="blog-title"><a href="https://kargichauhan.github.io/the-light-and-shade-of-81000-voices.html">The Light and Shade of 81,000 Voices</a></div>
+        <div class="date">2026</div>
+        <div class="blog-excerpt">Anthropic published the largest qualitative study ever conducted - 80,508 people across 159 countries interviewed by Claude itself. A close reading of what the data actually says about hope, fear, and the entangled nature of AI's benefits and harms.</div>
+      </div>
+      <div class="blog-entry">
+        <div class="blog-title"><a href="https://kargichauhan.github.io/subliminal-learning.html">The Owl Was Never in the Data</a></div>
         <div class="date">2025</div>
-        <div class="blog-excerpt">
-            A journey into machine learning that revealed the most fascinating model was already inside my head.
-        </div>
-    </div>
-    
-    
-    <div class="blog-entry">
-        <div class="blog-title">
-            <a href="https://kargic.medium.com/waymos-ai-has-driven-15-billion-miles-you-ll-never-guess-where-dceb79128e2e">Waymo's 15 Billion Mile Journey</a>
-        </div>
+        <div class="blog-excerpt">Five convergent experiments reveal subliminal learning operates through representation alignment, not information transfer (r=0.98 CKA correlation). Testing 56 animals exposes that 78% of the token entanglement effect is measurement artifact. Instruction tuning creates the vulnerability - pretraining does not.</div>
+      </div>
+      <div class="blog-entry">
+        <div class="blog-title"><a href="https://kargichauhan.github.io/reward-hacking.html">Reward Hacking Is a Phase Transition and We Can See It Coming</a></div>
         <div class="date">2025</div>
-        <div class="blog-excerpt">
-            Exploring autonomous vehicle testing in simulated environments.
-        </div>
-    </div>
-    
-    <div class="blog-entry">
-        <div class="blog-title">
-            <a href="https://kargic.medium.com/i-choose-books-over-everything-else-4d5880219ade">Why I Choose Books Over Everything Else</a>
-        </div>
+        <div class="blog-excerpt">Three empirical studies on process vs. outcome supervision in RLVR: reward hacking is not gradual drift - it is an abrupt phase transition predictable with 100% precision up to 2,800 steps in advance. Process supervision yields 98x lower reward variance, and a difficulty-adaptive policy cuts L5 hacking from 50.6% to 1.5%.</div>
+      </div>
+      <div class="blog-entry">
+        <div class="blog-title"><a href="https://kargic.medium.com/teaching-machines-to-think-bbc9dfa603a5">Teaching Machines to Think - Agentic AI</a></div>
         <div class="date">2025</div>
-        <div class="blog-excerpt">
-            Reading as the ultimate form of time travel through human experience.
-        </div>
-    </div>
-
-    <div class="blog-entry">
-        <div class="blog-title">
-            <a href="problems-list.html">Why I Keep a List of Problems That Won’t Let Me Go</a>
-        </div>
+        <div class="blog-excerpt">Intelligent agent leveraged using LangGraph to automate customer support workflows while visualizing them dynamically.</div>
+      </div>
+      <div class="blog-entry">
+        <div class="blog-title"><a href="https://kargic.medium.com/what-training-ai-models-taught-me-about-my-own-brain-8d5e278a9bdd">What Training AI Models Taught Me About My Own Brain</a></div>
         <div class="date">2025</div>
-        <div class="blog-excerpt">
-            Part confession, part playbook — on luck as a multiplier, keeping a living list of thorny questions, and why direction beats drift.
-        </div>
-    </div>
-    
-    <div class="blog-entry">
-        <div class="blog-title">
-            <a href="https://medium.com/@kargic/exploring-the-nexus-of-ai-machine-learning-data-science-and-deep-learning-e5b2557c95b">Exploring the Nexus of AI, Machine Learning, Data Science, and Deep Learning</a>
-        </div>
+        <div class="blog-excerpt">A journey into machine learning that revealed the most fascinating model was already inside my head.</div>
+      </div>
+      <div class="blog-entry">
+        <div class="blog-title"><a href="https://kargic.medium.com/waymos-ai-has-driven-15-billion-miles-you-ll-never-guess-where-dceb79128e2e">Waymo's 15 Billion Mile Journey</a></div>
+        <div class="date">2025</div>
+        <div class="blog-excerpt">Exploring autonomous vehicle testing in simulated environments.</div>
+      </div>
+      <div class="blog-entry">
+        <div class="blog-title"><a href="https://kargic.medium.com/i-choose-books-over-everything-else-4d5880219ade">Why I Choose Books Over Everything Else</a></div>
+        <div class="date">2025</div>
+        <div class="blog-excerpt">Reading as the ultimate form of time travel through human experience.</div>
+      </div>
+      <div class="blog-entry">
+        <div class="blog-title"><a href="https://kargichauhan.github.io/problems-list.html">Why I Keep a List of Problems That Won't Let Me Go</a></div>
+        <div class="date">2025</div>
+        <div class="blog-excerpt">Part confession, part playbook - on luck as a multiplier, keeping a living list of thorny questions, and why direction beats drift.</div>
+      </div>
+      <div class="blog-entry">
+        <div class="blog-title"><a href="https://medium.com/@kargic/exploring-the-nexus-of-ai-machine-learning-data-science-and-deep-learning-e5b2557c95b">Exploring the Nexus of AI, Machine Learning, Data Science, and Deep Learning</a></div>
         <div class="date">2023</div>
-        <div class="blog-excerpt">
-            Dive into the world of AI and discover how data science and deep learning interconnect to shape innovation.
-        </div>
-    </div>
-    
-    <div class="blog-entry">
-        <div class="blog-title">
-            <a href="https://medium.com/@kargic/get-ready-to-unlock-the-ai-secrets-one-byte-at-a-time-3aa7a55683b">Get Ready to Unlock the AI Secrets, One Byte at a Time</a>
-        </div>
+        <div class="blog-excerpt">Dive into the world of AI and discover how data science and deep learning interconnect to shape innovation.</div>
+      </div>
+      <div class="blog-entry">
+        <div class="blog-title"><a href="https://medium.com/@kargic/get-ready-to-unlock-the-ai-secrets-one-byte-at-a-time-3aa7a55683b">Get Ready to Unlock the AI Secrets, One Byte at a Time</a></div>
         <div class="date">2023</div>
-        <div class="blog-excerpt">
-            Break down the secrets of artificial intelligence and its incredible potential in our modern world.
-        </div>
-    </div>
-    
-    <div class="blog-entry">
-        <div class="blog-title">
-            <a href="#">Decoding the Enigma: Unveiling the True Essence of AI (AI Series — Part I)</a>
-        </div>
+        <div class="blog-excerpt">Break down the secrets of artificial intelligence and its incredible potential in our modern world.</div>
+      </div>
+      <div class="blog-entry">
+        <div class="blog-title"><a href="https://kargichauhan.github.io/#">Decoding the Enigma: Unveiling the True Essence of AI (AI Series - Part I)</a></div>
         <div class="date">2023</div>
-        <div class="blog-excerpt">
-            Debunk myths about artificial intelligence and explore its true capabilities in this insightful series.
-        </div>
-    </div>
-    
-    <div class="blog-entry">
-        <div class="blog-title">
-            <a href="https://docs.google.com/document/d/e/2PACX-1vQSGHj8xfmbvJkzbDDBrulebjpyTZ3F6yV-2VvP0YBeBzbHVhkrU--4rJ5IAmrpuQ/pub">Investigation on Hollywood Singer's Age and Their Followers</a>
-        </div>
+        <div class="blog-excerpt">Debunk myths about artificial intelligence and explore its true capabilities in this insightful series.</div>
+      </div>
+      <div class="blog-entry">
+        <div class="blog-title"><a href="https://docs.google.com/document/d/e/2PACX-1vQSGHj8xfmbvJkzbDDBrulebjpyTZ3F6yV-2VvP0YBeBzbHVhkrU--4rJ5IAmrpuQ/pub">Investigation on Hollywood Singer's Age and Their Followers</a></div>
         <div class="date">2023</div>
-        <div class="blog-excerpt">
-            Analyze the curious correlation between age and fan following in the glamorous world of Hollywood singers.
-        </div>
-    </div>
-    
-    <div class="blog-entry">
-        <div class="blog-title">
-            <a href="https://docs.google.com/document/d/1iAnWozUdVlqp2cDFV0qtfxUo22qK0C8cTbCoTjpCWdI/edit">Effect of Script Structures on Memory Recall</a>
-        </div>
+        <div class="blog-excerpt">Analyze the curious correlation between age and fan following in the glamorous world of Hollywood singers.</div>
+      </div>
+      <div class="blog-entry">
+        <div class="blog-title"><a href="https://docs.google.com/document/d/1iAnWozUdVlqp2cDFV0qtfxUo22qK0C8cTbCoTjpCWdI/edit">Effect of Script Structures on Memory Recall</a></div>
         <div class="date">2023</div>
-        <div class="blog-excerpt">
-            Uncover how the design of narratives impacts our memory retention and recall mechanisms.
-        </div>
-    </div>
-    
-    <div class="blog-entry">
-        <div class="blog-title">
-            <a href="https://docs.google.com/document/d/1cuXG4a046usP_vqxqWLNtbt9WppR2RKB/edit">Investigating Antibiotics Effect on Milk Fermentation</a>
-        </div>
+        <div class="blog-excerpt">Uncover how the design of narratives impacts our memory retention and recall mechanisms.</div>
+      </div>
+      <div class="blog-entry">
+        <div class="blog-title"><a href="https://docs.google.com/document/d/1cuXG4a046usP_vqxqWLNtbt9WppR2RKB/edit">Investigating Antibiotics Effect on Milk Fermentation</a></div>
         <div class="date">2023</div>
-        <div class="blog-excerpt">
-            Understand the science of antibiotics and their impact on fermentation across three milk types.
-        </div>
-    </div>
-    
-    <div class="blog-entry">
-        <div class="blog-title">
-            <a href="https://docs.google.com/document/d/1THorvVI5NZ6mEHo6fHtqQyRC4t0sR-Qg/edit">Portrayal of Hate and Love as Reciprocal Passion</a>
-        </div>
+        <div class="blog-excerpt">Understand the science of antibiotics and their impact on fermentation across three milk types.</div>
+      </div>
+      <div class="blog-entry">
+        <div class="blog-title"><a href="https://docs.google.com/document/d/1THorvVI5NZ6mEHo6fHtqQyRC4t0sR-Qg/edit">Portrayal of Hate and Love as Reciprocal Passion</a></div>
         <div class="date">2023</div>
-        <div class="blog-excerpt">
-            Dive into the depths of passion and explore how love and hate intertwine through compelling characters.
-        </div>
-    </div>
-</section>
+        <div class="blog-excerpt">Dive into the depths of passion and explore how love and hate intertwine through compelling characters.</div>
+      </div>
+    </section>
 
-        <section class="section" id="cv">
-
-    <div style="padding: 20px 0;">
-        <p style="margin-bottom: 40px;">You can download my full CV <a href="Kargi_Chauhan_CV.pdf">here</a>.</p>
-
-
-        <!-- Education -->
-        <h3 style="margin: 0 0 20px 0; font-size: 16px;">Education</h3>
-        <div class="paper-entry">
-            <div class="date">2025-Present</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">M.S. in Natural Language Processing</div>
-                <div>University of California, Santa Cruz</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Advisors: Dr. Leilani Gilpin and Dr. Chenguang Wang</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2020-2024</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">B.S. in Information & Data Science</div>
-                <div>University of Arizona</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Minor: Game Design • GPA: 3.9/4.0</div>
-            </div>
-        </div>
-        
-        <!-- Experience -->
-        <h3 style="margin: 36px 0 20px 0; font-size: 16px;">Experience</h3>
-        <div class="paper-entry">
-            <div class="date">2025</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">ML Research Assistant</div>
-                <div>UCSC • AIEA Lab</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Researching verifiable RL and neuro-symbolic pipelines for autonomous-systems reliability</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2025</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">Visiting ML Researcher</div>
-                <div>University of Edinburgh</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Hybrid LTNs + SMT program-synthesis workflows for visual reasoning</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2024</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">Machine Learning Engineer</div>
-                <div>Stealth Startup</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Post-training & deployment of LLMs for productized inference</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2024</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">Machine Learning Intern</div>
-                <div>NASA JPL</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Pose-estimation and lighting pipeline for CubeSat imagery</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2024</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">HCI Researcher</div>
-                <div>NJIT • Ying Wu College of Computing</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Fairness & explainability for aging-focused AI tools</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2022-2023</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">Undergraduate Student Researcher</div>
-                <div>University of Arizona College of Engineering</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Supply chain optimization research focusing on lean processes and human factors</div>
-            </div>
-        </div>
-        
-        <!-- Awards -->
-        <h3 style="margin: 36px 0 20px 0; font-size: 16px;">Awards & Recognition</h3>
-        <div class="paper-entry">
-            <div class="date">2024</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">NASA Ames — Galactic Problem Solver</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">NASA International Space Apps Challenge</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2020</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">Global Wildcat Scholarship</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">University of Arizona • Four-year merit scholarship covering 100% tuition</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2020-2024</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">Dean's List (4 years)</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">University of Arizona</div>
-            </div>
-        </div>
-        
-        <!-- Volunteer -->
-        <h3 style="margin: 36px 0 20px 0; font-size: 16px;">Leadership & Volunteering</h3>
-        <div class="paper-entry">
-            <div class="date">2025</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">Ambassador</div>
-                <div>DeepLearning.AI</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Community events and learner support around practical ML</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2025</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">Core Volunteer</div>
-                <div>Women in Big Data</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Programming and mentorship for women in data careers</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2022</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">E-Board Member</div>
-                <div>Google Developer Student Club</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Organized events, led workshops, and fostered collaboration using Google technologies</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2022</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">Volunteer Student Note-Taker</div>
-                <div>University of Arizona — Disability Resource Center</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Provided accessible course notes for a Computer Science course to support students with disabilities</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2022</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">Selected Presenter</div>
-                <div>ISSC Conference — NASA Jet Propulsion Laboratory</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Presented undergraduate spacecraft research at NASA JPL's Intercollegiate Space Sciences Competition</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2022</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">Undergraduate Student Representative</div>
-                <div>South Asian Association, University of Arizona</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Represented undergraduate student interests and helped organize cultural events across campus</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2020</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">Digital Literacy Volunteer Instructor</div>
-                <div>Community Outreach Initiative</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Led monthly digital literacy workshops during the pandemic; participants saw a 50% increase in digital proficiency</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2022</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">Fundraising Volunteer</div>
-                <div>Alpha Sigma Alpha Sorority</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Coordinated fundraising campaigns contributing to a 30% increase in chapter donations</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2023</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">Scholar</div>
-                <div>Grace Hopper Celebration & Richard Tapia Conference</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Selected scholar at two of the largest diversity-in-computing conferences</div>
-            </div>
-        </div>
-        <div class="paper-entry">
-            <div class="date">2023</div>
-            <div class="paper-content">
-                <div style="font-weight: 600;">Member</div>
-                <div>Rewriting the Code</div>
-                <div style="color: var(--secondary-text); font-size: 14px;">Community supporting women and non-binary students in tech through mentorship, fellowships, and career resources</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-        <section class="section" id="misc">
-    <div class="misc-prose">
-        <p>Outside the lab, I'm driven by curiosity in a different register. I spend my free time experimenting in coffee shops, exploring single-origin brews, tasting notes, and the quiet rituals around a good cup <span style="color: var(--secondary-text); font-size: 14px;">(links coming soon)</span>, and in the kitchen, crafting plant-based recipes that are as much about technique as they are about flavor. I'm an avid reader, drawn especially to biographies: there's something about sitting with another person's full arc, their choices, their failures, their reinventions, that I find deeply grounding.</p>
-
+    <section class="section" id="misc">
+      <h2 class="section-title">Misc</h2>
+      <div class="bio">
+        <p>I'm driven by curiosity in a different register. I spend my free time experimenting in coffee shops, exploring single-origin brews, tasting notes, and the <a href="coffee.html">quiet rituals around a good cup</a>, and in the kitchen, crafting plant-based recipes that are as much about technique as they are about flavor.</p>
+        <p>I'm an avid reader, drawn especially to biographies: there's something about sitting with another person's full arc, their choices, their failures, their reinventions, that I find deeply grounding.</p>
         <p>Sport has always been part of who I am. During high school, I competed seriously, earning the <strong>Women's Under-18 Times of India</strong> title and representing at the international level in swimming, bringing home medals along the way. That chapter taught me discipline, competitive focus, and how to perform under pressure, lessons that quietly shape how I approach research today.</p>
+        <p>I also hold the <a href="https://intaward.org/">Duke of Edinburgh's International Award (Gold)</a>, which recognized sustained commitment across physical, skill, and community service challenges. It remains one of the things I'm most proud of.</p>
+      </div>
+    </section>
 
-        <p>I also hold the <a href="https://intaward.org" target="_blank">Duke of Edinburgh's International Award (Gold)</a>, which recognized sustained commitment across physical, skill, and community service challenges. It remains one of the things I'm most proud of.</p>
+    <section class="section" id="cv">
+      <h2 class="section-title">CV</h2>
+
+      <h3 class="subhead">Education</h3>
+      <div class="paper-entry">
+        <div class="date">Dec 2026</div>
+        <div class="paper-content">
+          <div class="paper-title">MS in Natural Language Processing</div>
+          <div>University of California, Santa Cruz</div>
+          <div class="muted">Research area: post-training LLMs, alignment and safety, RL, and long-horizon reasoning. Advisors: Dr. Chenguang Wang and Dr. Leilani Gilpin.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">May 2024</div>
+        <div class="paper-content">
+          <div class="paper-title">BS in Machine Learning and Data Science</div>
+          <div>University of Arizona</div>
+          <div class="muted">GPA: 3.9/4.0</div>
+        </div>
+      </div>
+
+      <h3 class="subhead">Experience</h3>
+      <div class="paper-entry">
+        <div class="date">May 2026-Present</div>
+        <div class="paper-content">
+          <div class="paper-title">ML Researcher, Uniphore</div>
+          <div class="muted">Leading GuardBench, a benchmark for access-control attacks between agents.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">Jan-May 2026</div>
+        <div class="paper-content">
+          <div class="paper-title">Research Engineer, Wang Lab</div>
+          <div class="muted">Developed EGVR and ran post-training evaluations for verifiable reward design and long-horizon research agents.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">Sep-Dec 2025</div>
+        <div class="paper-content">
+          <div class="paper-title">Research Assistant, AIEA Lab</div>
+          <div class="muted">Built VFSI for constraint-guided traffic diffusion and autonomous-systems evaluation.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">Mar-Sep 2025</div>
+        <div class="paper-content">
+          <div class="paper-title">Research Fellow, University of Edinburgh</div>
+          <div class="muted">Built a hybrid neuro-symbolic reasoning pipeline with Logic Tensor Networks and SMT-based program synthesis.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">May 2024-Jul 2025</div>
+        <div class="paper-content">
+          <div class="paper-title">Machine Learning Engineer, Stealth Startup</div>
+          <div class="muted">Fine-tuned LLaMA 7B/13B with QLoRA, reward modeling, and DPO for preference alignment.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">Feb-May 2024</div>
+        <div class="paper-content">
+          <div class="paper-title">Machine Learning Intern, NASA JPL</div>
+          <div class="muted">Developed attitude-estimation and lighting systems for CubeSats using synthetic multimodal data.</div>
+        </div>
+      </div>
+
+      <h3 class="subhead">Academic Service & Honors</h3>
+      <div class="paper-entry">
+        <div class="date">2026</div>
+        <div class="paper-content">
+          <div class="paper-title">3rd Place, HumOmni 2026 Track 2</div>
+          <div class="muted">ProactivEval evaluation of vision-grounded proactive interaction.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">2026</div>
+        <div class="paper-content">
+          <div class="paper-title">Outstanding Reviewer, ICML Mechanistic Interpretability</div>
+          <div class="muted">Also reviewer for COLM 2026 and technical reviewer for Manning Publications.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">2025</div>
+        <div class="paper-content">
+          <div class="paper-title">Invited Talks</div>
+          <div class="muted">From Engineering to AI Research at LinkedIn San Francisco and Women in Tech Panel at Women in Machine Learning.</div>
+        </div>
+      </div>
+
+      <h3 class="subhead">Leadership & Volunteering</h3>
+      <div class="paper-entry">
+        <div class="date">2025</div>
+        <div class="paper-content">
+          <div class="paper-title">Ambassador, DeepLearning.AI</div>
+          <div class="muted">Community events and learner support around practical ML.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">2025</div>
+        <div class="paper-content">
+          <div class="paper-title">Core Volunteer, Women in Big Data</div>
+          <div class="muted">Programming and mentorship for women in data careers.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">2023</div>
+        <div class="paper-content">
+          <div class="paper-title">Scholar, Grace Hopper Celebration & Richard Tapia Conference</div>
+          <div class="muted">Selected scholar at two of the largest diversity-in-computing conferences.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">2023</div>
+        <div class="paper-content">
+          <div class="paper-title">Member, Rewriting the Code</div>
+          <div class="muted">Community supporting women and non-binary students in tech through mentorship, fellowships, and career resources.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">2022</div>
+        <div class="paper-content">
+          <div class="paper-title">E-Board Member, Google Developer Student Club</div>
+          <div class="muted">Organized events, led workshops, and fostered collaboration using Google technologies.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">2022</div>
+        <div class="paper-content">
+          <div class="paper-title">Undergraduate Student Representative, South Asian Association</div>
+          <div class="muted">Represented undergraduate student interests and helped organize cultural events at University of Arizona.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">2022</div>
+        <div class="paper-content">
+          <div class="paper-title">Volunteer Student Note-Taker, Disability Resource Center</div>
+          <div class="muted">Provided accessible course notes for a Computer Science course to support students with disabilities.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">2022</div>
+        <div class="paper-content">
+          <div class="paper-title">Selected Presenter, ISSC Conference — NASA Jet Propulsion Laboratory</div>
+          <div class="muted">Presented undergraduate spacecraft research at NASA JPL's Intercollegiate Space Sciences Competition.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">2022</div>
+        <div class="paper-content">
+          <div class="paper-title">Fundraising Volunteer, Alpha Sigma Alpha Sorority</div>
+          <div class="muted">Coordinated fundraising campaigns contributing to a 30% increase in chapter donations.</div>
+        </div>
+      </div>
+      <div class="paper-entry">
+        <div class="date">2020</div>
+        <div class="paper-content">
+          <div class="paper-title">Digital Literacy Volunteer Instructor</div>
+          <div class="muted">Led monthly digital literacy workshops during the pandemic; participants saw a 50% increase in digital proficiency.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="social-links">
+      <a href="mailto:kargichauhan2302@gmail.com" title="Email" aria-label="Email">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/></svg>
+      </a>
+      <a href="https://github.com/Kargichauhan" title="GitHub" aria-label="GitHub">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.79-.26.79-.58v-2.23c-3.34.72-4.03-1.42-4.03-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.21.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.66-.3-5.46-1.33-5.46-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23A11.5 11.5 0 0 1 12 5.8c1.02 0 2.05.14 3 .4 2.29-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.3c0 .32.19.69.8.58A12.01 12.01 0 0 0 12 0Z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/kargichauhan/" title="LinkedIn" aria-label="LinkedIn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+      </a>
+      <a href="https://medium.com/@kargic" title="Medium" aria-label="Medium">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12Zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42ZM24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12Z"/></svg>
+      </a>
+      <a href="https://x.com/Kargichauhan_" title="X" aria-label="X">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.65l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23Zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64Z"/></svg>
+      </a>
     </div>
-</section>
+    <div class="contact-note">Best way to reach me is through email.</div>
+  </footer>
 
-        <section class="section" id="service">
-    <div style="padding: 4px 0;">
+  <script>
+    const themeToggle = document.getElementById("themeToggle");
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem("theme") || "light";
 
-        <div class="paper-entry" style="margin-bottom: 18px;">
-            <div class="paper-content">
-                <strong>Reviewer</strong>, <a href="https://openreview.net/group?id=colmweb.org/COLM/2026/Conference/Reviewers" target="_blank">Conference on Language Modeling (COLM) 2026</a>
-            </div>
-        </div>
+    html.setAttribute("data-theme", savedTheme);
+    themeToggle.textContent = savedTheme === "dark" ? "☀" : "☾";
 
-        <div class="paper-entry" style="margin-bottom: 18px;">
-            <div class="paper-content">
-                <strong>Reviewer</strong>, ICML 2026 Workshops:
-                <a href="https://openreview.net/group?id=ICML.cc/2026/Workshop/AIWILD/Reviewers" target="_blank">AIWILD</a>;
-                <a href="https://openreview.net/group?id=ICML.cc/2026/Workshop/Mech_Interp/Reviewers" target="_blank">Mechanistic Interpretability</a>
-            </div>
-        </div>
+    themeToggle.addEventListener("click", () => {
+      const currentTheme = html.getAttribute("data-theme");
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      html.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+      themeToggle.textContent = newTheme === "dark" ? "☀" : "☾";
+    });
 
-        <div class="paper-entry" style="margin-bottom: 18px;">
-            <div class="paper-content">
-                <strong>Technical Reviewer</strong>, V. Kalyanarangan, <em>Quantization and Fast Inference: A Practitioner's Guide to Efficient AI</em>,
-                <a href="https://www.manning.com/books/quantization-and-fast-inference" target="_blank">Manning Publications</a>, 2026
-            </div>
-        </div>
+    const navLinks = document.querySelectorAll(".nav-link");
+    const sections = document.querySelectorAll(".section");
 
-        <div class="paper-entry" style="margin-bottom: 18px;">
-            <div class="paper-content">
-                <strong>Invited Talk</strong>, "From Engineering to AI Research," LinkedIn San Francisco Office, 2025
-            </div>
-        </div>
-
-        <div class="paper-entry" style="margin-bottom: 18px;">
-            <div class="paper-content">
-                <strong>Invited Talk</strong>, "Women in Tech Panel," <a href="https://www.wiml.org" target="_blank">Women in Machine Learning</a>
-            </div>
-        </div>
-
-        <div class="paper-entry" style="margin-bottom: 18px;">
-            <div class="paper-content">
-                <strong>Invited Talk</strong>, "Stereotypes and Tech" Panel, CalHacks 11.0
-            </div>
-        </div>
-
-    </div>
-</section>
-    </main>
-
-    <footer>
-        <div class="social-links">
-            <a href="mailto:kargichauhan2302@gmail.com" title="Email">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                </svg>
-            </a>
-            <a href="https://github.com/Kargichauhan" title="GitHub">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
-            </a>
-            <a href="https://www.linkedin.com/in/kargichauhan/" title="LinkedIn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-            </a>
-            <a href="https://medium.com/@kargic" title="Medium">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/>
-                </svg>
-            </a>
-            <a href="https://x.com/Kargichauhan_" title="Twitter">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
-            </a>
-        </div>
-        <div class="contact-note">
-            Best way to reach me is through email!
-        </div>
-    </footer>
-
-    <script>
-        // Theme toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const html = document.documentElement;
-
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') { html.classList.add('dark'); themeToggle.textContent = '☀️'; }
-        else { themeToggle.textContent = '🌙'; }
-
-        themeToggle.addEventListener('click', () => {
-            const isDark = html.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            themeToggle.textContent = isDark ? '☀️' : '🌙';
-        });
-
-        // Navigation
-        const navLinks = document.querySelectorAll('.nav-link');
-        const sections = document.querySelectorAll('.section');
-
-        function staggerSection(section) {
-            const entries = section.querySelectorAll('.blog-entry, .paper-entry, .news-entry');
-            entries.forEach(el => { el.classList.add('reveal'); el.classList.remove('visible'); });
-            requestAnimationFrame(() => {
-                entries.forEach((el, i) => {
-                    setTimeout(() => el.classList.add('visible'), i * 45);
-                });
-            });
-        }
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-
-                navLinks.forEach(l => l.classList.remove('active'));
-                sections.forEach(s => s.classList.remove('active'));
-
-                link.classList.add('active');
-
-                const targetId = link.getAttribute('href').substring(1);
-                const targetSection = document.getElementById(targetId);
-                if (targetSection) {
-                    targetSection.classList.add('active');
-                    staggerSection(targetSection);
-                }
-            });
-        });
-
-        // Stagger the initially-visible about section entries too
-        const defaultSection = document.querySelector('.section.active');
-        if (defaultSection) staggerSection(defaultSection);
-
-        // ── Time-aware greeting ──
-        (function() {
-            const h = new Date().getHours();
-            const g = h < 12 ? 'Good morning.' : h < 17 ? 'Good afternoon.' : 'Good evening.';
-            document.getElementById('greeting').textContent = g;
-        })();
-
-        // ── Currently reading shelf ──
-        const books = [
-            '📖 The Alignment Problem — Brian Christian',
-            '📖 Gödel, Escher, Bach — Douglas Hofstadter',
-            '📖 The Coming Wave — Mustafa Suleyman',
-            '📖 Thinking, Fast and Slow — Daniel Kahneman',
-            '📖 Atlas of AI — Kate Crawford',
-        ];
-        let bi = 0;
-        const readingEl = document.querySelector('.reading');
-        readingEl.textContent = books[0];
-        setInterval(() => {
-            readingEl.classList.add('fade');
-            setTimeout(() => {
-                bi = (bi + 1) % books.length;
-                readingEl.textContent = books[bi];
-                readingEl.classList.remove('fade');
-            }, 450);
-        }, 4000);
-
-        // ── "Currently:" rotating ticker ──
-        const phrases = [
-            'currently: debugging llm agents 🔍',
-            'currently: caffeinating for science ☕',
-            'currently: convincing LLMs to show their work',
-            'currently: overfitting to paper deadlines 📄',
-            'currently: asking models to explain themselves',
-            'currently: making AI slightly less of a black box',
-            'currently: pretending to understand transformers 🤫',
-        ];
-        let pi = 0;
-        const ticker = document.querySelector('.currently');
-        ticker.textContent = phrases[0];
-        setInterval(() => {
-            ticker.classList.add('fade');
-            setTimeout(() => {
-                pi = (pi + 1) % phrases.length;
-                ticker.textContent = phrases[pi];
-                ticker.classList.remove('fade');
-            }, 450);
-        }, 3200);
-
-        // ── Konami code easter egg ──
-        const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-        let ki = 0;
-        document.addEventListener('keydown', e => {
-            ki = (e.key === konami[ki]) ? ki + 1 : 0;
-            if (ki === konami.length) {
-                document.body.style.transition = 'filter 0.6s ease';
-                document.body.style.filter = 'hue-rotate(180deg) saturate(1.4)';
-                setTimeout(() => { document.body.style.filter = ''; }, 2500);
-                ki = 0;
-            }
-        });
-
-        // ── Console easter egg ──
-        console.log('%c👋 hey, you opened devtools!', 'color:#6D28D9;font-size:16px;font-weight:bold;');
-        console.log('%cif you find something cool here, let\'s talk → kargic2302@gmail.com', 'color:#B45309;font-size:13px;');
-    </script>
+    navLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        navLinks.forEach((item) => item.classList.remove("active"));
+        sections.forEach((section) => section.classList.remove("active"));
+        link.classList.add("active");
+        const target = document.querySelector(link.getAttribute("href"));
+        if (target) target.classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+  </script>
 </body>
 </html>
