@@ -38,8 +38,8 @@
 
     body {
       font-family: "Valkyrie A", "Valkyrie", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-      font-size: 20px;
-      line-height: 1.72;
+      font-size: 18px;
+      line-height: 1.68;
       color: var(--text-color);
       background-color: var(--bg-color);
       max-width: 1580px;
@@ -154,10 +154,10 @@
     }
 
     .tagline {
-      font-size: 26px;
-      line-height: 1.5;
+      font-size: 22px;
+      line-height: 1.45;
       color: #423c47;
-      margin-bottom: 30px;
+      margin-bottom: 26px;
     }
 
     [data-theme="dark"] .tagline {
@@ -165,13 +165,38 @@
     }
 
     .bio {
-      font-size: 20px;
-      line-height: 1.7;
+      font-size: 18px;
+      line-height: 1.68;
       margin-bottom: 38px;
     }
 
     .bio p {
       margin-bottom: 20px;
+    }
+
+    .research-interests {
+      margin: 26px 0 28px;
+      padding: 22px 0;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .research-label {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--secondary-text);
+      font-family: "Concourse 3", "Concourse", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .research-interests p {
+      margin-bottom: 0;
+      color: var(--secondary-text);
+      font-size: 17px;
+      line-height: 1.6;
     }
 
     .profile-image {
@@ -284,7 +309,7 @@
     .paper-content,
     .project-content {
       flex: 1;
-      font-size: 19px;
+      font-size: 18px;
       line-height: 1.55;
       color: var(--text-color);
     }
@@ -299,7 +324,7 @@
 
     .muted {
       color: var(--secondary-text);
-      font-size: 18px;
+      font-size: 17px;
     }
 
     .tags {
@@ -418,11 +443,15 @@
       }
 
       .bio {
-        font-size: 17px;
+        font-size: 16px;
       }
 
       .tagline {
-        font-size: 20px;
+        font-size: 18px;
+      }
+
+      .research-interests p {
+        font-size: 16px;
       }
     }
   </style>
@@ -445,10 +474,12 @@
     <section class="section active" id="about">
       <div class="main-content">
         <div class="content-left">
-          <p class="tagline">I build training and verification methods for models that reason, remember, and sometimes learn the wrong lesson.</p>
-
           <div class="bio">
             <p>I'm an MS candidate in Natural Language Processing at <a href="https://www.ucsc.edu/">UC Santa Cruz</a>, where I work with <a href="https://people.ucsc.edu/~lgilpin/">Dr. Leilani Gilpin</a> and <a href="https://cgraywang.github.io/">Dr. Chenguang Wang</a>. I received my undergraduate degree from the <a href="https://www.arizona.edu/">University of Arizona</a> and was a Research Scholar at the <a href="https://www.ed.ac.uk/">University of Edinburgh</a>, working on neuro-symbolic AI.</p>
+            <div class="research-interests">
+              <span class="research-label">Research Interests</span>
+              <p>I am interested in predictive evaluation for scalable learning systems; continual learning, memory, and post-training without easily exploitable rewards; verification for long-horizon agents; and AI systems that can revise beliefs from evidence and support scientific discovery.</p>
+            </div>
             <p>My research focuses on reinforcement learning, post-training, verification, and long-horizon agents: how models learn from feedback, when their reasoning fails, what they should remember, and how to build training signals they cannot easily exploit.</p>
             <p>I'm increasingly interested in AI for scientific discovery - systems that can revise beliefs when evidence contradicts them, challenge their own assumptions, and help solve some of society's hardest problems.</p>
             <p>I also contribute to <a href="https://rllm-project.com/">rLLM</a>, an open-source framework for reinforcement learning with language models.</p>
