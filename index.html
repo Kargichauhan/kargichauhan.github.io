@@ -6,19 +6,25 @@
   <meta name="description" content="Kargi Chauhan is an AI/ML researcher working on post-training LLMs, alignment and safety, reinforcement learning, memory architectures, and autonomous systems." />
   <title>Kargi Chauhan</title>
   <style>
+    @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap");
+
     :root {
-      --bg-color: #fbfaf7;
-      --text-color: #26232b;
-      --accent-color: #9f4862;
-      --accent-hover: #78344d;
-      --border-color: #e3dfda;
-      --card-bg: #fffefc;
-      --secondary-text: #716b76;
+      --bg-color: #fdf9f6;
+      --text-color: #57534f;
+      --heading-color: #403c38;
+      --accent-color: #a95570;
+      --accent-hover: #87405a;
+      --border-color: #e8dfd8;
+      --card-bg: rgba(255, 255, 255, 0.72);
+      --secondary-text: #8c867f;
+      --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+      --font-sans: "Jost", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     [data-theme="dark"] {
       --bg-color: #17151c;
       --text-color: #f7f1ec;
+      --heading-color: #fff8f2;
       --accent-color: #dfa0b4;
       --accent-hover: #f0bdcc;
       --border-color: #343039;
@@ -37,9 +43,10 @@
     }
 
     body {
-      font-family: Charter, "Bitstream Charter", Georgia, "Times New Roman", serif;
-      font-size: 19px;
-      line-height: 1.68;
+      font-family: var(--font-sans);
+      font-size: 18px;
+      line-height: 1.78;
+      letter-spacing: 0.01em;
       color: var(--text-color);
       background-color: var(--bg-color);
       max-width: 1580px;
@@ -70,11 +77,13 @@
     }
 
     .site-title {
-      color: var(--text-color);
+      color: var(--heading-color);
       border-bottom: 0;
-      font-size: 38px;
-      font-weight: 650;
-      line-height: 1;
+      font-family: var(--font-serif);
+      font-size: 54px;
+      font-weight: 300;
+      line-height: 0.98;
+      letter-spacing: -0.025em;
       white-space: nowrap;
     }
 
@@ -89,14 +98,14 @@
       align-items: center;
       flex-wrap: wrap;
       justify-content: flex-end;
-      font-family: "Concourse 3", "Concourse", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--font-sans);
     }
 
     .nav a {
       color: var(--secondary-text);
       border-bottom: 0;
-      font-size: 17px;
-      font-weight: 650;
+      font-size: 16px;
+      font-weight: 500;
       transition: color 0.2s ease, background-color 0.2s ease;
       padding: 7px 9px;
       border-radius: 6px;
@@ -145,17 +154,20 @@
     }
 
     .name {
-      font-size: 42px;
-      font-weight: 600;
+      font-family: var(--font-serif);
+      font-size: 62px;
+      font-weight: 300;
       line-height: 1.08;
       margin-bottom: 24px;
-      color: var(--text-color);
-      letter-spacing: 0;
+      color: var(--heading-color);
+      letter-spacing: -0.025em;
     }
 
     .tagline {
-      font-size: 22px;
-      line-height: 1.45;
+      font-family: var(--font-serif);
+      font-size: 30px;
+      font-weight: 300;
+      line-height: 1.28;
       color: #423c47;
       margin-bottom: 26px;
     }
@@ -165,8 +177,8 @@
     }
 
     .bio {
-      font-size: 19px;
-      line-height: 1.68;
+      font-size: 18px;
+      line-height: 1.78;
       margin-bottom: 38px;
     }
 
@@ -182,19 +194,19 @@
     .research-label {
       display: block;
       margin-bottom: 10px;
-      color: var(--text-color);
-      font-family: inherit;
-      font-size: 19px;
-      font-weight: 700;
-      letter-spacing: 0;
+      color: var(--heading-color);
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 400;
+      letter-spacing: -0.018em;
       text-transform: none;
     }
 
     .research-interests p {
       margin-bottom: 0;
       color: var(--text-color);
-      font-size: 19px;
-      line-height: 1.68;
+      font-size: 18px;
+      line-height: 1.78;
     }
 
     .profile-image {
@@ -219,22 +231,25 @@
       font-size: 12px;
       line-height: 1.35;
       text-align: center;
-      font-family: "Concourse 3", "Concourse", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--font-sans);
     }
 
     .section-title {
-      font-size: 36px;
+      font-family: var(--font-serif);
+      font-size: 50px;
       margin-bottom: 30px;
-      color: var(--text-color);
-      font-weight: 500;
+      color: var(--heading-color);
+      font-weight: 300;
       line-height: 1.1;
+      letter-spacing: -0.025em;
     }
 
     .subhead {
-      font-size: 24px;
-      font-weight: 600;
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 400;
       margin: 35px 0 18px;
-      color: var(--text-color);
+      color: var(--heading-color);
       text-decoration: underline;
       text-decoration-color: color-mix(in srgb, var(--accent-color), transparent 62%);
       text-underline-offset: 4px;
@@ -245,10 +260,12 @@
     }
 
     .news-section h2 {
-      font-size: 28px;
+      font-family: var(--font-serif);
+      font-size: 40px;
       margin-bottom: 20px;
-      color: var(--text-color);
-      font-weight: 600;
+      color: var(--heading-color);
+      font-weight: 300;
+      letter-spacing: -0.025em;
     }
 
     .news-container {
@@ -295,11 +312,11 @@
     }
 
     .date {
-      font-family: "Concourse 3", "Concourse", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--font-sans);
       font-size: 15px;
       color: var(--secondary-text);
       min-width: 130px;
-      font-weight: 650;
+      font-weight: 500;
       margin-top: 3px;
     }
 
@@ -307,17 +324,20 @@
     .paper-content,
     .project-content {
       flex: 1;
-      font-size: 19px;
-      line-height: 1.55;
+      font-size: 18px;
+      line-height: 1.62;
       color: var(--text-color);
     }
 
     .paper-title,
     .project-title,
     .blog-title {
-      font-weight: 650;
+      font-family: var(--font-serif);
+      font-size: 25px;
+      font-weight: 500;
+      line-height: 1.18;
       margin-bottom: 6px;
-      color: var(--text-color);
+      color: var(--heading-color);
     }
 
     .muted {
@@ -330,7 +350,7 @@
       flex-wrap: wrap;
       gap: 7px;
       margin-top: 9px;
-      font-family: "Concourse 3", "Concourse", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--font-sans);
       color: var(--secondary-text);
       font-size: 12px;
     }
@@ -394,7 +414,22 @@
       margin-top: 20px;
       color: var(--secondary-text);
       font-size: 16px;
-      font-family: "Concourse 3", "Concourse", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--font-sans);
+    }
+
+    @media (max-width: 1050px) {
+      body {
+        padding: 44px 36px 62px;
+      }
+
+      .main-content {
+        flex-direction: column;
+        gap: 42px;
+      }
+
+      .profile-image {
+        align-self: center;
+      }
     }
 
     @media (max-width: 768px) {
@@ -412,11 +447,6 @@
       .nav {
         justify-content: center;
         gap: 14px;
-      }
-
-      .main-content {
-        flex-direction: column;
-        gap: 26px;
       }
 
       .profile-image {
