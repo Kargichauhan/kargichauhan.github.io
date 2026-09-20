@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Coffee notes and quiet rituals from Kargi Chauhan." />
+  <title>Quiet Rituals Around a Good Cup | Kargi Chauhan</title>
+  <style>
+    :root {
+      --bg-color: #fbfaf7;
+      --text-color: #26232b;
+      --accent-color: #9f4862;
+      --accent-hover: #78344d;
+      --border-color: #e3dfda;
+      --card-bg: #fffefc;
+      --secondary-text: #716b76;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 50px 30px;
+      color: var(--text-color);
+      background: var(--bg-color);
+      font-family: "Valkyrie A", "Valkyrie", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      line-height: 1.75;
+    }
+
+    a {
+      color: var(--accent-color);
+      text-decoration: none;
+      border-bottom: 1px solid color-mix(in srgb, var(--accent-color), transparent 72%);
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+      border-bottom-color: var(--accent-hover);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 70px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .site-title {
+      color: var(--text-color);
+      border-bottom: 0;
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .nav {
+      display: flex;
+      gap: 26px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      font-family: "Concourse 3", "Concourse", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .nav a {
+      color: var(--secondary-text);
+      border-bottom: 0;
+      font-size: 15px;
+      font-weight: 650;
+      padding: 7px 9px;
+      border-radius: 6px;
+    }
+
+    .nav a:hover {
+      color: var(--accent-color);
+      background: var(--card-bg);
+    }
+
+    .intro {
+      max-width: 720px;
+      margin-bottom: 34px;
+    }
+
+    h1 {
+      margin-bottom: 18px;
+      font-size: 44px;
+      font-weight: 500;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .lede {
+      color: var(--secondary-text);
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    .coffee-grid {
+      column-count: 3;
+      column-gap: 18px;
+      margin: 34px 0 46px;
+    }
+
+    .coffee-shot {
+      break-inside: avoid;
+      margin: 0 0 18px;
+      display: block;
+    }
+
+    .coffee-shot a {
+      border-bottom: 0;
+      display: block;
+    }
+
+    .coffee-shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background: var(--card-bg);
+    }
+
+    .coffee-shot figcaption {
+      margin-top: 8px;
+      color: var(--secondary-text);
+      font-size: 13px;
+      line-height: 1.45;
+      font-style: italic;
+    }
+
+    .coffee-shot figcaption::before,
+    .coffee-shot figcaption::after {
+      color: var(--accent-color);
+    }
+
+    .coffee-shot figcaption::before {
+      content: "\"";
+    }
+
+    .coffee-shot figcaption::after {
+      content: "\"";
+    }
+
+    .note {
+      max-width: 760px;
+      margin: 0 auto;
+      padding-top: 28px;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-color);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .note p + p {
+      margin-top: 16px;
+    }
+
+    .signature {
+      color: var(--secondary-text);
+      font-family: "Concourse 3", "Concourse", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+    }
+
+    @media (max-width: 800px) {
+      body {
+        padding: 24px 16px;
+      }
+
+      .header {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-bottom: 46px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .coffee-grid {
+        column-count: 2;
+        column-gap: 14px;
+      }
+
+      .coffee-shot {
+        margin-bottom: 14px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .coffee-grid {
+        column-count: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a href="index.html#about" class="site-title">Kargi Chauhan</a>
+    <nav class="nav" aria-label="Coffee page navigation">
+      <a href="index.html#misc">Misc</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#blog">Blog</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h1>Quiet Rituals Around a Good Cup</h1>
+      <p class="lede">A small archive of cafe tables and good cups.</p>
+    </section>
+
+    <section class="coffee-grid" aria-label="Coffee photo journal">
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-01.jpg"><img src="assets/coffee/coffee-01.jpg" alt="Coffee beside a laptop and notebook" /></a>
+        <figcaption>Some proofs require espresso, margins, and stubbornness.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-02.jpg"><img src="assets/coffee/coffee-02.jpg" alt="Coffee tasting flight on a sunny table" /></a>
+        <figcaption>A tiny experiment in contrast, sweetness, and attention.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-03.jpg"><img src="assets/coffee/coffee-03.jpg" alt="Iced drink with cocoa dusting" /></a>
+        <figcaption>Cold foam, warm light, and one more page of notes.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-04.jpg"><img src="assets/coffee/coffee-04.jpg" alt="Coffee beside a research paper" /></a>
+        <figcaption>The best reading companion is patient and slightly caffeinated.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-05.jpg"><img src="assets/coffee/coffee-05.jpg" alt="Latte beside a laptop and tumbler" /></a>
+        <figcaption>Inbox open, latte art intact, optimism cautiously restored.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-06.jpg"><img src="assets/coffee/coffee-06.jpg" alt="Cup with layered latte art" /></a>
+        <figcaption>Proof that symmetry can survive being delicious.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-07.jpg"><img src="assets/coffee/coffee-07.jpg" alt="Warm desk light with coffee and laptop" /></a>
+        <figcaption>Sunlight on a desk makes even debugging feel ceremonial.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-08.jpg"><img src="assets/coffee/coffee-08.jpg" alt="Tablet notes beside a small cup" /></a>
+        <figcaption>Reading sideways, thinking slowly, staying with the hard part.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-09.jpg"><img src="assets/coffee/coffee-09.jpg" alt="Marshmallow-topped drink at a cafe counter" /></a>
+        <figcaption>Not every research ritual has to look severe.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-10.jpg"><img src="assets/coffee/coffee-10.jpg" alt="Colorful coffee cups near a window" /></a>
+        <figcaption>Four colors of caffeine and a small theory of joy.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-11.jpg"><img src="assets/coffee/coffee-11.jpg" alt="Matcha beside a laptop" /></a>
+        <figcaption>Matcha is what happens when focus wants to be green.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-12.jpg"><img src="assets/coffee/coffee-12.jpg" alt="Notebook, laptop, and coffee on a work table" /></a>
+        <figcaption>A field note from the border between errands and ideas.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-13.jpg"><img src="assets/coffee/coffee-13.jpg" alt="Coffee in front of a laptop with code" /></a>
+        <figcaption>The code was blurry. The intention was not.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-14.jpg"><img src="assets/coffee/coffee-14.jpg" alt="Classic cup with heart-shaped foam" /></a>
+        <figcaption>A simple cup, doing the most with very little.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-15.jpg"><img src="assets/coffee/coffee-15.jpg" alt="Coffee cup held in bright light" /></a>
+        <figcaption>Small sun, paper cup, clean restart.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-16.jpg"><img src="assets/coffee/coffee-16.jpg" alt="Coffee with dried citrus on the rim" /></a>
+        <figcaption>Evidence that a garnish can change the whole argument.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-17.jpg"><img src="assets/coffee/coffee-17.jpg" alt="Large cup of coffee on a wooden table" /></a>
+        <figcaption>Some days the cup is a quiet little reset button.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-18.jpg"><img src="assets/coffee/coffee-18.jpg" alt="Coffee with lavender in sunlight" /></a>
+        <figcaption>Lavender on foam: a footnote from summer.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-19.jpg"><img src="assets/coffee/coffee-19.jpg" alt="Two coffees on a wooden cafe table" /></a>
+        <figcaption>Two cups, one table, enough room for a better question.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-20.jpg"><img src="assets/coffee/coffee-20.jpg" alt="Paper cup latte on a wooden table" /></a>
+        <figcaption>Portable courage, served with a corner of cake.</figcaption>
+      </figure>
+      <figure class="coffee-shot">
+        <a href="assets/coffee/coffee-21.jpg"><img src="assets/coffee/coffee-21.jpg" alt="Top-down latte art in a red cup" /></a>
+        <figcaption>A small flower floating on top of the day.</figcaption>
+      </figure>
+    </section>
+
+  </main>
+</body>
+</html>
