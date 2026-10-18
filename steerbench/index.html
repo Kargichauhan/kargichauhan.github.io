@@ -338,7 +338,7 @@ pre.cmd .c { color: var(--muted); }
         <ol><li><a href="#readouts">Two readouts</a></li><li><a href="#reward">Pricing mistakes</a></li><li><a href="#arms">The comparison</a></li></ol></li>
       <li><a href="#scenarios">Try a decision</a></li>
       <li><a href="#built">How it's built</a>
-        <ol><li><a href="#log">What broke</a></li><li><a href="#limits">Limitations</a></li></ol></li>
+        <ol><li><a href="#limits">Limitations</a></li></ol></li>
     </ol>
   </nav>
 
@@ -575,31 +575,6 @@ pre.cmd .c { color: var(--muted); }
       <li>A deterministic train/test split that doesn't depend on file order, and a data card that warns if any label is missing from test.</li>
       <li>54 tests that run on a laptop CPU: parsers, reward properties, metrics and split, the Tinker environment driven through the cookbook's own interfaces, and every local training arm run end to end on a tiny random model.</li>
     </ul>
-
-    <h3 id="log">What broke</h3>
-    <p>Each of these was caught by a test before any compute was spent.</p>
-    <ol class="log">
-      <li>
-        <h4>The reward ablation couldn't be launched from the command line</h4>
-        <p>The RL config received a finished dataset-builder object, and the config library then refused overrides of its fields. The documented command for the symmetric-reward run would have failed at startup.</p>
-        <p class="fix">The builder is now passed as a factory with its fields as sub-parameters. A test builds both reward schemes from one blueprint.</p>
-      </li>
-      <li>
-        <h4>The split could drop whole labels from the test set</h4>
-        <p>Splitting each (label, domain) group separately and rounding sent every one-trace group to training. On a small file, the test set lost all <code>ACT</code> and <code>REMEMBER</code> examples.</p>
-        <p class="fix">The split now samples systematically over traces ordered by label, domain, then id hash, so test size is exact and every label gets its share.</p>
-      </li>
-      <li>
-        <h4>A one-line trace file reported errors in the wrong place</h4>
-        <p>A JSONL file holding a single record also parses as one JSON document, so a bad label was reported as item 0 instead of line 1.</p>
-        <p class="fix"><code>.jsonl</code> files are now always read line by line.</p>
-      </li>
-      <li>
-        <h4>The training library couldn't run its own tests without a GPU</h4>
-        <p>The first local backend used TRL 1.15. Its trainers always swap in a fused Triton kernel for the loss, and on a machine with no GPU that kernel raises before the first step, so the training code could not be checked anywhere except the cluster.</p>
-        <p class="fix">SFT, RL and decision training are now short hand-written loops over a shared log-probability function. Every arm runs end to end on a tiny random model on CPU in seconds.</p>
-      </li>
-    </ol>
 
     <h3 id="limits">Limitations</h3>
     <p>The baseline is 100 traces from one small model, and its metrics come from an earlier script whose definitions are close to, but not the same as, the new harness. Re-scoring those raw outputs with the new parsers is the first thing the harness does. Each trace has exactly one gold label, though some situations could reasonably allow two. The reward values are a design choice, which is why the symmetric arm exists. Results on 1 to 1.5B models may not carry over to larger ones.</p>
